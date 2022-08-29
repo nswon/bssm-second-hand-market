@@ -1,11 +1,10 @@
 package usedmarket.usedmarket.domain.product.presentation.dto.request;
 
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
-public class ProductRequestDto {
+public class BoardRequestDto {
 
     private String title;
 

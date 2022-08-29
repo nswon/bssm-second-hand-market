@@ -2,9 +2,9 @@ package usedmarket.usedmarket.domain.product.presentation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import usedmarket.usedmarket.domain.product.presentation.dto.request.ProductRequestDto;
-import usedmarket.usedmarket.domain.product.presentation.dto.response.ProductResponseDto;
-import usedmarket.usedmarket.domain.product.service.ProductService;
+import usedmarket.usedmarket.domain.product.presentation.dto.request.BoardRequestDto;
+import usedmarket.usedmarket.domain.product.presentation.dto.response.BoardResponseDto;
+import usedmarket.usedmarket.domain.product.service.BoardService;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,35 +14,35 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductApiController {
 
-    private final ProductService productService;
+    private final BoardService boardService;
 
     @PostMapping("/create")
-    public Long createProduct(ProductRequestDto requestDto) throws IOException {
-        return productService.createProduct(requestDto);
+    public Long createBoard(BoardRequestDto requestDto) throws IOException {
+        return boardService.createBoard(requestDto);
     }
 
     @GetMapping("/findAll")
-    public List<ProductResponseDto> findAllProduct() {
-        return productService.findAllProduct();
+    public List<BoardResponseDto> findAllBoard() {
+        return boardService.findAllBoard();
     }
 
     @GetMapping("/find/{id}")
-    public ProductResponseDto detailProduct(@PathVariable("id") Long id) {
-        return productService.detailProduct(id);
+    public BoardResponseDto detailBoard(@PathVariable("id") Long id) {
+        return boardService.detailBoard(id);
     }
 
     @GetMapping("/search")
-    public List<ProductResponseDto> searchProduct(@RequestParam("keyword") String keyword) {
-        return productService.searchProduct(keyword);
+    public List<BoardResponseDto> searchBoard(@RequestParam("keyword") String keyword) {
+        return boardService.searchBoard(keyword);
     }
 
     @PutMapping("/update/{id}")
-    public Long updateProduct(@PathVariable("id") Long id, ProductRequestDto requestDto) throws IOException {
-        return productService.updateProduct(id, requestDto);
+    public Long updateBoard(@PathVariable("id") Long id, BoardRequestDto requestDto) throws IOException {
+        return boardService.updateBoard(id, requestDto);
     }
 
     @DeleteMapping("/{id}")
-    public Long deleteProduct(@PathVariable("id") Long id) {
-        return productService.deleteProduct(id);
+    public Long deleteBoard(@PathVariable("id") Long id) {
+        return boardService.deleteBoard(id);
     }
 }

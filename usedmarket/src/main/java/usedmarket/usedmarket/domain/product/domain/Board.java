@@ -10,12 +10,12 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "PRODUCT")
-public class Product {
+@Table(name = "BOARD")
+public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
+    @Column(name = "board_id")
     private Long id;
 
     @Column(nullable = false)
@@ -35,7 +35,7 @@ public class Product {
     private Member writer;
 
     @Builder
-    public Product(String title, String imgName, String imgPath, int price, String content) {
+    public Board(String title, String imgName, String imgPath, int price, String content) {
         this.title = title;
         this.imgName = imgName;
         this.imgPath = imgPath;

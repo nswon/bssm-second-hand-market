@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface BoardRepository extends JpaRepository<Board, Long> {
 
-    List<Product> findByTitleContaining(String keyword);
+    List<Board> findByTitleContaining(String keyword);
 }
