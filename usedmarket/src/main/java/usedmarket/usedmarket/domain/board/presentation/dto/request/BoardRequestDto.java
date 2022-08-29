@@ -1,4 +1,4 @@
-package usedmarket.usedmarket.domain.product.presentation.dto.request;
+package usedmarket.usedmarket.domain.board.presentation.dto.request;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

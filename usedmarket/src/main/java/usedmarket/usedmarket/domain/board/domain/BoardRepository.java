@@ -1,4 +1,4 @@
-package usedmarket.usedmarket.domain.product.domain;
+package usedmarket.usedmarket.domain.board.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

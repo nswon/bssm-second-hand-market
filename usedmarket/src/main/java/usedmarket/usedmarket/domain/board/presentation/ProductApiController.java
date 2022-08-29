@@ -1,10 +1,10 @@
-package usedmarket.usedmarket.domain.product.presentation;
+package usedmarket.usedmarket.domain.board.presentation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import usedmarket.usedmarket.domain.product.presentation.dto.request.BoardRequestDto;
-import usedmarket.usedmarket.domain.product.presentation.dto.response.BoardResponseDto;
-import usedmarket.usedmarket.domain.product.service.BoardService;
+import usedmarket.usedmarket.domain.board.presentation.dto.request.BoardRequestDto;
+import usedmarket.usedmarket.domain.board.presentation.dto.response.BoardResponseDto;
+import usedmarket.usedmarket.domain.board.service.BoardService;
 
 import java.io.IOException;
 import java.util.List;

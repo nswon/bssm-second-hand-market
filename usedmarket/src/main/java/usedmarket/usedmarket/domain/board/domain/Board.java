@@ -1,15 +1,19 @@
-package usedmarket.usedmarket.domain.product.domain;
+package usedmarket.usedmarket.domain.board.domain;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import usedmarket.usedmarket.domain.comment.domain.Comment;
 import usedmarket.usedmarket.domain.member.domain.Member;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "BOARD")
 public class Board {
 
@@ -34,6 +38,9 @@ public class Board {
     @JoinColumn(name = "member_id")
     private Member writer;
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> commentList = new ArrayList<>();
+
     @Builder
     public Board(String title, String imgName, String imgPath, int price, String content) {
         this.title = title;
@@ -53,6 +60,10 @@ public class Board {
 
     public void confirmWriter(Member writer) {
         this.writer = writer;
-        writer.addProduct(this);
+        writer.addBoard(this);
+    }
+
+    public void addComment(Comment comment) {
+        commentList.add(comment);
     }
 }

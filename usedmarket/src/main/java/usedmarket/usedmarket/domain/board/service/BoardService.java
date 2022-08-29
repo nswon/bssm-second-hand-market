@@ -1,4 +1,4 @@
-package usedmarket.usedmarket.domain.product.service;
+package usedmarket.usedmarket.domain.board.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
-import usedmarket.usedmarket.domain.product.domain.Board;
-import usedmarket.usedmarket.domain.product.domain.BoardRepository;
-import usedmarket.usedmarket.domain.product.presentation.dto.request.BoardRequestDto;
-import usedmarket.usedmarket.domain.product.presentation.dto.response.BoardResponseDto;
+import usedmarket.usedmarket.domain.board.domain.Board;
+import usedmarket.usedmarket.domain.board.domain.BoardRepository;
+import usedmarket.usedmarket.domain.board.presentation.dto.request.BoardRequestDto;
+import usedmarket.usedmarket.domain.board.presentation.dto.response.BoardResponseDto;
 import usedmarket.usedmarket.global.jwt.SecurityUtil;
 
 import java.io.File;
