@@ -5,8 +5,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import usedmarket.usedmarket.domain.product.domain.Product;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,11 +36,18 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToMany(mappedBy = "writer")
+    private List<Product> productList = new ArrayList<>();
+
     public void encodedPassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(password);
     }
 
     public void addUserAuthority() {
         this.role = Role.ROLE_USER;
+    }
+
+    public void addProduct(Product product) {
+        productList.add(product);
     }
 }

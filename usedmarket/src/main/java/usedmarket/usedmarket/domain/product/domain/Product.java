@@ -3,6 +3,7 @@ package usedmarket.usedmarket.domain.product.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import usedmarket.usedmarket.domain.member.domain.Member;
 
 import javax.persistence.*;
 
@@ -29,6 +30,10 @@ public class Product {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member writer;
+
     @Builder
     public Product(String title, String imgName, String imgPath, int price, String content) {
         this.title = title;
@@ -44,5 +49,10 @@ public class Product {
         this.imgPath = imgPath;
         this.price = price;
         this.content = content;
+    }
+
+    public void confirmWriter(Member writer) {
+        this.writer = writer;
+        writer.addProduct(this);
     }
 }

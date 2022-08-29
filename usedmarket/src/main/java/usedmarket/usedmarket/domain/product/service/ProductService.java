@@ -5,10 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import usedmarket.usedmarket.domain.member.domain.MemberRepository;
 import usedmarket.usedmarket.domain.product.domain.Product;
 import usedmarket.usedmarket.domain.product.domain.ProductRepository;
 import usedmarket.usedmarket.domain.product.presentation.dto.request.ProductRequestDto;
 import usedmarket.usedmarket.domain.product.presentation.dto.response.ProductResponseDto;
+import usedmarket.usedmarket.global.jwt.SecurityUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +28,7 @@ public class ProductService {
     private String fileDir;
 
     private final ProductRepository productRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public Long createProduct(ProductRequestDto requestDto) throws IOException {
@@ -47,6 +50,9 @@ public class ProductService {
                 .price(requestDto.getPrice())
                 .content(requestDto.getContent())
                 .build();
+
+        product.confirmWriter(memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+                .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용가능합니다.")));
 
         productRepository.save(product);
         return product.getId();
@@ -75,9 +81,14 @@ public class ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("프러덕트가 존재하지 않습니다."));
 
+        if(!product.getWriter().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
+            throw new IllegalArgumentException("다른 사용자의 게시글은 수정할 수 없습니다.");
+        }
+
         String saveFilename = "";
 
         if(requestDto.getFile().isEmpty()) {
+            //만약에 비어있다면 원래 이미지를 저장
             saveFilename = product.getImgPath();
         }
         else {
@@ -102,6 +113,10 @@ public class ProductService {
     public Long deleteProduct(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("프러덕트가 존재하지 않습니다."));
+
+        if(!product.getWriter().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
+            throw new IllegalArgumentException("다른 사용자의 게시글은 삭제할 수 없습니다.");
+        }
 
         File file = new File(product.getImgPath());
         log.info("외부에서 가져온 파일 이름 = " + file);
