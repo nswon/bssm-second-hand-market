@@ -35,4 +35,14 @@ public class ProductApiController {
     public List<ProductResponseDto> searchProduct(@RequestParam("keyword") String keyword) {
         return productService.searchProduct(keyword);
     }
+
+    @PutMapping("/update/{id}")
+    public Long updateProduct(@PathVariable("id") Long id, ProductRequestDto requestDto) throws IOException {
+        return productService.updateProduct(id, requestDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public Long deleteProduct(@PathVariable("id") Long id) {
+        return productService.deleteProduct(id);
+    }
 }

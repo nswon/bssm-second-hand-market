@@ -37,4 +37,12 @@ public class Product {
         this.price = price;
         this.content = content;
     }
+
+    public void update(String title, String imgName, String imgPath, int price, String content) {
+        this.title = title;
+        this.imgName = imgName;
+        this.imgPath = imgPath;
+        this.price = price;
+        this.content = content;
+    }
 }

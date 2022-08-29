@@ -1,6 +1,7 @@
 package usedmarket.usedmarket.domain.product.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class ProductService {
 
     @Value("${file.dir}")
@@ -68,4 +70,44 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public Long updateProduct(Long id, ProductRequestDto requestDto) throws IOException {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("프러덕트가 존재하지 않습니다."));
+
+        String saveFilename = "";
+
+        if(requestDto.getFile().isEmpty()) {
+            saveFilename = product.getImgPath();
+        }
+        else {
+            String originFilename = requestDto.getFile().getOriginalFilename();
+
+            saveFilename = UUID.randomUUID() + "_" + originFilename;
+
+            File save = new File(fileDir + saveFilename);
+            requestDto.getFile().transferTo(save);
+        }
+
+        product.update(requestDto.getTitle(),
+                       saveFilename,
+                fileDir + saveFilename,
+                        requestDto.getPrice(),
+                        requestDto.getContent());
+
+        return product.getId();
+    }
+
+    @Transactional
+    public Long deleteProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("프러덕트가 존재하지 않습니다."));
+
+        File file = new File(product.getImgPath());
+        log.info("외부에서 가져온 파일 이름 = " + file);
+        file.delete();
+
+        productRepository.delete(product);
+        return product.getId();
+    }
 }
