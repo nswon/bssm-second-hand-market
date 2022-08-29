@@ -22,7 +22,7 @@ spring:
         format_sql: true
 
 file:
-  dir : Users/al/Desktop/images/
+  dir : /Users/a1/Desktop/images/
 
 logging.level:
   org.hibernate.SQL: debug
