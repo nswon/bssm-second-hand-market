@@ -5,11 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import usedmarket.usedmarket.domain.board.presentation.dto.response.BoardAllResponseDto;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
 import usedmarket.usedmarket.domain.board.domain.Board;
 import usedmarket.usedmarket.domain.board.domain.BoardRepository;
 import usedmarket.usedmarket.domain.board.presentation.dto.request.BoardRequestDto;
-import usedmarket.usedmarket.domain.board.presentation.dto.response.BoardResponseDto;
+import usedmarket.usedmarket.domain.board.presentation.dto.response.BoardDetailResponseDto;
 import usedmarket.usedmarket.global.jwt.SecurityUtil;
 
 import java.io.File;
@@ -58,21 +59,21 @@ public class BoardService {
         return board.getId();
     }
 
-    public List<BoardResponseDto> findAllBoard() {
+    public List<BoardAllResponseDto> findAllBoard() {
         return boardRepository.findAll().stream()
-                .map(BoardResponseDto::new)
+                .map(BoardAllResponseDto::new)
                 .collect(Collectors.toList());
     }
 
-    public BoardResponseDto detailBoard(Long id) {
+    public BoardDetailResponseDto detailBoard(Long id) {
         return boardRepository.findById(id)
-                .map(BoardResponseDto::new)
+                .map(BoardDetailResponseDto::new)
                 .orElseThrow(() -> new IllegalArgumentException("프러덕트가 존재하지 않습니다."));
     }
 
-    public List<BoardResponseDto> searchBoard(String keyword) {
+    public List<BoardAllResponseDto> searchBoard(String keyword) {
         return boardRepository.findByTitleContaining(keyword).stream()
-                .map(BoardResponseDto::new)
+                .map(BoardAllResponseDto::new)
                 .collect(Collectors.toList());
     }
 

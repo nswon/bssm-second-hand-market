@@ -3,7 +3,8 @@ package usedmarket.usedmarket.domain.board.presentation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import usedmarket.usedmarket.domain.board.presentation.dto.request.BoardRequestDto;
-import usedmarket.usedmarket.domain.board.presentation.dto.response.BoardResponseDto;
+import usedmarket.usedmarket.domain.board.presentation.dto.response.BoardAllResponseDto;
+import usedmarket.usedmarket.domain.board.presentation.dto.response.BoardDetailResponseDto;
 import usedmarket.usedmarket.domain.board.service.BoardService;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/product")
-public class ProductApiController {
+public class BoardApiController {
 
     private final BoardService boardService;
 
@@ -22,17 +23,17 @@ public class ProductApiController {
     }
 
     @GetMapping("/findAll")
-    public List<BoardResponseDto> findAllBoard() {
+    public List<BoardAllResponseDto> findAllBoard() {
         return boardService.findAllBoard();
     }
 
     @GetMapping("/find/{id}")
-    public BoardResponseDto detailBoard(@PathVariable("id") Long id) {
+    public BoardDetailResponseDto detailBoard(@PathVariable("id") Long id) {
         return boardService.detailBoard(id);
     }
 
     @GetMapping("/search")
-    public List<BoardResponseDto> searchBoard(@RequestParam("keyword") String keyword) {
+    public List<BoardAllResponseDto> searchBoard(@RequestParam("keyword") String keyword) {
         return boardService.searchBoard(keyword);
     }
 

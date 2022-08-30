@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import usedmarket.usedmarket.domain.board.domain.BoardRepository;
+import usedmarket.usedmarket.domain.board.presentation.dto.response.BoardAllResponseDto;
 import usedmarket.usedmarket.domain.member.domain.Member;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
 import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberJoinRequestDto;
@@ -11,9 +13,13 @@ import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberLoginR
 import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberPasswordUpdateRequestDto;
 import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberUpdateRequestDto;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.MemberResponseDto;
+import usedmarket.usedmarket.domain.member.presentation.dto.response.MyInfoResponseDto;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.TokenResponseDto;
 import usedmarket.usedmarket.global.jwt.JwtTokenProvider;
 import usedmarket.usedmarket.global.jwt.SecurityUtil;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,9 +30,10 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final BoardRepository boardRepository;
 
     @Transactional
-    public MemberResponseDto join(MemberJoinRequestDto requestDto) {
+    public Long join(MemberJoinRequestDto requestDto) {
         if(memberRepository.findByEmail(requestDto.getEmail()).isPresent()) {
             throw new IllegalArgumentException("이미 가입된 사용자입니다.");
         }
@@ -39,9 +46,7 @@ public class MemberService {
         member.encodedPassword(passwordEncoder);
         member.addUserAuthority();
 
-        return MemberResponseDto.builder()
-                .member(member)
-                .build();
+        return member.getId();
     }
 
     @Transactional
@@ -65,13 +70,11 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
     }
 
-    public MemberResponseDto findMyInfo() {
+    public MyInfoResponseDto findMyInfo() {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
-        return MemberResponseDto.builder()
-                .member(member)
-                .build();
+        return new MyInfoResponseDto(member);
     }
 
     @Transactional
@@ -99,4 +102,5 @@ public class MemberService {
                 .member(member)
                 .build();
     }
+
 }

@@ -7,10 +7,12 @@ import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberLoginR
 import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberPasswordUpdateRequestDto;
 import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberUpdateRequestDto;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.MemberResponseDto;
+import usedmarket.usedmarket.domain.member.presentation.dto.response.MyInfoResponseDto;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.TokenResponseDto;
 import usedmarket.usedmarket.domain.member.service.MemberService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +22,7 @@ public class MemberApiController {
     private final MemberService memberService;
 
     @PostMapping("/join")
-    public MemberResponseDto join(@RequestBody @Valid MemberJoinRequestDto requestDto) {
+    public Long join(@RequestBody @Valid MemberJoinRequestDto requestDto) {
         return memberService.join(requestDto);
     }
 
@@ -35,7 +37,7 @@ public class MemberApiController {
     }
 
     @GetMapping("/myInfo")
-    public MemberResponseDto findMyInfo() {
+    public MyInfoResponseDto findMyInfo() {
         return memberService.findMyInfo();
     }
 
