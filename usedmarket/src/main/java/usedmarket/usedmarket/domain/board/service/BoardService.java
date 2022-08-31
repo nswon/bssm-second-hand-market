@@ -71,6 +71,7 @@ public class BoardService {
 
     public BoardDetailResponseDto detailBoard(Long id) {
         return boardRepository.findById(id)
+                .filter(board -> !board.getBoardStatus().equals(BoardStatus.COMPLETE))
                 .map(BoardDetailResponseDto::new)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
     }

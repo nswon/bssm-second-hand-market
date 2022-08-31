@@ -51,4 +51,6 @@ public class MemberApiController {
     public Long withdrawal(@RequestBody MemberWithdrawalRequestDto requestDto) {
         return memberService.withdrawal(requestDto);
     }
+
+
 }
