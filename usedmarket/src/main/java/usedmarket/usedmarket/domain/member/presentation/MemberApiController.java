@@ -22,7 +22,7 @@ public class MemberApiController {
     private final MemberService memberService;
 
     @PostMapping("/join")
-    public Long join(@RequestBody @Valid MemberJoinRequestDto requestDto) {
+    public boolean join(@RequestBody @Valid MemberJoinRequestDto requestDto) {
         return memberService.join(requestDto);
     }
 

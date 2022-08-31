@@ -28,10 +28,10 @@ public class CommentService {
         Comment comment = requestDto.toEntity();
 
         comment.confirmWriter(memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-                .orElseThrow(() -> new IllegalArgumentException("로그인 후 사용이 가능합니다.")));
+                .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요.")));
 
         comment.confirmBoard(boardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다.")));
+                .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다.")));
 
         commentRepository.save(comment);
         return comment.getId();

@@ -16,8 +16,8 @@ public class BoardLikeApiController {
         boardLikeService.like(id);
     }
 
-    @DeleteMapping("/{id}/like")
-    public void unLike(@PathVariable("id") Long id) {
-        boardLikeService.anLike(id);
-    }
+//    @DeleteMapping("/{id}/like")
+//    public void unLike(@PathVariable("id") Long id) {
+//        boardLikeService.anLike(id);
+//    }
 }

@@ -53,7 +53,7 @@ public class BoardService {
                 .build();
 
         board.confirmWriter(memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-                .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용가능합니다.")));
+                .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요.")));
 
         boardRepository.save(board);
         return board.getId();
@@ -68,7 +68,7 @@ public class BoardService {
     public BoardDetailResponseDto detailBoard(Long id) {
         return boardRepository.findById(id)
                 .map(BoardDetailResponseDto::new)
-                .orElseThrow(() -> new IllegalArgumentException("프러덕트가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
     }
 
     public List<BoardAllResponseDto> searchBoard(String keyword) {
@@ -80,10 +80,10 @@ public class BoardService {
     @Transactional
     public Long updateBoard(Long id, BoardRequestDto requestDto) throws IOException {
         Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("프러덕트가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
 
         if(!board.getWriter().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
-            throw new IllegalArgumentException("다른 사용자의 게시글은 수정할 수 없습니다.");
+            throw new IllegalArgumentException("다른 사용자의 판매글은 수정할 수 없습니다.");
         }
 
         String saveFilename = "";
@@ -113,14 +113,13 @@ public class BoardService {
     @Transactional
     public Long deleteBoard(Long id) {
         Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("프러덕트가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
 
         if(!board.getWriter().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
-            throw new IllegalArgumentException("다른 사용자의 게시글은 삭제할 수 없습니다.");
+            throw new IllegalArgumentException("다른 사용자의 판매글은 삭제할 수 없습니다.");
         }
 
         File file = new File(board.getImgPath());
-        log.info("외부에서 가져온 파일 이름 = " + file);
         file.delete();
 
         boardRepository.delete(board);
