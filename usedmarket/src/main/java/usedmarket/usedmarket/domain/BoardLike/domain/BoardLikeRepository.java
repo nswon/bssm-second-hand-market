@@ -6,6 +6,6 @@ import usedmarket.usedmarket.domain.member.domain.Member;
 
 public interface BoardLikeRepository extends JpaRepository<BoardLike, Long> {
 
-    boolean existsByBoardAndMember(Board board, Member member);
-    void deleteByBoardAndMember(Board board, Member member);
+    boolean existsByBoardAndMember(Board board, Member member); //좋아요를 이미 눌렀다면 true
+    void deleteByBoardAndMember(Board board, Member member); //좋아요 삭제
 }

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import usedmarket.usedmarket.domain.board.domain.Board;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -18,11 +20,9 @@ public class BoardDetailResponseDto {
     private String content;
     private LocalDateTime createdDate;
     private int likeNumber;
+    private List<BoardRelatedMemberDto> boardRelatedMemberDtos;
 
     //조회수 추가
-    //좋아요 수 추가
-    //해당 사용자가 올린 다른 게시글들 조회
-
     @Builder
     public BoardDetailResponseDto(Board board) {
         this.imgPath = board.getImgPath();
@@ -32,5 +32,9 @@ public class BoardDetailResponseDto {
         this.content = board.getContent();
         this.createdDate = board.getCreatedDate();
         this.likeNumber = board.getBoardLikeList().size();
+        this.boardRelatedMemberDtos = board.getWriter().getBoardList().stream()
+                .filter(b -> !(b.getId().equals(board.getId())))
+                .map(BoardRelatedMemberDto::new)
+                .collect(Collectors.toList());
     }
 }

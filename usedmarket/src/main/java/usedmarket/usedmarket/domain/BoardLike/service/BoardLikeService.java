@@ -36,6 +36,8 @@ public class BoardLikeService {
                 .member(member)
                 .build();
 
+
+
         boardLike.confirmBoard(board);
         boardLike.confirmMember(member);
 
