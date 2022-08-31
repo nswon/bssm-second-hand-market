@@ -2,17 +2,13 @@ package usedmarket.usedmarket.domain.member.presentation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberJoinRequestDto;
-import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberLoginRequestDto;
-import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberPasswordUpdateRequestDto;
-import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberUpdateRequestDto;
+import usedmarket.usedmarket.domain.member.presentation.dto.request.*;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.MemberResponseDto;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.MyInfoResponseDto;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.TokenResponseDto;
 import usedmarket.usedmarket.domain.member.service.MemberService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -49,5 +45,10 @@ public class MemberApiController {
     @PutMapping("/myInfo/password")
     public MemberResponseDto updatePassword(@RequestBody MemberPasswordUpdateRequestDto requestDto) {
         return memberService.updatePassword(requestDto);
+    }
+
+    @DeleteMapping("/delete")
+    public Long withdrawal(@RequestBody MemberWithdrawalRequestDto requestDto) {
+        return memberService.withdrawal(requestDto);
     }
 }

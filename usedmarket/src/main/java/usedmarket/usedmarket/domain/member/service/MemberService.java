@@ -6,10 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import usedmarket.usedmarket.domain.member.domain.Member;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
-import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberJoinRequestDto;
-import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberLoginRequestDto;
-import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberPasswordUpdateRequestDto;
-import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberUpdateRequestDto;
+import usedmarket.usedmarket.domain.member.presentation.dto.request.*;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.MemberResponseDto;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.MyInfoResponseDto;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.TokenResponseDto;
@@ -100,4 +97,16 @@ public class MemberService {
                 .build();
     }
 
+    @Transactional
+    public Long withdrawal(MemberWithdrawalRequestDto requestDto) {
+        Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+                .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
+
+        if(!passwordEncoder.matches(requestDto.getPassword(), member.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        memberRepository.delete(member);
+        return member.getId();
+    }
 }
