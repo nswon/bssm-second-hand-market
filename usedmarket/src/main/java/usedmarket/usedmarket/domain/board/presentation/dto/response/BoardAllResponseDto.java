@@ -13,6 +13,7 @@ public class BoardAllResponseDto {
     private String title;
     private LocalDateTime createdDate;
     private int price;
+    private String status;
     private int likeNumber;
 
     @Builder
@@ -21,6 +22,7 @@ public class BoardAllResponseDto {
         this.title = board.getTitle();
         this.createdDate = board.getCreatedDate();
         this.price = board.getPrice();
+        this.status = board.getBoardStatus().name();
         this.likeNumber = board.getBoardLikeList().size();
     }
 }

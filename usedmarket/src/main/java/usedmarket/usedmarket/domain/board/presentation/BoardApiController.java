@@ -3,6 +3,7 @@ package usedmarket.usedmarket.domain.board.presentation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import usedmarket.usedmarket.domain.board.presentation.dto.request.BoardRequestDto;
+import usedmarket.usedmarket.domain.board.presentation.dto.request.BoardStatusRequestDto;
 import usedmarket.usedmarket.domain.board.presentation.dto.response.BoardAllResponseDto;
 import usedmarket.usedmarket.domain.board.presentation.dto.response.BoardDetailResponseDto;
 import usedmarket.usedmarket.domain.board.service.BoardService;
@@ -30,6 +31,11 @@ public class BoardApiController {
     @GetMapping("/find/{id}")
     public BoardDetailResponseDto detailBoard(@PathVariable("id") Long id) {
         return boardService.detailBoard(id);
+    }
+
+    @PutMapping("/find/{id}/status")
+    public BoardDetailResponseDto statusBoard(@PathVariable("id") Long id, @RequestBody BoardStatusRequestDto requestDto) {
+        return boardService.statusBoard(id, requestDto);
     }
 
     @GetMapping("/search")

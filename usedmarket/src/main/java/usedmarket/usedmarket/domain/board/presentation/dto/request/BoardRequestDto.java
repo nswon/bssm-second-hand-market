@@ -2,6 +2,7 @@ package usedmarket.usedmarket.domain.board.presentation.dto.request;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
+import usedmarket.usedmarket.domain.board.domain.BoardStatus;
 
 @Data
 public class BoardRequestDto {

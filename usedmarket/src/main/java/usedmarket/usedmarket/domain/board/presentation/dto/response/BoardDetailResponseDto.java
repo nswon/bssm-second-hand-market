@@ -19,6 +19,7 @@ public class BoardDetailResponseDto {
     private int price;
     private String content;
     private LocalDateTime createdDate;
+    private String status;
     private int likeNumber;
     private List<BoardRelatedMemberDto> boardRelatedMemberDtos;
 
@@ -31,6 +32,7 @@ public class BoardDetailResponseDto {
         this.price = board.getPrice();
         this.content = board.getContent();
         this.createdDate = board.getCreatedDate();
+        this.status = board.getBoardStatus().name();
         this.likeNumber = board.getBoardLikeList().size();
         this.boardRelatedMemberDtos = board.getWriter().getBoardList().stream()
                 .filter(b -> !(b.getId().equals(board.getId())))

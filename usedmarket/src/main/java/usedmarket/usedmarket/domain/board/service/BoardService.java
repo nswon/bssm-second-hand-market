@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import usedmarket.usedmarket.domain.board.domain.BoardStatus;
+import usedmarket.usedmarket.domain.board.presentation.dto.request.BoardStatusRequestDto;
 import usedmarket.usedmarket.domain.board.presentation.dto.response.BoardAllResponseDto;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
 import usedmarket.usedmarket.domain.board.domain.Board;
@@ -56,11 +58,13 @@ public class BoardService {
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요.")));
 
         boardRepository.save(board);
+        board.addSaleBoard();
         return board.getId();
     }
 
     public List<BoardAllResponseDto> findAllBoard() {
         return boardRepository.findAll().stream()
+                .filter(board -> !board.getBoardStatus().equals(BoardStatus.COMPLETE))
                 .map(BoardAllResponseDto::new)
                 .collect(Collectors.toList());
     }
@@ -69,6 +73,17 @@ public class BoardService {
         return boardRepository.findById(id)
                 .map(BoardDetailResponseDto::new)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
+    }
+
+    @Transactional
+    public BoardDetailResponseDto statusBoard(Long id, BoardStatusRequestDto requestDto) {
+        Board board = boardRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
+
+        board.updateStatus(requestDto.getStatus());
+        return BoardDetailResponseDto.builder()
+                .board(board)
+                .build();
     }
 
     public List<BoardAllResponseDto> searchBoard(String keyword) {
@@ -105,7 +120,8 @@ public class BoardService {
                        saveFilename,
                 fileDir + saveFilename,
                         requestDto.getPrice(),
-                        requestDto.getContent());
+                        requestDto.getContent()
+        );
 
         return board.getId();
     }

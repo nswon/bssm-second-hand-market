@@ -40,6 +40,9 @@ public class Board extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member writer;
 
+    @Enumerated(EnumType.STRING)
+    private BoardStatus boardStatus;
+
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
@@ -74,5 +77,13 @@ public class Board extends BaseTimeEntity {
 
     public void addBoardLike(BoardLike boardLike) {
         boardLikeList.add(boardLike);
+    }
+
+    public void addSaleBoard() {
+        this.boardStatus = BoardStatus.SALE;
+    }
+
+    public void updateStatus(BoardStatus boardStatus) {
+        this.boardStatus = boardStatus;
     }
 }
