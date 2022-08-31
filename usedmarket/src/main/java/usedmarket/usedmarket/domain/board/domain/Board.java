@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import usedmarket.usedmarket.domain.BoardLike.domain.BoardLike;
 import usedmarket.usedmarket.domain.comment.domain.Comment;
 import usedmarket.usedmarket.domain.member.domain.Member;
 import usedmarket.usedmarket.global.entity.BaseTimeEntity;
@@ -42,6 +43,9 @@ public class Board extends BaseTimeEntity {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "board")
+    private List<BoardLike> boardLikeList = new ArrayList<>();
+
     @Builder
     public Board(String title, String imgName, String imgPath, int price, String content) {
         this.title = title;
@@ -66,5 +70,9 @@ public class Board extends BaseTimeEntity {
 
     public void addComment(Comment comment) {
         commentList.add(comment);
+    }
+
+    public void addBoardLike(BoardLike boardLike) {
+        boardLikeList.add(boardLike);
     }
 }

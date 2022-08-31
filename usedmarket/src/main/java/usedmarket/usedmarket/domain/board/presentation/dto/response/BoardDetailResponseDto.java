@@ -12,11 +12,12 @@ import java.time.LocalDateTime;
 public class BoardDetailResponseDto {
 
     private String imgPath;
-    private String writer;
+    private String nickname;
     private String title;
     private int price;
     private String content;
     private LocalDateTime createdDate;
+    private int likeNumber;
 
     //조회수 추가
     //좋아요 수 추가
@@ -25,10 +26,11 @@ public class BoardDetailResponseDto {
     @Builder
     public BoardDetailResponseDto(Board board) {
         this.imgPath = board.getImgPath();
-        this.writer = board.getWriter().getNickname();
+        this.nickname = board.getWriter().getNickname();
         this.title = board.getTitle();
         this.price = board.getPrice();
         this.content = board.getContent();
         this.createdDate = board.getCreatedDate();
+        this.likeNumber = board.getBoardLikeList().size();
     }
 }
