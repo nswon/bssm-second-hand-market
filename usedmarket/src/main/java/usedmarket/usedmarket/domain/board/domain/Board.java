@@ -86,4 +86,5 @@ public class Board extends BaseTimeEntity {
     public void updateStatus(BoardStatus boardStatus) {
         this.boardStatus = boardStatus;
     }
+
 }

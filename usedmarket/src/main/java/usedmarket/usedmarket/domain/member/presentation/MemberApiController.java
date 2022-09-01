@@ -9,6 +9,7 @@ import usedmarket.usedmarket.domain.member.presentation.dto.response.TokenRespon
 import usedmarket.usedmarket.domain.member.service.MemberService;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,7 +39,7 @@ public class MemberApiController {
     }
 
     @PutMapping("/myInfo/update")
-    public MemberResponseDto updateMyInfo(@RequestBody MemberUpdateRequestDto requestDto) {
+    public MemberResponseDto updateMyInfo(MemberUpdateRequestDto requestDto) throws IOException {
         return memberService.updateMyInfo(requestDto);
     }
 

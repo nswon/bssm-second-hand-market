@@ -21,6 +21,7 @@ public class BoardDetailResponseDto {
     private LocalDateTime createdDate;
     private String status;
     private int likeNumber;
+    private int commentNumber;
     private List<BoardRelatedMemberDto> boardRelatedMemberDtos;
 
     //조회수 추가
@@ -34,6 +35,7 @@ public class BoardDetailResponseDto {
         this.createdDate = board.getCreatedDate();
         this.status = board.getBoardStatus().name();
         this.likeNumber = board.getBoardLikeList().size();
+        this.commentNumber = board.getCommentList().size();
         this.boardRelatedMemberDtos = board.getWriter().getBoardList().stream()
                 .filter(b -> !(b.getId().equals(board.getId())))
                 .map(BoardRelatedMemberDto::new)

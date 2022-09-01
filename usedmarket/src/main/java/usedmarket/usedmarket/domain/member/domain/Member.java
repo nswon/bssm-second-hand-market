@@ -13,8 +13,6 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 @Table(name = "MEMBER")
 public class Member {
 
@@ -22,6 +20,10 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
+
+    private String imgName;
+
+    private String imgPath;
 
     @Column(nullable = false)
     private String email;
@@ -44,6 +46,15 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<BoardLike> boardLikeList = new ArrayList<>();
 
+    @Builder
+    public Member(String email, String imgName, String imgPath, String nickname, String password) {
+        this.email = email;
+        this.imgName = imgName;
+        this.imgPath = imgPath;
+        this.nickname = nickname;
+        this.password = password;
+    }
+
     public void encodedPassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(password);
     }
@@ -64,7 +75,9 @@ public class Member {
         boardLikeList.add(boardLike);
     }
 
-    public void update(String nickname) {
+    public void update(String imgName, String imgPath, String nickname) {
+        this.imgName = imgName;
+        this.imgPath = imgPath;
         this.nickname = nickname;
     }
 

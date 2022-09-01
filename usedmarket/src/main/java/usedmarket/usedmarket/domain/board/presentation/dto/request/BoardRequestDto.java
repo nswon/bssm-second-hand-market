@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 import usedmarket.usedmarket.domain.board.domain.BoardStatus;
 
+import java.util.List;
+
 @Data
 public class BoardRequestDto {
 

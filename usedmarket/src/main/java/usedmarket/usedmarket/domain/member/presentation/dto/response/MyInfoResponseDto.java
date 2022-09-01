@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Getter
 public class MyInfoResponseDto {
 
-    //이미지
+    private String imgPath;
     private String nickname;
     //매너온도
     //구매내역
@@ -25,6 +25,7 @@ public class MyInfoResponseDto {
     private List<CommentResponseDto> commentResponseDtos;
 
     public MyInfoResponseDto(Member member) {
+        this.imgPath = member.getImgPath();
         this.nickname = member.getNickname();
         this.boardCompleteResponseDtos = member.getBoardList().stream()
                 .filter(board -> board.getBoardStatus().equals(BoardStatus.COMPLETE))

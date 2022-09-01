@@ -1,6 +1,8 @@
 package usedmarket.usedmarket.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +15,18 @@ import usedmarket.usedmarket.domain.member.presentation.dto.response.TokenRespon
 import usedmarket.usedmarket.global.jwt.JwtTokenProvider;
 import usedmarket.usedmarket.global.jwt.SecurityUtil;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class MemberService {
+
+    @Value("${file.dir}")
+    private String fileDir;
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
@@ -72,11 +82,29 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberResponseDto updateMyInfo(MemberUpdateRequestDto requestDto) {
+    public MemberResponseDto updateMyInfo(MemberUpdateRequestDto requestDto) throws IOException {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
-        member.update(requestDto.getNickname());
+        String saveFilename = "";
+
+        if(requestDto.getFile().isEmpty()) {
+            //만약에 비어있다면 원래 이미지를 저장
+            saveFilename = member.getImgPath();
+        }
+        else {
+            String originFilename = requestDto.getFile().getOriginalFilename();
+
+            saveFilename = UUID.randomUUID() + "_" + originFilename;
+
+            File save = new File(fileDir + saveFilename);
+            requestDto.getFile().transferTo(save);
+        }
+
+        member.update(saveFilename,
+                fileDir + saveFilename,
+                requestDto.getNickname()
+        );
         return MemberResponseDto.builder()
                 .member(member)
                 .build();
@@ -105,6 +133,9 @@ public class MemberService {
         if(!passwordEncoder.matches(requestDto.getPassword(), member.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
+
+        File file = new File(member.getImgPath());
+        file.delete();
 
         memberRepository.delete(member);
         return member.getId();

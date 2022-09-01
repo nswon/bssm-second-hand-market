@@ -15,6 +15,7 @@ public class BoardAllResponseDto {
     private int price;
     private String status;
     private int likeNumber;
+    private int commentNumber;
 
     @Builder
     public BoardAllResponseDto(Board board) {
@@ -24,5 +25,6 @@ public class BoardAllResponseDto {
         this.price = board.getPrice();
         this.status = board.getBoardStatus().name();
         this.likeNumber = board.getBoardLikeList().size();
+        this.commentNumber = board.getCommentList().size();
     }
 }
