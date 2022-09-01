@@ -49,9 +49,13 @@ public class MemberApiController {
     }
 
     @DeleteMapping("/delete")
-    public Long withdrawal(@RequestBody MemberWithdrawalRequestDto requestDto) {
+    public Long withdrawalMember(@RequestBody MemberWithdrawalRequestDto requestDto) {
         return memberService.withdrawal(requestDto);
     }
 
+    @PostMapping("/{id}/survey")
+    public Long surveyMember(@PathVariable("id") Long id, @RequestBody MemberSurveyRequestDto requestDto) {
+        return memberService.surveyMember(id, requestDto);
+    }
 
 }

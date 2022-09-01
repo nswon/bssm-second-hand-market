@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import usedmarket.usedmarket.domain.BoardLike.domain.BoardLike;
 import usedmarket.usedmarket.domain.board.domain.Board;
 import usedmarket.usedmarket.domain.comment.domain.Comment;
+import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberSurveyRequestDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -36,6 +37,9 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(nullable = false)
+    private double mannerTemperature = 36.5;
 
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Board> boardList = new ArrayList<>();
@@ -83,5 +87,26 @@ public class Member {
 
     public void updatePassword(PasswordEncoder passwordEncoder, String password) {
         this.password = passwordEncoder.encode(password);
+    }
+
+    public void updateMannerTemperature(MemberSurveyRequestDto requestDto) {
+        if(requestDto.getSurveyNumber() == 5) {
+            this.mannerTemperature += requestDto.getSurveyNumber();
+        }
+        else if(requestDto.getSurveyNumber() == 4) {
+            this.mannerTemperature += requestDto.getSurveyNumber();
+        }
+        else if(requestDto.getSurveyNumber() == 3) {
+            this.mannerTemperature += requestDto.getSurveyNumber();
+        }
+        else if(requestDto.getSurveyNumber() == 2) {
+            this.mannerTemperature += requestDto.getSurveyNumber();
+        }
+        else if(requestDto.getSurveyNumber() == 1) {
+            this.mannerTemperature += requestDto.getSurveyNumber();
+        }
+        else {
+            throw new IllegalArgumentException("양식에 맞지 않습니다.");
+        }
     }
 }

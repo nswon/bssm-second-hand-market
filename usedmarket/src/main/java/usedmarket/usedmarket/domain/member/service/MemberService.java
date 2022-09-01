@@ -140,4 +140,13 @@ public class MemberService {
         memberRepository.delete(member);
         return member.getId();
     }
+
+    @Transactional
+    public Long surveyMember(Long id, MemberSurveyRequestDto requestDto) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
+
+        member.updateMannerTemperature(requestDto);
+        return member.getId();
+    }
 }

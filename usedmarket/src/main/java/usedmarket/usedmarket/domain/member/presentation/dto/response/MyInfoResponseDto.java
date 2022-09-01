@@ -16,7 +16,7 @@ public class MyInfoResponseDto {
 
     private String imgPath;
     private String nickname;
-    //매너온도
+    private double mannerTemperature;
     //구매내역
     //찜한 게시글
     //키워드 알림
@@ -27,6 +27,7 @@ public class MyInfoResponseDto {
     public MyInfoResponseDto(Member member) {
         this.imgPath = member.getImgPath();
         this.nickname = member.getNickname();
+        this.mannerTemperature = member.getMannerTemperature();
         this.boardCompleteResponseDtos = member.getBoardList().stream()
                 .filter(board -> board.getBoardStatus().equals(BoardStatus.COMPLETE))
                 .map(BoardAllResponseDto::new)

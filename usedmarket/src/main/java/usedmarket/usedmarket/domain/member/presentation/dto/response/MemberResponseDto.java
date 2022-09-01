@@ -15,7 +15,7 @@ public class MemberResponseDto {
     private String imgPath;
     private String nickname;
     private int countBoard;
-    //매너온도
+    private double mannerTemperature;
     //거래 후기 댓글
 
     @Builder
@@ -23,5 +23,6 @@ public class MemberResponseDto {
         this.imgPath = member.getImgPath();
         this.nickname = member.getNickname();
         this.countBoard = member.getBoardList().size();
+        this.mannerTemperature = member.getMannerTemperature();
     }
 }

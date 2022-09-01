@@ -15,6 +15,7 @@ public class BoardDetailResponseDto {
 
     private String imgPath;
     private String nickname;
+    private double mannerTemperature;
     private String title;
     private int price;
     private String content;
@@ -29,6 +30,7 @@ public class BoardDetailResponseDto {
     public BoardDetailResponseDto(Board board) {
         this.imgPath = board.getImgPath();
         this.nickname = board.getWriter().getNickname();
+        this.mannerTemperature = board.getWriter().getMannerTemperature();
         this.title = board.getTitle();
         this.price = board.getPrice();
         this.content = board.getContent();
