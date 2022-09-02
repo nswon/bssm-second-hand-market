@@ -13,27 +13,27 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/board")
+@RequestMapping("/boards")
 public class BoardApiController {
 
     private final BoardService boardService;
 
-    @PostMapping("/create")
+    @PostMapping("/new")
     public Long createBoard(BoardRequestDto requestDto) throws IOException {
         return boardService.createBoard(requestDto);
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("/")
     public List<BoardAllResponseDto> findAllBoard() {
         return boardService.findAllBoard();
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/{id}")
     public BoardDetailResponseDto detailBoard(@PathVariable("id") Long id) {
         return boardService.detailBoard(id);
     }
 
-    @PutMapping("/find/{id}/status")
+    @PutMapping("/{id}")
     public BoardDetailResponseDto statusBoard(@PathVariable("id") Long id, @RequestBody BoardStatusRequestDto requestDto) {
         return boardService.statusBoard(id, requestDto);
     }
@@ -43,7 +43,7 @@ public class BoardApiController {
         return boardService.searchBoard(keyword);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}/edit")
     public Long updateBoard(@PathVariable("id") Long id, BoardRequestDto requestDto) throws IOException {
         return boardService.updateBoard(id, requestDto);
     }

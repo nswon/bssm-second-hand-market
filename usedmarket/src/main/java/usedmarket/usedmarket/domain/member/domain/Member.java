@@ -6,6 +6,7 @@ import usedmarket.usedmarket.domain.BoardLike.domain.BoardLike;
 import usedmarket.usedmarket.domain.board.domain.Board;
 import usedmarket.usedmarket.domain.comment.domain.Comment;
 import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberSurveyRequestDto;
+import usedmarket.usedmarket.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "MEMBER")
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

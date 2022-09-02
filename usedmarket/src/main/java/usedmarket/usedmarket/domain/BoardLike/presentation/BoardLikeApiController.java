@@ -6,12 +6,12 @@ import usedmarket.usedmarket.domain.BoardLike.service.BoardLikeService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/like")
+@RequestMapping("/likes")
 public class BoardLikeApiController {
 
     private final BoardLikeService boardLikeService;
 
-    @PutMapping("/{id}/like")
+    @PutMapping("/{id}")
     public void like(@PathVariable("id") Long id) {
         boardLikeService.like(id);
     }

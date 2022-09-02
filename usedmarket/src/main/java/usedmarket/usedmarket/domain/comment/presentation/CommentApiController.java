@@ -10,17 +10,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/comment")
+@RequestMapping("/comments")
 public class CommentApiController {
 
     private final CommentService commentService;
 
-    @PostMapping("/{id}/create")
+    @PostMapping("/{id}/new")
     public Long createComment(@PathVariable("id") Long id, @RequestBody CommentRequestDto requestDto) {
         return commentService.createComment(id, requestDto);
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("/")
     public List<CommentResponseDto> findAllComment() {
         return commentService.findAllComment();
     }

@@ -3,13 +3,10 @@ package usedmarket.usedmarket.domain.member.presentation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import usedmarket.usedmarket.domain.member.presentation.dto.request.*;
-import usedmarket.usedmarket.domain.member.presentation.dto.response.MemberResponseDto;
-import usedmarket.usedmarket.domain.member.presentation.dto.response.MyInfoResponseDto;
-import usedmarket.usedmarket.domain.member.presentation.dto.response.TokenResponseDto;
+import usedmarket.usedmarket.domain.member.presentation.dto.response.*;
 import usedmarket.usedmarket.domain.member.service.MemberService;
 
 import javax.validation.Valid;
-import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,34 +25,15 @@ public class MemberApiController {
         return memberService.login(requestDto);
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/{id}/boards")
     public MemberResponseDto findMember(@PathVariable("id") Long id) {
         return memberService.findMember(id);
     }
 
-    @GetMapping("/myInfo")
-    public MyInfoResponseDto findMyInfo() {
-        return memberService.findMyInfo();
-    }
 
-    @PutMapping("/myInfo/update")
-    public MemberResponseDto updateMyInfo(MemberUpdateRequestDto requestDto) throws IOException {
-        return memberService.updateMyInfo(requestDto);
-    }
 
-    @PutMapping("/myInfo/password")
-    public MemberResponseDto updatePassword(@RequestBody MemberPasswordUpdateRequestDto requestDto) {
-        return memberService.updatePassword(requestDto);
-    }
-
-    @DeleteMapping("/delete")
-    public Long withdrawalMember(@RequestBody MemberWithdrawalRequestDto requestDto) {
-        return memberService.withdrawal(requestDto);
-    }
-
-    @PostMapping("/{id}/survey")
+    @PostMapping("/{id}/confirm")
     public Long surveyMember(@PathVariable("id") Long id, @RequestBody MemberSurveyRequestDto requestDto) {
         return memberService.surveyMember(id, requestDto);
     }
-
 }

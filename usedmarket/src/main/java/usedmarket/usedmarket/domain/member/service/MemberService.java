@@ -9,9 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import usedmarket.usedmarket.domain.member.domain.Member;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
 import usedmarket.usedmarket.domain.member.presentation.dto.request.*;
-import usedmarket.usedmarket.domain.member.presentation.dto.response.MemberResponseDto;
-import usedmarket.usedmarket.domain.member.presentation.dto.response.MyInfoResponseDto;
-import usedmarket.usedmarket.domain.member.presentation.dto.response.TokenResponseDto;
+import usedmarket.usedmarket.domain.member.presentation.dto.response.*;
 import usedmarket.usedmarket.global.jwt.JwtTokenProvider;
 import usedmarket.usedmarket.global.jwt.SecurityUtil;
 
@@ -78,7 +76,27 @@ public class MemberService {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
-        return new MyInfoResponseDto(member);
+        return MyInfoResponseDto.builder()
+                .member(member)
+                .build();
+    }
+
+    public ManageCompleteResponseDto manageCompleteBoards() {
+        Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+                .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
+
+        return ManageCompleteResponseDto.builder()
+                .member(member)
+                .build();
+    }
+
+    public ManageCommentsResponseDto manageComments() {
+        Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+                .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
+
+        return ManageCommentsResponseDto.builder()
+                .member(member)
+                .build();
     }
 
     @Transactional
@@ -126,7 +144,7 @@ public class MemberService {
     }
 
     @Transactional
-    public Long withdrawal(MemberWithdrawalRequestDto requestDto) {
+    public Long withdraw(MemberWithdrawalRequestDto requestDto) {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
