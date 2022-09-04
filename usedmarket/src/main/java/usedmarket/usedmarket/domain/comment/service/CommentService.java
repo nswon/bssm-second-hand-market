@@ -3,7 +3,7 @@ package usedmarket.usedmarket.domain.comment.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import usedmarket.usedmarket.domain.board.domain.BoardRepository;
+import usedmarket.usedmarket.domain.products.domain.ProductsRepository;
 import usedmarket.usedmarket.domain.comment.domain.Comment;
 import usedmarket.usedmarket.domain.comment.domain.CommentRepository;
 import usedmarket.usedmarket.domain.comment.presentation.dto.request.CommentRequestDto;
@@ -21,7 +21,7 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
-    private final BoardRepository boardRepository;
+    private final ProductsRepository productsRepository;
 
     @Transactional
     public Long createComment(Long id, CommentRequestDto requestDto) {
@@ -30,7 +30,7 @@ public class CommentService {
         comment.confirmWriter(memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요.")));
 
-        comment.confirmBoard(boardRepository.findById(id)
+        comment.confirmBoard(productsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다.")));
 
         commentRepository.save(comment);

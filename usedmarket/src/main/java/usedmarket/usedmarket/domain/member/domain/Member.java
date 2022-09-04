@@ -2,8 +2,8 @@ package usedmarket.usedmarket.domain.member.domain;
 
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import usedmarket.usedmarket.domain.BoardLike.domain.BoardLike;
-import usedmarket.usedmarket.domain.board.domain.Board;
+import usedmarket.usedmarket.domain.ProductLike.domain.ProductLike;
+import usedmarket.usedmarket.domain.products.domain.Product;
 import usedmarket.usedmarket.domain.comment.domain.Comment;
 import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberSurveyRequestDto;
 import usedmarket.usedmarket.global.entity.BaseTimeEntity;
@@ -43,13 +43,13 @@ public class Member extends BaseTimeEntity {
     private double mannerTemperature = 36.5;
 
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Board> boardList = new ArrayList<>();
+    private List<Product> productList = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<BoardLike> boardLikeList = new ArrayList<>();
+    private List<ProductLike> productLikeList = new ArrayList<>();
 
     @Builder
     public Member(String email, String imgName, String imgPath, String nickname, String password) {
@@ -68,16 +68,16 @@ public class Member extends BaseTimeEntity {
         this.role = Role.ROLE_USER;
     }
 
-    public void addBoard(Board product) {
-        boardList.add(product);
+    public void addBoard(Product product) {
+        productList.add(product);
     }
 
     public void addComment(Comment comment) {
         commentList.add(comment);
     }
 
-    public void addBoardLike(BoardLike boardLike) {
-        boardLikeList.add(boardLike);
+    public void addBoardLike(ProductLike productLike) {
+        productLikeList.add(productLike);
     }
 
     public void update(String imgName, String imgPath, String nickname) {

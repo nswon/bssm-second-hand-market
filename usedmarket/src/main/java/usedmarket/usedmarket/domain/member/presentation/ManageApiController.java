@@ -32,11 +32,11 @@ public class ManageApiController {
     }
 
     @PutMapping("/edit")
-    public MemberResponseDto updateMyInfo(MemberUpdateRequestDto requestDto) throws IOException {
+    public MemberResponseDto updateMyInfo(@RequestBody MemberUpdateRequestDto requestDto) throws IOException {
         return memberService.updateMyInfo(requestDto);
     }
 
-    @PutMapping("/edit")
+    @PutMapping("/edit/password")
     public MemberResponseDto updatePassword(@RequestBody MemberPasswordUpdateRequestDto requestDto) {
         return memberService.updatePassword(requestDto);
     }

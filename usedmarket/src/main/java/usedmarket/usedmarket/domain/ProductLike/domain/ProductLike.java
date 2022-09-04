@@ -1,10 +1,10 @@
-package usedmarket.usedmarket.domain.BoardLike.domain;
+package usedmarket.usedmarket.domain.ProductLike.domain;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import usedmarket.usedmarket.domain.board.domain.Board;
+import usedmarket.usedmarket.domain.products.domain.Product;
 import usedmarket.usedmarket.domain.member.domain.Member;
 
 import javax.persistence.*;
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "BOARD_LIKE")
-public class BoardLike {
+public class ProductLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,21 +22,21 @@ public class BoardLike {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
-    private Board board;
+    private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public BoardLike(Board board, Member member) {
-        this.board = board;
+    public ProductLike(Product product, Member member) {
+        this.product = product;
         this.member = member;
     }
 
-    public void confirmBoard(Board board) {
-        this.board = board;
-        board.addBoardLike(this);
+    public void confirmBoard(Product product) {
+        this.product = product;
+        product.addBoardLike(this);
     }
 
     public void confirmMember(Member member) {

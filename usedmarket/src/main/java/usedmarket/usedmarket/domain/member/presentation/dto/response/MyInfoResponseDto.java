@@ -2,8 +2,7 @@ package usedmarket.usedmarket.domain.member.presentation.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import usedmarket.usedmarket.domain.board.presentation.dto.response.BoardAllResponseDto;
+import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductAllResponseDto;
 import usedmarket.usedmarket.domain.member.domain.Member;
 
 import java.time.LocalDateTime;
@@ -17,7 +16,7 @@ public class MyInfoResponseDto {
     private String nickname;
     private double mannerTemperature;
     private LocalDateTime createdDate;
-    private List<BoardAllResponseDto> boardAllResponseDtos;
+    private List<ProductAllResponseDto> productAllResponseDtos;
 
     //구매내역
     //찜한 게시글
@@ -28,8 +27,8 @@ public class MyInfoResponseDto {
         this.nickname = member.getNickname();
         this.mannerTemperature = member.getMannerTemperature();
         this.createdDate = member.getCreatedDate();
-        this.boardAllResponseDtos = member.getBoardList().stream()
-                    .map(BoardAllResponseDto::new)
+        this.productAllResponseDtos = member.getProductList().stream()
+                    .map(ProductAllResponseDto::new)
                     .collect(Collectors.toList());
         }
 }

@@ -2,8 +2,8 @@ package usedmarket.usedmarket.domain.member.presentation.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
-import usedmarket.usedmarket.domain.board.domain.BoardStatus;
-import usedmarket.usedmarket.domain.board.presentation.dto.response.BoardAllResponseDto;
+import usedmarket.usedmarket.domain.products.domain.ProductStatus;
+import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductAllResponseDto;
 import usedmarket.usedmarket.domain.member.domain.Member;
 
 import java.util.List;
@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 @Getter
 public class ManageCompleteResponseDto {
 
-    private List<BoardAllResponseDto> boardCompleteResponseDtos;
+    private List<ProductAllResponseDto> boardCompleteResponseDtos;
 
     @Builder
     public ManageCompleteResponseDto(Member member) {
-        this.boardCompleteResponseDtos = member.getBoardList().stream()
-                .filter(board -> board.getBoardStatus().equals(BoardStatus.COMPLETE))
-                .map(BoardAllResponseDto::new)
+        this.boardCompleteResponseDtos = member.getProductList().stream()
+                .filter(board -> board.getProductStatus().equals(ProductStatus.COMPLETE))
+                .map(ProductAllResponseDto::new)
                 .collect(Collectors.toList());
     }
 }

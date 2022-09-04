@@ -1,18 +1,18 @@
-package usedmarket.usedmarket.domain.board.service;
+package usedmarket.usedmarket.domain.products.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import usedmarket.usedmarket.domain.board.domain.BoardStatus;
-import usedmarket.usedmarket.domain.board.presentation.dto.request.BoardStatusRequestDto;
-import usedmarket.usedmarket.domain.board.presentation.dto.response.BoardAllResponseDto;
+import usedmarket.usedmarket.domain.products.domain.ProductStatus;
+import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductStatusRequestDto;
+import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductAllResponseDto;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
-import usedmarket.usedmarket.domain.board.domain.Board;
-import usedmarket.usedmarket.domain.board.domain.BoardRepository;
-import usedmarket.usedmarket.domain.board.presentation.dto.request.BoardRequestDto;
-import usedmarket.usedmarket.domain.board.presentation.dto.response.BoardDetailResponseDto;
+import usedmarket.usedmarket.domain.products.domain.Product;
+import usedmarket.usedmarket.domain.products.domain.ProductsRepository;
+import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductRequestDto;
+import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductDetailResponseDto;
 import usedmarket.usedmarket.global.jwt.SecurityUtil;
 
 import java.io.File;
@@ -25,16 +25,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Slf4j
-public class BoardService {
+public class ProductService {
 
     @Value("${file.dir}")
     private String fileDir;
 
-    private final BoardRepository boardRepository;
+    private final ProductsRepository productsRepository;
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long createBoard(BoardRequestDto requestDto) throws IOException {
+    public Long createBoard(ProductRequestDto requestDto) throws IOException {
         if(requestDto.getFile().isEmpty()) {
             throw new IllegalArgumentException("이미지가 들어오지 않았습니다.");
         }
@@ -46,7 +46,7 @@ public class BoardService {
         File save = new File(fileDir + saveFilename);
         requestDto.getFile().transferTo(save);
 
-        Board board = Board.builder()
+        Product product = Product.builder()
                 .title(requestDto.getTitle())
                 .imgName(saveFilename)
                 .imgPath(fileDir + saveFilename)
@@ -54,51 +54,49 @@ public class BoardService {
                 .content(requestDto.getContent())
                 .build();
 
-        board.confirmWriter(memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+        product.confirmWriter(memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요.")));
 
-        boardRepository.save(board);
-        board.addSaleBoard();
-        return board.getId();
+        productsRepository.save(product);
+        product.addSaleBoard();
+        return product.getId();
     }
 
-    public List<BoardAllResponseDto> findAllBoard() {
-        return boardRepository.findAll().stream()
-                .filter(board -> !board.getBoardStatus().equals(BoardStatus.COMPLETE))
-                .map(BoardAllResponseDto::new)
+    public List<ProductAllResponseDto> findAllBoard() {
+        return productsRepository.findAll().stream()
+                .filter(board -> !board.getProductStatus().equals(ProductStatus.COMPLETE))
+                .map(ProductAllResponseDto::new)
                 .collect(Collectors.toList());
     }
 
-    public BoardDetailResponseDto detailBoard(Long id) {
-        return boardRepository.findById(id)
-                .filter(board -> !board.getBoardStatus().equals(BoardStatus.COMPLETE))
-                .map(BoardDetailResponseDto::new)
+    public ProductDetailResponseDto detailBoard(Long id) {
+        return productsRepository.findById(id)
+                .filter(board -> !board.getProductStatus().equals(ProductStatus.COMPLETE))
+                .map(ProductDetailResponseDto::new)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
     }
 
     @Transactional
-    public BoardDetailResponseDto statusBoard(Long id, BoardStatusRequestDto requestDto) {
-        Board board = boardRepository.findById(id)
+    public void statusBoard(Long id, ProductStatusRequestDto requestDto) {
+        Product product = productsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
 
-        board.updateStatus(requestDto.getStatus());
-        return BoardDetailResponseDto.builder()
-                .board(board)
-                .build();
+        product.updateStatus(requestDto.getStatus());
     }
 
-    public List<BoardAllResponseDto> searchBoard(String keyword) {
-        return boardRepository.findByTitleContaining(keyword).stream()
-                .map(BoardAllResponseDto::new)
+    public List<ProductAllResponseDto> searchBoard(String keyword) {
+        return productsRepository.findByTitleContaining(keyword).stream()
+                .map(ProductAllResponseDto::new)
                 .collect(Collectors.toList());
     }
 
+    //TODO : 이미지 수정 안됨..
     @Transactional
-    public Long updateBoard(Long id, BoardRequestDto requestDto) throws IOException {
-        Board board = boardRepository.findById(id)
+    public Long updateBoard(Long id, ProductRequestDto requestDto) throws IOException {
+        Product product = productsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
 
-        if(!board.getWriter().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
+        if(!product.getWriter().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
             throw new IllegalArgumentException("다른 사용자의 판매글은 수정할 수 없습니다.");
         }
 
@@ -106,7 +104,7 @@ public class BoardService {
 
         if(requestDto.getFile().isEmpty()) {
             //만약에 비어있다면 원래 이미지를 저장
-            saveFilename = board.getImgPath();
+            saveFilename = product.getImgPath();
         }
         else {
             String originFilename = requestDto.getFile().getOriginalFilename();
@@ -117,29 +115,29 @@ public class BoardService {
             requestDto.getFile().transferTo(save);
         }
 
-        board.update(requestDto.getTitle(),
+        product.update(requestDto.getTitle(),
                        saveFilename,
                 fileDir + saveFilename,
                         requestDto.getPrice(),
                         requestDto.getContent()
         );
 
-        return board.getId();
+        return product.getId();
     }
 
     @Transactional
     public Long deleteBoard(Long id) {
-        Board board = boardRepository.findById(id)
+        Product product = productsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
 
-        if(!board.getWriter().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
+        if(!product.getWriter().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
             throw new IllegalArgumentException("다른 사용자의 판매글은 삭제할 수 없습니다.");
         }
 
-        File file = new File(board.getImgPath());
+        File file = new File(product.getImgPath());
         file.delete();
 
-        boardRepository.delete(board);
-        return board.getId();
+        productsRepository.delete(product);
+        return product.getId();
     }
 }

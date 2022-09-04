@@ -4,12 +4,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import usedmarket.usedmarket.domain.board.domain.Board;
+import usedmarket.usedmarket.domain.products.domain.Product;
 import usedmarket.usedmarket.domain.member.domain.Member;
 import usedmarket.usedmarket.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -30,14 +29,14 @@ public class Comment extends BaseTimeEntity {
     private Member writer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id")
-    private Board board;
+    @JoinColumn(name = "products_id")
+    private Product product;
 
     @Builder
-    public Comment(String content, Member writer, Board board) {
+    public Comment(String content, Member writer, Product product) {
         this.content = content;
         this.writer = writer;
-        this.board = board;
+        this.product = product;
     }
 
     public void confirmWriter(Member writer) {
@@ -45,8 +44,8 @@ public class Comment extends BaseTimeEntity {
         writer.addComment(this);
     }
 
-    public void confirmBoard(Board board) {
-        this.board = board;
-        board.addComment(this);
+    public void confirmBoard(Product product) {
+        this.product = product;
+        product.addComment(this);
     }
 }

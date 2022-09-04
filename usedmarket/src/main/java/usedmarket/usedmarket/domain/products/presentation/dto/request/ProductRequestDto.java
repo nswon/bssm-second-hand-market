@@ -1,13 +1,13 @@
-package usedmarket.usedmarket.domain.board.presentation.dto.request;
+package usedmarket.usedmarket.domain.products.presentation.dto.request;
 
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
-import usedmarket.usedmarket.domain.board.domain.BoardStatus;
 
-import java.util.List;
+import java.io.Serializable;
 
 @Data
-public class BoardRequestDto {
+public class ProductRequestDto {
 
     private String title;
 

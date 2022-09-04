@@ -1,10 +1,10 @@
-package usedmarket.usedmarket.domain.board.domain;
+package usedmarket.usedmarket.domain.products.domain;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import usedmarket.usedmarket.domain.BoardLike.domain.BoardLike;
+import usedmarket.usedmarket.domain.ProductLike.domain.ProductLike;
 import usedmarket.usedmarket.domain.comment.domain.Comment;
 import usedmarket.usedmarket.domain.member.domain.Member;
 import usedmarket.usedmarket.global.entity.BaseTimeEntity;
@@ -16,12 +16,12 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "BOARD")
-public class Board extends BaseTimeEntity {
+@Table(name = "PRODUCTS")
+public class Product extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "board_id")
+    @Column(name = "products_id")
     private Long id;
 
     @Column(nullable = false)
@@ -41,16 +41,16 @@ public class Board extends BaseTimeEntity {
     private Member writer;
 
     @Enumerated(EnumType.STRING)
-    private BoardStatus boardStatus;
+    private ProductStatus productStatus;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board")
-    private List<BoardLike> boardLikeList = new ArrayList<>();
+    @OneToMany(mappedBy = "product")
+    private List<ProductLike> productLikeList = new ArrayList<>();
 
     @Builder
-    public Board(String title, String imgName, String imgPath, int price, String content) {
+    public Product(String title, String imgName, String imgPath, int price, String content) {
         this.title = title;
         this.imgName = imgName;
         this.imgPath = imgPath;
@@ -75,16 +75,16 @@ public class Board extends BaseTimeEntity {
         commentList.add(comment);
     }
 
-    public void addBoardLike(BoardLike boardLike) {
-        boardLikeList.add(boardLike);
+    public void addBoardLike(ProductLike productLike) {
+        productLikeList.add(productLike);
     }
 
     public void addSaleBoard() {
-        this.boardStatus = BoardStatus.SALE;
+        this.productStatus = ProductStatus.SALE;
     }
 
-    public void updateStatus(BoardStatus boardStatus) {
-        this.boardStatus = boardStatus;
+    public void updateStatus(ProductStatus productStatus) {
+        this.productStatus = productStatus;
     }
 
 }

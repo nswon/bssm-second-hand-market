@@ -30,8 +30,6 @@ public class MemberApiController {
         return memberService.findMember(id);
     }
 
-
-
     @PostMapping("/{id}/confirm")
     public Long surveyMember(@PathVariable("id") Long id, @RequestBody MemberSurveyRequestDto requestDto) {
         return memberService.surveyMember(id, requestDto);
