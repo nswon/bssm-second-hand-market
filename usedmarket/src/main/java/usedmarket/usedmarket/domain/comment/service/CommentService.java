@@ -36,10 +36,4 @@ public class CommentService {
         commentRepository.save(comment);
         return comment.getId();
     }
-
-    public List<CommentResponseDto> findAllComment() {
-        return commentRepository.findAll().stream()
-                .map(CommentResponseDto::new)
-                .collect(Collectors.toList());
-    }
 }

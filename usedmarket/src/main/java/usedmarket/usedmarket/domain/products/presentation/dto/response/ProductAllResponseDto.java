@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 public class ProductAllResponseDto {
 
     private String imgPath;
+    private String status;
     private String title;
     private int price;
-    private LocalDateTime createdDate;
-    private String status;
+    private LocalDateTime modifiedDate;
     private int likeNumber;
 
     //최근 본 상품 (3개 까지)
@@ -21,10 +21,10 @@ public class ProductAllResponseDto {
     @Builder
     public ProductAllResponseDto(Product product) {
         this.imgPath = product.getImgPath();
+        this.status = product.getProductStatus().name();
         this.title = product.getTitle();
         this.price = product.getPrice();
-        this.createdDate = product.getCreatedDate();
-        this.status = product.getProductStatus().name();
+        this.modifiedDate = product.getModifiedDate();
         this.likeNumber = product.getProductLikeList().size();
     }
 }

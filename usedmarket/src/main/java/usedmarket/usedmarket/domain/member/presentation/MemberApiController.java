@@ -7,6 +7,7 @@ import usedmarket.usedmarket.domain.member.presentation.dto.response.*;
 import usedmarket.usedmarket.domain.member.service.MemberService;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,9 +26,29 @@ public class MemberApiController {
         return memberService.login(requestDto);
     }
 
-    @GetMapping("/{id}/boards")
+    @GetMapping("/{id}/products")
     public MemberResponseDto findMember(@PathVariable("id") Long id) {
         return memberService.findMember(id);
+    }
+
+    @GetMapping("/{id}/complete")
+    public CompleteProductsResponseDto manageCompleteBoards(@PathVariable("id") Long id) {
+        return memberService.manageCompleteBoards(id);
+    }
+
+    @GetMapping("/{id}/comments")
+    public ManageCommentsResponseDto manageComments(@PathVariable("id") Long id) {
+        return memberService.manageComments(id);
+    }
+
+    @PutMapping("/edit")
+    public void updateMyInfo(@RequestBody MemberUpdateRequestDto requestDto) throws IOException {
+        memberService.updateMyInfo(requestDto);
+    }
+
+    @PutMapping("/edit/password")
+    public void updatePassword(@RequestBody MemberPasswordUpdateRequestDto requestDto) {
+        memberService.updatePassword(requestDto);
     }
 
     @PostMapping("/{id}/confirm")

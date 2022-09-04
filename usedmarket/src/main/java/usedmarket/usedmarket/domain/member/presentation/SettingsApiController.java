@@ -19,4 +19,8 @@ public class SettingsApiController {
     public Long withdrawMember(@RequestBody MemberWithdrawalRequestDto requestDto) {
         return memberService.withdraw(requestDto);
     }
+
+    //로그아웃
+
+    //문의
 }

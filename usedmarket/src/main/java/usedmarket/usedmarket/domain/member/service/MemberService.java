@@ -10,11 +10,16 @@ import usedmarket.usedmarket.domain.member.domain.Member;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
 import usedmarket.usedmarket.domain.member.presentation.dto.request.*;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.*;
+import usedmarket.usedmarket.domain.products.domain.Product;
+import usedmarket.usedmarket.domain.products.domain.ProductsRepository;
+import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductStatusRequestDto;
+import usedmarket.usedmarket.domain.products.service.ProductService;
 import usedmarket.usedmarket.global.jwt.JwtTokenProvider;
 import usedmarket.usedmarket.global.jwt.SecurityUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -72,27 +77,27 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
     }
 
-    public MyInfoResponseDto findMyInfo() {
-        Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-                .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
+//    public MyInfoResponseDto findMyInfo() {
+//        Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+//                .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
+//
+//        return MyInfoResponseDto.builder()
+//                .member(member)
+//                .build();
+//    }
 
-        return MyInfoResponseDto.builder()
+    public CompleteProductsResponseDto manageCompleteBoards(Long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        return CompleteProductsResponseDto.builder()
                 .member(member)
                 .build();
     }
 
-    public ManageCompleteResponseDto manageCompleteBoards() {
-        Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-                .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
-
-        return ManageCompleteResponseDto.builder()
-                .member(member)
-                .build();
-    }
-
-    public ManageCommentsResponseDto manageComments() {
-        Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-                .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
+    public ManageCommentsResponseDto manageComments(Long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         return ManageCommentsResponseDto.builder()
                 .member(member)
@@ -100,7 +105,7 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberResponseDto updateMyInfo(MemberUpdateRequestDto requestDto) throws IOException {
+    public void updateMyInfo(MemberUpdateRequestDto requestDto) throws IOException {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
@@ -123,13 +128,10 @@ public class MemberService {
                 fileDir + saveFilename,
                 requestDto.getNickname()
         );
-        return MemberResponseDto.builder()
-                .member(member)
-                .build();
     }
 
     @Transactional
-    public MemberResponseDto updatePassword(MemberPasswordUpdateRequestDto requestDto) {
+    public void updatePassword(MemberPasswordUpdateRequestDto requestDto) {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
@@ -138,9 +140,6 @@ public class MemberService {
         }
 
         member.updatePassword(passwordEncoder, requestDto.getNewPassword());
-        return MemberResponseDto.builder()
-                .member(member)
-                .build();
     }
 
     @Transactional

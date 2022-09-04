@@ -19,9 +19,4 @@ public class CommentApiController {
     public Long createComment(@PathVariable("id") Long id, @RequestBody CommentRequestDto requestDto) {
         return commentService.createComment(id, requestDto);
     }
-
-    @GetMapping("/")
-    public List<CommentResponseDto> findAllComment() {
-        return commentService.findAllComment();
-    }
 }

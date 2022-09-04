@@ -13,12 +13,14 @@ public class CommentResponseDto {
 
     private String nickname;
     private LocalDateTime createdDate;
+    private String title;
     private String content;
 
     @Builder
     public CommentResponseDto(Comment comment) {
         this.nickname = comment.getWriter().getNickname();
         this.createdDate = comment.getCreatedDate();
+        this.title = comment.getProduct().getTitle();
         this.content = comment.getContent();
     }
 }

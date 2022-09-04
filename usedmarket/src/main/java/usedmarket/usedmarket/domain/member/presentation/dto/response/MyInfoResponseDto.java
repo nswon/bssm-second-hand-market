@@ -16,18 +16,20 @@ public class MyInfoResponseDto {
     private String nickname;
     private double mannerTemperature;
     private LocalDateTime createdDate;
-    private List<ProductAllResponseDto> productAllResponseDtos;
+    private int completeProductNumber;
+    private List<ProductAllResponseDto> products;
 
-    //구매내역
-    //찜한 게시글
-    //키워드 알림
     @Builder
     public MyInfoResponseDto(Member member) {
         this.imgPath = member.getImgPath();
         this.nickname = member.getNickname();
         this.mannerTemperature = member.getMannerTemperature();
         this.createdDate = member.getCreatedDate();
-        this.productAllResponseDtos = member.getProductList().stream()
+        this.completeProductNumber = CompleteProductsResponseDto.builder()
+                .member(member)
+                .build()
+                .getBoardCompleteResponseDtos().size();
+        this.products = member.getProductList().stream()
                     .map(ProductAllResponseDto::new)
                     .collect(Collectors.toList());
         }

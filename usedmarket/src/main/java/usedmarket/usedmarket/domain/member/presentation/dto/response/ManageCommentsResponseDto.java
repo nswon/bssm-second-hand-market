@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import usedmarket.usedmarket.domain.comment.presentation.dto.response.CommentResponseDto;
 import usedmarket.usedmarket.domain.member.domain.Member;
+import usedmarket.usedmarket.domain.products.domain.Product;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,11 +12,11 @@ import java.util.stream.Collectors;
 @Getter
 public class ManageCommentsResponseDto {
 
-    private List<CommentResponseDto> commentResponseDtos;
+    private final List<CommentResponseDto> commentResponseDtos;
 
     @Builder
     public ManageCommentsResponseDto(Member member) {
-        this.commentResponseDtos = member.getCommentList().stream()
+        this.commentResponseDtos = member.getCommentList(member.getProductList()).stream()
                 .map(CommentResponseDto::new)
                 .collect(Collectors.toList());
     }

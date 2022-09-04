@@ -110,4 +110,12 @@ public class Member extends BaseTimeEntity {
             throw new IllegalArgumentException("양식에 맞지 않습니다.");
         }
     }
+
+    public List<Comment> getCommentList(List<Product> productList) {
+        List<Comment> resultCommentsList = new ArrayList<>();
+        for (Product product : productList) {
+            resultCommentsList.addAll(product.getCommentList());
+        }
+        return resultCommentsList;
+    }
 }

@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class ManageCompleteResponseDto {
+public class CompleteProductsResponseDto {
 
     private List<ProductAllResponseDto> boardCompleteResponseDtos;
 
     @Builder
-    public ManageCompleteResponseDto(Member member) {
+    public CompleteProductsResponseDto(Member member) {
         this.boardCompleteResponseDtos = member.getProductList().stream()
                 .filter(board -> board.getProductStatus().equals(ProductStatus.COMPLETE))
                 .map(ProductAllResponseDto::new)
