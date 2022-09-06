@@ -37,7 +37,7 @@ public class MemberApiController {
     }
 
     @GetMapping("/{id}/comments")
-    public ManageCommentsResponseDto manageComments(@PathVariable("id") Long id) {
+    public ProductCommentsResponseDto manageComments(@PathVariable("id") Long id) {
         return memberService.manageComments(id);
     }
 

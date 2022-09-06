@@ -15,6 +15,7 @@ public class ProductDetailResponseDto {
 
     private String imgPath;
     private String title;
+    private String category;
     private int price;
     private int likeNumber;
 
@@ -33,6 +34,7 @@ public class ProductDetailResponseDto {
     public ProductDetailResponseDto(Product product) {
         this.imgPath = product.getImgPath();
         this.title = product.getTitle();
+        this.category = product.getCategory().getName();
         this.price = product.getPrice();
         this.likeNumber = product.getProductLikeList().size();
         this.status = product.getProductStatus().name();

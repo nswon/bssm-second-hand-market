@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import usedmarket.usedmarket.domain.category.domain.Category;
+import usedmarket.usedmarket.domain.category.domain.CategoryRepository;
+import usedmarket.usedmarket.domain.category.service.CategoryService;
 import usedmarket.usedmarket.domain.products.domain.ProductStatus;
 import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductStatusRequestDto;
 import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductAllResponseDto;
@@ -33,6 +36,8 @@ public class ProductService {
     private final ProductsRepository productsRepository;
     private final MemberRepository memberRepository;
 
+    private final CategoryService categoryService;
+
     @Transactional
     public Long createBoard(ProductRequestDto requestDto) throws IOException {
         if(requestDto.getFile().isEmpty()) {
@@ -56,6 +61,10 @@ public class ProductService {
 
         product.confirmWriter(memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요.")));
+
+        Category category = Category.builder().name(requestDto.getCategory()).build();
+        categoryService.saveCategory(category);
+        product.confirmCategory(category);
 
         productsRepository.save(product);
         product.addSaleBoard();
@@ -90,7 +99,7 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    //TODO : 이미지 수정 안됨..
+    //TODO : 이미지 수정 안됨
     @Transactional
     public Long updateBoard(Long id, ProductRequestDto requestDto) throws IOException {
         Product product = productsRepository.findById(id)

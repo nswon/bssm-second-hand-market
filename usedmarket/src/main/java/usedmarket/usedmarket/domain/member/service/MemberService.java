@@ -10,16 +10,11 @@ import usedmarket.usedmarket.domain.member.domain.Member;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
 import usedmarket.usedmarket.domain.member.presentation.dto.request.*;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.*;
-import usedmarket.usedmarket.domain.products.domain.Product;
-import usedmarket.usedmarket.domain.products.domain.ProductsRepository;
-import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductStatusRequestDto;
-import usedmarket.usedmarket.domain.products.service.ProductService;
 import usedmarket.usedmarket.global.jwt.JwtTokenProvider;
 import usedmarket.usedmarket.global.jwt.SecurityUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -95,11 +90,11 @@ public class MemberService {
                 .build();
     }
 
-    public ManageCommentsResponseDto manageComments(Long id) {
+    public ProductCommentsResponseDto manageComments(Long id) {
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
-        return ManageCommentsResponseDto.builder()
+        return ProductCommentsResponseDto.builder()
                 .member(member)
                 .build();
     }

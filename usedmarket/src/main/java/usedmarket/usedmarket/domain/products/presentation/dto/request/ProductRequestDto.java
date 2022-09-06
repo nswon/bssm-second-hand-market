@@ -13,6 +13,8 @@ public class ProductRequestDto {
 
     private MultipartFile file;
 
+    private String category;
+
     private int price;
 
     private String content;
