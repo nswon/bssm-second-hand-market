@@ -138,7 +138,7 @@ public class MemberService {
     }
 
     @Transactional
-    public Long withdraw(MemberWithdrawalRequestDto requestDto) {
+    public boolean withdraw(MemberWithdrawalRequestDto requestDto) {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
@@ -150,7 +150,10 @@ public class MemberService {
         file.delete();
 
         memberRepository.delete(member);
-        return member.getId();
+        if(!memberRepository.existsById(member.getId())) {
+            return true;
+        }
+        else return false;
     }
 
     @Transactional

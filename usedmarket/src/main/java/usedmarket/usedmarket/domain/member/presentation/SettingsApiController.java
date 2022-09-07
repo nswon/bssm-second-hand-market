@@ -16,11 +16,7 @@ public class SettingsApiController {
     private final MemberService memberService;
 
     @DeleteMapping("/withdraw")
-    public Long withdrawMember(@RequestBody MemberWithdrawalRequestDto requestDto) {
+    public boolean withdrawMember(@RequestBody MemberWithdrawalRequestDto requestDto) {
         return memberService.withdraw(requestDto);
     }
-
-    //로그아웃
-
-    //문의
 }

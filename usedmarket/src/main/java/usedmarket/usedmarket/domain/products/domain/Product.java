@@ -41,12 +41,12 @@ public class Product extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member writer;
 
+    @Enumerated(EnumType.STRING)
+    private ProductStatus productStatus;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
-
-    @Enumerated(EnumType.STRING)
-    private ProductStatus productStatus;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Comment> commentList = new ArrayList<>();
@@ -74,11 +74,6 @@ public class Product extends BaseTimeEntity {
     public void confirmWriter(Member writer) {
         this.writer = writer;
         writer.addBoard(this);
-    }
-
-    public void confirmCategory(Category category) {
-        this.category = category;
-        category.addProduct(this);
     }
 
     public void addComment(Comment comment) {

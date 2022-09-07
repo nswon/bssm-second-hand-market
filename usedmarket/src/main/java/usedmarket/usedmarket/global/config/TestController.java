@@ -1,4 +1,4 @@
-package usedmarket.usedmarket.domain;
+package usedmarket.usedmarket.global.config;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
