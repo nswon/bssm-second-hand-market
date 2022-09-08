@@ -1,8 +1,8 @@
-package usedmarket.usedmarket.domain.ProductLike.presentation;
+package usedmarket.usedmarket.domain.productLike.presentation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import usedmarket.usedmarket.domain.ProductLike.service.ProductLikeService;
+import usedmarket.usedmarket.domain.productLike.service.ProductLikeService;
 
 @RestController
 @RequiredArgsConstructor

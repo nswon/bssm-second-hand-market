@@ -2,7 +2,7 @@ package usedmarket.usedmarket.domain.member.domain;
 
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import usedmarket.usedmarket.domain.ProductLike.domain.ProductLike;
+import usedmarket.usedmarket.domain.productLike.domain.ProductLike;
 import usedmarket.usedmarket.domain.products.domain.Product;
 import usedmarket.usedmarket.domain.comment.domain.Comment;
 import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberSurveyRequestDto;

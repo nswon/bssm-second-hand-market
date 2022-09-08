@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import usedmarket.usedmarket.domain.ProductLike.domain.ProductLike;
+import usedmarket.usedmarket.domain.productLike.domain.ProductLike;
 import usedmarket.usedmarket.domain.category.domain.Category;
 import usedmarket.usedmarket.domain.comment.domain.Comment;
 import usedmarket.usedmarket.domain.member.domain.Member;

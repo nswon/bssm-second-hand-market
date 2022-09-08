@@ -3,6 +3,9 @@ package usedmarket.usedmarket.domain.products.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import usedmarket.usedmarket.domain.products.domain.ProductStatus;
@@ -62,8 +65,9 @@ public class ProductService {
         return product.getId();
     }
 
-    public List<ProductAllResponseDto> findAllBoard() {
-        return productsRepository.findAll().stream()
+    public List<ProductAllResponseDto> findAllBoard(int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber, 10);
+        return productsRepository.findAll(pageable).stream()
                 .filter(board -> !board.getProductStatus().equals(ProductStatus.COMPLETE))
                 .map(ProductAllResponseDto::new)
                 .collect(Collectors.toList());

@@ -1,6 +1,10 @@
 package usedmarket.usedmarket.domain.products.presentation;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductRequestDto;
 import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductStatusRequestDto;
@@ -23,9 +27,10 @@ public class ProductApiController {
         return productService.createBoard(requestDto);
     }
 
-    @GetMapping("/")
-    public List<ProductAllResponseDto> findAll() {
-        return productService.findAllBoard();
+    //TODO : 나중에 size 20으로 바꾸기
+    @GetMapping("")
+    public List<ProductAllResponseDto> findAll(@RequestParam(value = "page", defaultValue= "0") int pageNumber) {
+        return productService.findAllBoard(pageNumber);
     }
 
     @GetMapping("/{id}")

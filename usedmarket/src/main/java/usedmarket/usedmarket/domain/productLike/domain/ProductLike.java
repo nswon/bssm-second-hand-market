@@ -1,4 +1,4 @@
-package usedmarket.usedmarket.domain.ProductLike.domain;
+package usedmarket.usedmarket.domain.productLike.domain;
 
 import lombok.AccessLevel;
 import lombok.Builder;

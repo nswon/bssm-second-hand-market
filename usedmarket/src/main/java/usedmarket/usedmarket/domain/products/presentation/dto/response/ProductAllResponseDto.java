@@ -13,7 +13,7 @@ public class ProductAllResponseDto {
     private String status;
     private String title;
     private int price;
-    private LocalDateTime modifiedDate;
+    private LocalDateTime createdDate;
     private int likeNumber;
 
     //최근 본 상품 (3개 까지)
@@ -24,7 +24,7 @@ public class ProductAllResponseDto {
         this.status = product.getProductStatus().name();
         this.title = product.getTitle();
         this.price = product.getPrice();
-        this.modifiedDate = product.getModifiedDate();
+        this.createdDate = product.getCreatedDate();
         this.likeNumber = product.getProductLikeList().size();
     }
 }

@@ -1,10 +1,10 @@
-package usedmarket.usedmarket.domain.ProductLike.service;
+package usedmarket.usedmarket.domain.productLike.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import usedmarket.usedmarket.domain.ProductLike.domain.ProductLike;
-import usedmarket.usedmarket.domain.ProductLike.domain.BoardLikeRepository;
+import usedmarket.usedmarket.domain.productLike.domain.ProductLike;
+import usedmarket.usedmarket.domain.productLike.domain.BoardLikeRepository;
 import usedmarket.usedmarket.domain.products.domain.Product;
 import usedmarket.usedmarket.domain.products.domain.ProductsRepository;
 import usedmarket.usedmarket.domain.member.domain.Member;

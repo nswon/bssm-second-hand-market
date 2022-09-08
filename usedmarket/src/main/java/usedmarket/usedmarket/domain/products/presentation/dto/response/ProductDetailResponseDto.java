@@ -15,7 +15,6 @@ public class ProductDetailResponseDto {
 
     private String imgPath;
     private String title;
-    private String category;
     private int price;
     private int likeNumber;
 
@@ -23,23 +22,19 @@ public class ProductDetailResponseDto {
 
     private String status;
     private LocalDateTime createdDate;
-
-    //카테고리별 상품들 조회 (6개씩 페이징 : 상품 이미지, 제목)
-
+    private String nickname;
     private String content;
-    private ProductMemberResponseDto member;
 
     //조회수 추가
     @Builder
     public ProductDetailResponseDto(Product product) {
         this.imgPath = product.getImgPath();
         this.title = product.getTitle();
-        this.category = product.getCategory();
         this.price = product.getPrice();
         this.likeNumber = product.getProductLikeList().size();
         this.status = product.getProductStatus().name();
         this.createdDate = product.getCreatedDate();
+        this.nickname = product.getWriter().getNickname();
         this.content = product.getContent();
-        this.member = ProductMemberResponseDto.builder().product(product).build();
     }
 }
