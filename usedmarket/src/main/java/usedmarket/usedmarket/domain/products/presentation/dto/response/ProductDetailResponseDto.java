@@ -7,6 +7,7 @@ import usedmarket.usedmarket.domain.products.domain.Product;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Getter
@@ -24,6 +25,7 @@ public class ProductDetailResponseDto {
     private LocalDateTime createdDate;
     private String nickname;
     private String content;
+    private List<ProductMemberResponseDto> relateProduct;
 
     //조회수 추가
     @Builder
@@ -36,5 +38,10 @@ public class ProductDetailResponseDto {
         this.createdDate = product.getCreatedDate();
         this.nickname = product.getWriter().getNickname();
         this.content = product.getContent();
+        this.relateProduct = product.getWriter().getProductList().stream()
+                .takeWhile(Objects::nonNull)
+                .limit(6)
+                .map(ProductMemberResponseDto::new)
+                .collect(Collectors.toList());
     }
 }

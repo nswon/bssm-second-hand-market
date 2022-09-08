@@ -44,8 +44,9 @@ public class ProductApiController {
     }
 
     @GetMapping("/search")
-    public List<ProductAllResponseDto> search(@RequestParam("keyword") String keyword) {
-        return productService.searchBoard(keyword);
+    public List<ProductAllResponseDto> search(@RequestParam("keyword") String keyword,
+                                              @RequestParam(value = "page", defaultValue = "0") int pageNumber) {
+        return productService.searchBoard(keyword, pageNumber);
     }
 
     @PutMapping("/{id}/edit")

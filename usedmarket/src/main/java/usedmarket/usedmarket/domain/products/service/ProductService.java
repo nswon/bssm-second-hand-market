@@ -88,8 +88,10 @@ public class ProductService {
         product.updateStatus(requestDto.getStatus());
     }
 
-    public List<ProductAllResponseDto> searchBoard(String keyword) {
-        return productsRepository.findByTitleContaining(keyword).stream()
+    public List<ProductAllResponseDto> searchBoard(String keyword, int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber, 10);
+        return productsRepository.findByTitleContaining(keyword, pageable).stream()
+                .filter(board -> !board.getProductStatus().equals(ProductStatus.COMPLETE))
                 .map(ProductAllResponseDto::new)
                 .collect(Collectors.toList());
     }
