@@ -164,4 +164,13 @@ public class MemberService {
         member.updateMannerTemperature(requestDto);
         return member.getId();
     }
+
+    public MemberLikeProductResponseDto manageLikeProduct(Long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
+
+        return MemberLikeProductResponseDto.builder()
+                .member(member)
+                .build();
+    }
 }

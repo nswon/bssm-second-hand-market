@@ -31,6 +31,11 @@ public class MemberApiController {
         return memberService.findMember(id);
     }
 
+    @GetMapping("{id}/likes")
+    public MemberLikeProductResponseDto manageLikeProduct(@PathVariable("id") Long id) {
+        return memberService.manageLikeProduct(id);
+    }
+
     @GetMapping("/{id}/complete")
     public CompleteProductsResponseDto manageCompleteBoards(@PathVariable("id") Long id) {
         return memberService.manageCompleteBoards(id);
