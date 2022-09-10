@@ -45,10 +45,7 @@ public class MemberService {
         member.encodedPassword(passwordEncoder);
         member.addUserAuthority();
 
-        if(memberRepository.existsById(member.getId())) {
-           return true;
-        }
-        else return false;
+        return true;
     }
 
     @Transactional
@@ -66,23 +63,14 @@ public class MemberService {
                 .build();
     }
 
-    public MemberResponseDto findMember(Long id) {
-        return memberRepository.findById(id)
+    public MemberResponseDto findMemberById(Long memberId) {
+        return memberRepository.findById(memberId)
                 .map(MemberResponseDto::new)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
     }
 
-//    public MyInfoResponseDto findMyInfo() {
-//        Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-//                .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
-//
-//        return MyInfoResponseDto.builder()
-//                .member(member)
-//                .build();
-//    }
-
-    public CompleteProductsResponseDto manageCompleteBoards(Long id) {
-        Member member = memberRepository.findById(id)
+    public CompleteProductsResponseDto getCompleteProductsById(Long memberId) {
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         return CompleteProductsResponseDto.builder()
@@ -90,8 +78,8 @@ public class MemberService {
                 .build();
     }
 
-    public ProductCommentsResponseDto manageComments(Long id) {
-        Member member = memberRepository.findById(id)
+    public ProductCommentsResponseDto getCommentsById(Long memberId) {
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         return ProductCommentsResponseDto.builder()
@@ -100,7 +88,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMyInfo(MemberUpdateRequestDto requestDto) throws IOException {
+    public void updateMember(MemberUpdateRequestDto requestDto) throws IOException {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
@@ -119,7 +107,7 @@ public class MemberService {
             requestDto.getFile().transferTo(save);
         }
 
-        member.update(saveFilename,
+        member.updateMember(saveFilename,
                 fileDir + saveFilename,
                 requestDto.getNickname()
         );
@@ -138,7 +126,7 @@ public class MemberService {
     }
 
     @Transactional
-    public boolean withdraw(MemberWithdrawalRequestDto requestDto) {
+    public boolean withdrawMember(MemberWithdrawalRequestDto requestDto) {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
@@ -150,23 +138,20 @@ public class MemberService {
         file.delete();
 
         memberRepository.delete(member);
-        if(!memberRepository.existsById(member.getId())) {
-            return true;
-        }
-        else return false;
+        return true;
     }
 
     @Transactional
-    public Long surveyMember(Long id, MemberSurveyRequestDto requestDto) {
-        Member member = memberRepository.findById(id)
+    public Long surveyMember(Long memberId, MemberSurveyRequestDto requestDto) {
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
 
         member.updateMannerTemperature(requestDto);
         return member.getId();
     }
 
-    public MemberLikeProductResponseDto manageLikeProduct(Long id) {
-        Member member = memberRepository.findById(id)
+    public MemberLikeProductResponseDto getLikeProductsById(Long memberId) {
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
 
         return MemberLikeProductResponseDto.builder()

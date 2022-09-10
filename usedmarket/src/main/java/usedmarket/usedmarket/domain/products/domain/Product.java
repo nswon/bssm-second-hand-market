@@ -63,7 +63,7 @@ public class Product extends BaseTimeEntity {
         this.content = content;
     }
 
-    public void update(String title, String imgName, String imgPath, int price, String content) {
+    public void updateProduct(String title, String imgName, String imgPath, int price, String content) {
         this.title = title;
         this.imgName = imgName;
         this.imgPath = imgPath;
@@ -73,18 +73,18 @@ public class Product extends BaseTimeEntity {
 
     public void confirmWriter(Member writer) {
         this.writer = writer;
-        writer.addBoard(this);
+        writer.addProduct(this);
     }
 
     public void addComment(Comment comment) {
         commentList.add(comment);
     }
 
-    public void addBoardLike(ProductLike productLike) {
+    public void addProductLike(ProductLike productLike) {
         productLikeList.add(productLike);
     }
 
-    public void addSaleBoard() {
+    public void addSaleStatus() {
         this.productStatus = ProductStatus.SALE;
     }
 

@@ -3,7 +3,6 @@ package usedmarket.usedmarket.domain.products.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -37,15 +36,13 @@ public class ProductService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long createBoard(ProductRequestDto requestDto) throws IOException {
+    public Long createProduct(ProductRequestDto requestDto) throws IOException {
         if(requestDto.getFile().isEmpty()) {
             throw new IllegalArgumentException("이미지가 들어오지 않았습니다.");
         }
 
         String originFilename = requestDto.getFile().getOriginalFilename();
-
         String saveFilename = UUID.randomUUID() + "_" + originFilename;
-
         File save = new File(fileDir + saveFilename);
         requestDto.getFile().transferTo(save);
 
@@ -61,11 +58,11 @@ public class ProductService {
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요.")));
 
         productsRepository.save(product);
-        product.addSaleBoard();
+        product.addSaleStatus();
         return product.getId();
     }
 
-    public List<ProductAllResponseDto> findAllBoard(int pageNumber) {
+    public List<ProductAllResponseDto> findProductAll(int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber, 10);
         return productsRepository.findAll(pageable).stream()
                 .filter(board -> !board.getProductStatus().equals(ProductStatus.COMPLETE))
@@ -73,22 +70,22 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public ProductDetailResponseDto detailBoard(Long id) {
-        return productsRepository.findById(id)
+    public ProductDetailResponseDto findProductById(Long productId) {
+        return productsRepository.findById(productId)
                 .filter(board -> !board.getProductStatus().equals(ProductStatus.COMPLETE))
                 .map(ProductDetailResponseDto::new)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
     }
 
     @Transactional
-    public void statusBoard(Long id, ProductStatusRequestDto requestDto) {
-        Product product = productsRepository.findById(id)
+    public void updateProductStatus(Long productId, ProductStatusRequestDto requestDto) {
+        Product product = productsRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
 
         product.updateStatus(requestDto.getStatus());
     }
 
-    public List<ProductAllResponseDto> searchBoard(String keyword, int pageNumber) {
+    public List<ProductAllResponseDto> searchProducts(String keyword, int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber, 10);
         return productsRepository.findByTitleContaining(keyword, pageable).stream()
                 .filter(board -> !board.getProductStatus().equals(ProductStatus.COMPLETE))
@@ -96,10 +93,9 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    //TODO : 이미지 수정 안됨
     @Transactional
-    public Long updateBoard(Long id, ProductRequestDto requestDto) throws IOException {
-        Product product = productsRepository.findById(id)
+    public Long updateProduct(Long productId, ProductRequestDto requestDto) throws IOException {
+        Product product = productsRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
 
         if(!product.getWriter().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
@@ -109,7 +105,6 @@ public class ProductService {
         String saveFilename = "";
 
         if(requestDto.getFile().isEmpty()) {
-            //만약에 비어있다면 원래 이미지를 저장
             saveFilename = product.getImgPath();
         }
         else {
@@ -121,7 +116,7 @@ public class ProductService {
             requestDto.getFile().transferTo(save);
         }
 
-        product.update(requestDto.getTitle(),
+        product.updateProduct(requestDto.getTitle(),
                        saveFilename,
                 fileDir + saveFilename,
                         requestDto.getPrice(),
@@ -132,8 +127,8 @@ public class ProductService {
     }
 
     @Transactional
-    public Long deleteBoard(Long id) {
-        Product product = productsRepository.findById(id)
+    public Long deleteProduct(Long productId) {
+        Product product = productsRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
 
         if(!product.getWriter().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
@@ -142,8 +137,8 @@ public class ProductService {
 
         File file = new File(product.getImgPath());
         file.delete();
-
         productsRepository.delete(product);
+
         return product.getId();
     }
 }

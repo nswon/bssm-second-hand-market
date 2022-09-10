@@ -68,7 +68,7 @@ public class Member extends BaseTimeEntity {
         this.role = Role.ROLE_USER;
     }
 
-    public void addBoard(Product product) {
+    public void addProduct(Product product) {
         productList.add(product);
     }
 
@@ -76,11 +76,11 @@ public class Member extends BaseTimeEntity {
         commentList.add(comment);
     }
 
-    public void addBoardLike(ProductLike productLike) {
+    public void addProductLike(ProductLike productLike) {
         productLikeList.add(productLike);
     }
 
-    public void update(String imgName, String imgPath, String nickname) {
+    public void updateMember(String imgName, String imgPath, String nickname) {
         this.imgName = imgName;
         this.imgPath = imgPath;
         this.nickname = nickname;

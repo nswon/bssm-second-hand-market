@@ -44,7 +44,7 @@ public class Comment extends BaseTimeEntity {
         writer.addComment(this);
     }
 
-    public void confirmBoard(Product product) {
+    public void confirmProduct(Product product) {
         this.product = product;
         product.addComment(this);
     }

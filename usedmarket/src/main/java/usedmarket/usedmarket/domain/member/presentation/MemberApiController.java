@@ -27,28 +27,28 @@ public class MemberApiController {
     }
 
     @GetMapping("/{id}/products")
-    public MemberResponseDto findMember(@PathVariable("id") Long id) {
-        return memberService.findMember(id);
+    public MemberResponseDto findMemberById(@PathVariable("memberId") Long memberId) {
+        return memberService.findMemberById(memberId);
     }
 
     @GetMapping("{id}/likes")
-    public MemberLikeProductResponseDto manageLikeProduct(@PathVariable("id") Long id) {
-        return memberService.manageLikeProduct(id);
+    public MemberLikeProductResponseDto getLikeProductsById(@PathVariable("id") Long id) {
+        return memberService.getLikeProductsById(id);
     }
 
-    @GetMapping("/{id}/complete")
-    public CompleteProductsResponseDto manageCompleteBoards(@PathVariable("id") Long id) {
-        return memberService.manageCompleteBoards(id);
+    @GetMapping("/{memberId}/complete")
+    public CompleteProductsResponseDto getCompleteProductsById(@PathVariable("memberId") Long memberId) {
+        return memberService.getCompleteProductsById(memberId);
     }
 
-    @GetMapping("/{id}/comments")
-    public ProductCommentsResponseDto manageComments(@PathVariable("id") Long id) {
-        return memberService.manageComments(id);
+    @GetMapping("/{memberId}/comments")
+    public ProductCommentsResponseDto getCommentsById(@PathVariable("memberId") Long memberId) {
+        return memberService.getCommentsById(memberId);
     }
 
     @PutMapping("/edit")
-    public void updateMyInfo(@RequestBody MemberUpdateRequestDto requestDto) throws IOException {
-        memberService.updateMyInfo(requestDto);
+    public void updateMember(@RequestBody MemberUpdateRequestDto requestDto) throws IOException {
+        memberService.updateMember(requestDto);
     }
 
     @PutMapping("/edit/password")
@@ -56,8 +56,8 @@ public class MemberApiController {
         memberService.updatePassword(requestDto);
     }
 
-    @PostMapping("/{id}/confirm")
-    public Long surveyMember(@PathVariable("id") Long id, @RequestBody MemberSurveyRequestDto requestDto) {
-        return memberService.surveyMember(id, requestDto);
+    @PostMapping("/{memberId}/confirm")
+    public Long surveyMember(@PathVariable("memberId") Long memberId, @RequestBody MemberSurveyRequestDto requestDto) {
+        return memberService.surveyMember(memberId, requestDto);
     }
 }

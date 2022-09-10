@@ -24,13 +24,13 @@ public class CommentService {
     private final ProductsRepository productsRepository;
 
     @Transactional
-    public Long createComment(Long id, CommentRequestDto requestDto) {
+    public Long createComment(Long productId, CommentRequestDto requestDto) {
         Comment comment = requestDto.toEntity();
 
         comment.confirmWriter(memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요.")));
 
-        comment.confirmBoard(productsRepository.findById(id)
+        comment.confirmProduct(productsRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다.")));
 
         commentRepository.save(comment);

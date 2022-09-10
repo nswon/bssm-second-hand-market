@@ -20,8 +20,8 @@ public class ProductLikeService {
     private final ProductsRepository productsRepository;
     private final MemberRepository memberRepository;
 
-    public void like(Long id) {
-        Product product = productsRepository.findById(id)
+    public void like(Long productId) {
+        Product product = productsRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
 
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
@@ -36,7 +36,7 @@ public class ProductLikeService {
                     .member(member)
                     .build();
 
-            productLike.confirmBoard(product);
+            productLike.confirmProduct(product);
             productLike.confirmMember(member);
 
             boardLikeRepository.save(productLike);

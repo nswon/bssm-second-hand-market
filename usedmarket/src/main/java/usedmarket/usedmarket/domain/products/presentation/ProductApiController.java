@@ -1,10 +1,6 @@
 package usedmarket.usedmarket.domain.products.presentation;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductRequestDto;
 import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductStatusRequestDto;
@@ -23,39 +19,40 @@ public class ProductApiController {
     private final ProductService productService;
 
     @PostMapping("/new")
-    public Long create(ProductRequestDto requestDto) throws IOException {
-        return productService.createBoard(requestDto);
+    public Long createProduct(ProductRequestDto requestDto) throws IOException {
+        return productService.createProduct(requestDto);
     }
 
-    //TODO : 나중에 size 20으로 바꾸기
     @GetMapping("")
-    public List<ProductAllResponseDto> findAll(@RequestParam(value = "page", defaultValue= "0") int pageNumber) {
-        return productService.findAllBoard(pageNumber);
+    public List<ProductAllResponseDto> findProductAll(@RequestParam(value = "page", defaultValue= "0") int pageNumber) {
+        return productService.findProductAll(pageNumber);
     }
 
-    @GetMapping("/{id}")
-    public ProductDetailResponseDto detail(@PathVariable("id") Long id) {
-        return productService.detailBoard(id);
+    @GetMapping("/{productId}")
+    public ProductDetailResponseDto findProductById(@PathVariable("productId") Long productId) {
+        return productService.findProductById(productId);
     }
 
-    @PutMapping("/{id}")
-    public void status(@PathVariable("id") Long id, @RequestBody ProductStatusRequestDto requestDto) {
-        productService.statusBoard(id, requestDto);
+    @PutMapping("/{productId}")
+    public void updateProductStatus(@PathVariable("productId") Long productId,
+                                    @RequestBody ProductStatusRequestDto requestDto) {
+        productService.updateProductStatus(productId, requestDto);
     }
 
-    @GetMapping("/search")
-    public List<ProductAllResponseDto> search(@RequestParam("keyword") String keyword,
+    @GetMapping("/search/products")
+    public List<ProductAllResponseDto> searchProducts(@RequestParam("keyword") String keyword,
                                               @RequestParam(value = "page", defaultValue = "0") int pageNumber) {
-        return productService.searchBoard(keyword, pageNumber);
+        return productService.searchProducts(keyword, pageNumber);
     }
 
-    @PutMapping("/{id}/edit")
-    public Long update(@PathVariable("id") Long id, @ModelAttribute ProductRequestDto requestDto) throws IOException {
-        return productService.updateBoard(id, requestDto);
+    @PutMapping("/{productId}/edit")
+    public Long updateProduct(@PathVariable("productId") Long productId,
+                       ProductRequestDto requestDto) throws IOException {
+        return productService.updateProduct(productId, requestDto);
     }
 
-    @DeleteMapping("/{id}")
-    public Long delete(@PathVariable("id") Long id) {
-        return productService.deleteBoard(id);
+    @DeleteMapping("/{productId}")
+    public Long deleteProduct(@PathVariable("productId") Long productId) {
+        return productService.deleteProduct(productId);
     }
 }

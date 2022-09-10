@@ -17,6 +17,6 @@ public class SettingsApiController {
 
     @DeleteMapping("/withdraw")
     public boolean withdrawMember(@RequestBody MemberWithdrawalRequestDto requestDto) {
-        return memberService.withdraw(requestDto);
+        return memberService.withdrawMember(requestDto);
     }
 }

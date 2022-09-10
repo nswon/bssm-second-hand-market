@@ -34,14 +34,14 @@ public class ProductLike {
         this.member = member;
     }
 
-    public void confirmBoard(Product product) {
+    public void confirmProduct(Product product) {
         this.product = product;
-        product.addBoardLike(this);
+        product.addProductLike(this);
     }
 
     public void confirmMember(Member member) {
         this.member = member;
-        member.addBoardLike(this);
+        member.addProductLike(this);
     }
 
 }
