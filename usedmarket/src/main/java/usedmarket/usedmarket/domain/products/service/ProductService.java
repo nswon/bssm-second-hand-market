@@ -2,7 +2,6 @@ package usedmarket.usedmarket.domain.products.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,10 +16,8 @@ import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductReq
 import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductDetailResponseDto;
 import usedmarket.usedmarket.global.jwt.SecurityUtil;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,33 +26,18 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ProductService {
 
-    @Value("${file.dir}")
-    private String fileDir;
-
     private final ProductsRepository productsRepository;
     private final MemberRepository memberRepository;
+    private final FileService fileService;
 
     @Transactional
     public Long createProduct(ProductRequestDto requestDto) throws IOException {
-        if(requestDto.getFile().isEmpty()) {
-            throw new IllegalArgumentException("이미지가 들어오지 않았습니다.");
-        }
-
-        String originFilename = requestDto.getFile().getOriginalFilename();
-        String saveFilename = UUID.randomUUID() + "_" + originFilename;
-        File save = new File(fileDir + saveFilename);
-        requestDto.getFile().transferTo(save);
-
-        Product product = Product.builder()
-                .title(requestDto.getTitle())
-                .imgName(saveFilename)
-                .imgPath(fileDir + saveFilename)
-                .price(requestDto.getPrice())
-                .content(requestDto.getContent())
-                .build();
+        Product product = requestDto.toEntity();
 
         product.confirmWriter(memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요.")));
+
+        product.updateImgPath(fileService.saveFile(requestDto.getFile()));
 
         productsRepository.save(product);
         product.addSaleStatus();
@@ -102,26 +84,12 @@ public class ProductService {
             throw new IllegalArgumentException("다른 사용자의 판매글은 수정할 수 없습니다.");
         }
 
-        String saveFilename = "";
-
-        if(requestDto.getFile().isEmpty()) {
-            saveFilename = product.getImgPath();
-        }
-        else {
-            String originFilename = requestDto.getFile().getOriginalFilename();
-
-            saveFilename = UUID.randomUUID() + "_" + originFilename;
-
-            File save = new File(fileDir + saveFilename);
-            requestDto.getFile().transferTo(save);
+        if(!product.getImgPath().isEmpty()) {
+            fileService.deleteFile(product.getImgPath());
         }
 
-        product.updateProduct(requestDto.getTitle(),
-                       saveFilename,
-                fileDir + saveFilename,
-                        requestDto.getPrice(),
-                        requestDto.getContent()
-        );
+        product.updateImgPath(fileService.saveFile(requestDto.getFile()));
+        product.updateProduct(requestDto.getTitle(), requestDto.getPrice(), requestDto.getContent());
 
         return product.getId();
     }
@@ -135,8 +103,9 @@ public class ProductService {
             throw new IllegalArgumentException("다른 사용자의 판매글은 삭제할 수 없습니다.");
         }
 
-        File file = new File(product.getImgPath());
-        file.delete();
+        if(!product.getImgPath().isEmpty()) {
+            fileService.deleteFile(product.getImgPath());
+        }
         productsRepository.delete(product);
 
         return product.getId();

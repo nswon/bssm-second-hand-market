@@ -18,8 +18,7 @@ public class EmailApiController {
     private final EmailService emailService;
 
     @PostMapping("/join")
-    public String emailConfirm(@RequestBody @Valid EmailDto request) throws Exception {
+    public void emailConfirm(@RequestBody @Valid EmailDto request) throws Exception {
         emailService.sendSimpleMessage(request.getEmail());
-        return "코드 발송 완료!\n" + request.getEmail() + "에서 확인해주세요.";
     }
 }

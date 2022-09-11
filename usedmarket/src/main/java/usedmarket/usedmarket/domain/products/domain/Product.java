@@ -28,8 +28,6 @@ public class Product extends BaseTimeEntity {
     @Column(nullable = false)
     private String title;
 
-    private String imgName;
-
     private String imgPath;
 
     private int price;
@@ -55,20 +53,20 @@ public class Product extends BaseTimeEntity {
     private final List<ProductLike> productLikeList = new ArrayList<>();
 
     @Builder
-    public Product(String title, String imgName, String imgPath, int price, String content) {
+    public Product(String title, int price, String content) {
         this.title = title;
-        this.imgName = imgName;
-        this.imgPath = imgPath;
         this.price = price;
         this.content = content;
     }
 
-    public void updateProduct(String title, String imgName, String imgPath, int price, String content) {
+    public void updateProduct(String title, int price, String content) {
         this.title = title;
-        this.imgName = imgName;
-        this.imgPath = imgPath;
         this.price = price;
         this.content = content;
+    }
+
+    public void updateImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 
     public void confirmWriter(Member writer) {
