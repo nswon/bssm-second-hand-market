@@ -23,8 +23,6 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long id;
 
-    private String imgName;
-
     private String imgPath;
 
     @Column(nullable = false)
@@ -43,18 +41,17 @@ public class Member extends BaseTimeEntity {
     private double mannerTemperature = 36.5;
 
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Product> productList = new ArrayList<>();
+    private final List<Product> productList = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> commentList = new ArrayList<>();
+    private final List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<ProductLike> productLikeList = new ArrayList<>();
+    private final List<ProductLike> productLikeList = new ArrayList<>();
 
     @Builder
-    public Member(String email, String imgName, String imgPath, String nickname, String password) {
+    public Member(String email, String imgPath, String nickname, String password) {
         this.email = email;
-        this.imgName = imgName;
         this.imgPath = imgPath;
         this.nickname = nickname;
         this.password = password;
@@ -80,14 +77,16 @@ public class Member extends BaseTimeEntity {
         productLikeList.add(productLike);
     }
 
-    public void updateMember(String imgName, String imgPath, String nickname) {
-        this.imgName = imgName;
-        this.imgPath = imgPath;
+    public void updateMember(String nickname) {
         this.nickname = nickname;
     }
 
     public void updatePassword(PasswordEncoder passwordEncoder, String password) {
         this.password = passwordEncoder.encode(password);
+    }
+
+    public void updateImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 
     public void updateMannerTemperature(MemberSurveyRequestDto requestDto) {

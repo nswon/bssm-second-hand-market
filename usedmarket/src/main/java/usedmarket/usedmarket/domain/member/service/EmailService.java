@@ -47,7 +47,6 @@ public class EmailService {
         message.setText(msgg, "utf-8", "html");
         message.setFrom(new InternetAddress("javaprojectnamse@gmail.com", "부산소마고 중고 마켓"));
 
-        msgg += "<div style='margin:100px;'>";
         return message;
     }
 

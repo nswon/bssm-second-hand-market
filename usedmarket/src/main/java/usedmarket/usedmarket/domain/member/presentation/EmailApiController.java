@@ -18,7 +18,7 @@ public class EmailApiController {
     private final EmailService emailService;
 
     @PostMapping("/join")
-    public void emailConfirm(@RequestBody @Valid EmailDto request) throws Exception {
+    public void sendSimpleMessage(@RequestBody @Valid EmailDto request) throws Exception {
         emailService.sendSimpleMessage(request.getEmail());
     }
 }

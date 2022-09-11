@@ -10,12 +10,11 @@ import usedmarket.usedmarket.domain.member.domain.Member;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
 import usedmarket.usedmarket.domain.member.presentation.dto.request.*;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.*;
+import usedmarket.usedmarket.domain.products.service.FileService;
 import usedmarket.usedmarket.global.jwt.JwtTokenProvider;
 import usedmarket.usedmarket.global.jwt.SecurityUtil;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +29,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final FileService fileService;
 
     @Transactional
     public boolean join(MemberJoinRequestDto requestDto) {
@@ -44,7 +44,6 @@ public class MemberService {
         Member member = memberRepository.save(requestDto.toEntity());
         member.encodedPassword(passwordEncoder);
         member.addUserAuthority();
-
         return true;
     }
 
@@ -92,25 +91,11 @@ public class MemberService {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
-        String saveFilename = "";
-
-        if(requestDto.getFile().isEmpty()) {
-            //만약에 비어있다면 원래 이미지를 저장
-            saveFilename = member.getImgPath();
+        if(!member.getImgPath().isEmpty()) {
+            fileService.deleteFile(member.getImgPath());
         }
-        else {
-            String originFilename = requestDto.getFile().getOriginalFilename();
-
-            saveFilename = UUID.randomUUID() + "_" + originFilename;
-
-            File save = new File(fileDir + saveFilename);
-            requestDto.getFile().transferTo(save);
-        }
-
-        member.updateMember(saveFilename,
-                fileDir + saveFilename,
-                requestDto.getNickname()
-        );
+        member.updateImgPath(fileService.saveFile(requestDto.getFile()));
+        member.updateMember(requestDto.getNickname());
     }
 
     @Transactional
@@ -134,9 +119,7 @@ public class MemberService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
-        File file = new File(member.getImgPath());
-        file.delete();
-
+        fileService.deleteFile(member.getImgPath());
         memberRepository.delete(member);
         return true;
     }

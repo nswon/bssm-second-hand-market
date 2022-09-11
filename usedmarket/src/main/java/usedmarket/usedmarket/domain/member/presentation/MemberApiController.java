@@ -26,14 +26,14 @@ public class MemberApiController {
         return memberService.login(requestDto);
     }
 
-    @GetMapping("/{id}/products")
+    @GetMapping("/{memberId}/products")
     public MemberResponseDto findMemberById(@PathVariable("memberId") Long memberId) {
         return memberService.findMemberById(memberId);
     }
 
-    @GetMapping("{id}/likes")
-    public MemberLikeProductResponseDto getLikeProductsById(@PathVariable("id") Long id) {
-        return memberService.getLikeProductsById(id);
+    @GetMapping("{memberId}/likes")
+    public MemberLikeProductResponseDto getLikeProductsById(@PathVariable("memberId") Long memberId) {
+        return memberService.getLikeProductsById(memberId);
     }
 
     @GetMapping("/{memberId}/complete")
