@@ -1,4 +1,4 @@
-package usedmarket.usedmarket.domain.products.service;
+package usedmarket.usedmarket.global.file;
 
 
 import org.springframework.beans.factory.annotation.Value;

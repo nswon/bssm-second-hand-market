@@ -24,6 +24,9 @@ spring:
 file:
   dir : /Users/a1/Desktop/images/
 
+fcm:
+  certification: push-alarm-24ef8-firebase-adminsdk-8wjmt-41627cf753.json
+
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.type: trace

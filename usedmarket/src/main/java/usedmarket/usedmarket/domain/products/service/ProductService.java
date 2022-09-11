@@ -7,13 +7,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import usedmarket.usedmarket.domain.products.domain.ProductStatus;
-import usedmarket.usedmarket.dto.request.ProductStatusRequestDto;
-import usedmarket.usedmarket.dto.response.ProductAllResponseDto;
+import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductStatusRequestDto;
+import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductAllResponseDto;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
 import usedmarket.usedmarket.domain.products.domain.Product;
 import usedmarket.usedmarket.domain.products.domain.ProductsRepository;
-import usedmarket.usedmarket.dto.request.ProductRequestDto;
-import usedmarket.usedmarket.dto.response.ProductDetailResponseDto;
+import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductRequestDto;
+import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductDetailResponseDto;
+import usedmarket.usedmarket.global.file.FileService;
 import usedmarket.usedmarket.global.jwt.SecurityUtil;
 
 import java.io.IOException;

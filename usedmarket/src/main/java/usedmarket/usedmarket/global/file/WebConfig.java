@@ -1,4 +1,4 @@
-package usedmarket.usedmarket.global.config;
+package usedmarket.usedmarket.global.file;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
