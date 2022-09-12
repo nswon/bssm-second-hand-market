@@ -1,4 +1,4 @@
-package usedmarket.usedmarket.domain.products.presentation.dto.response;
+package usedmarket.usedmarket.domain.member.presentation.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,22 +7,20 @@ import usedmarket.usedmarket.domain.products.domain.Product;
 import java.time.LocalDateTime;
 
 @Getter
-public class ProductAllResponseDto {
+public class MemberProductResponseDto {
 
     private String imgPath;
     private String status;
     private String title;
     private int price;
     private LocalDateTime createdDate;
-    private int likeNumber;
 
-    @Builder
-    public ProductAllResponseDto(Product product) {
+    public MemberProductResponseDto(Product product) {
         this.imgPath = product.getImgPath();
         this.status = product.getProductStatus().name();
         this.title = product.getTitle();
         this.price = product.getPrice();
         this.createdDate = product.getCreatedDate();
-        this.likeNumber = product.getProductLikeList().size();
     }
+
 }

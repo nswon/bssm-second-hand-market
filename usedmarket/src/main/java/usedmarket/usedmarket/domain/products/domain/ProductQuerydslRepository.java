@@ -28,4 +28,32 @@ public class ProductQuerydslRepository {
                 .where(product.title.contains(keyword).and(product.createdDate.after(notification.createdDate)))
                 .fetch();
     }
+
+    public List<Product> getProductsByDate() {
+        return queryFactory
+                .selectFrom(product)
+                .orderBy(product.createdDate.desc())
+                .fetch();
+    }
+
+    public List<Product> getProductsByLike() {
+        return queryFactory
+                .selectFrom(product)
+                .orderBy(product.productLikeList.size().desc())
+                .fetch();
+    }
+
+    public List<Product> getProductsByLowPrice() {
+        return queryFactory
+                .selectFrom(product)
+                .orderBy(product.price.asc())
+                .fetch();
+    }
+
+    public List<Product> getProductsByHighPrice() {
+        return queryFactory
+                .selectFrom(product)
+                .orderBy(product.price.desc())
+                .fetch();
+    }
 }

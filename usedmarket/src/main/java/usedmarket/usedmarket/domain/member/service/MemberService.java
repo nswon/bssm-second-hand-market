@@ -10,11 +10,14 @@ import usedmarket.usedmarket.domain.member.domain.Member;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
 import usedmarket.usedmarket.domain.member.presentation.dto.request.*;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.*;
+import usedmarket.usedmarket.domain.products.domain.ProductQuerydslRepository;
 import usedmarket.usedmarket.global.file.FileService;
 import usedmarket.usedmarket.global.jwt.JwtTokenProvider;
 import usedmarket.usedmarket.global.jwt.SecurityUtil;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +33,7 @@ public class MemberService {
     private final EmailService emailService;
     private final JwtTokenProvider jwtTokenProvider;
     private final FileService fileService;
+    private final ProductQuerydslRepository productQuerydslRepository;
 
     @Transactional
     public boolean join(MemberJoinRequestDto requestDto) {
@@ -141,4 +145,29 @@ public class MemberService {
                 .member(member)
                 .build();
     }
+
+    public List<MemberProductResponseDto> getProductsByDate() {
+        return productQuerydslRepository.getProductsByDate().stream()
+                .map(MemberProductResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<MemberProductResponseDto> getProductsByLike() {
+        return productQuerydslRepository.getProductsByLike().stream()
+                .map(MemberProductResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<MemberProductResponseDto> getProductsByLowPrice() {
+        return productQuerydslRepository.getProductsByLowPrice().stream()
+                .map(MemberProductResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<MemberProductResponseDto> getProductsByHighPrice() {
+        return productQuerydslRepository.getProductsByHighPrice().stream()
+                .map(MemberProductResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
 }

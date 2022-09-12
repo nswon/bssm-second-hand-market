@@ -8,6 +8,7 @@ import usedmarket.usedmarket.domain.member.service.MemberService;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +30,26 @@ public class MemberApiController {
     @GetMapping("/{memberId}/products")
     public MemberResponseDto findMemberById(@PathVariable("memberId") Long memberId) {
         return memberService.findMemberById(memberId);
+    }
+
+    @GetMapping("/{memberId}/products/date")
+    public List<MemberProductResponseDto> getProductsByDate() {
+        return memberService.getProductsByDate();
+    }
+
+    @GetMapping("/{memberId}/products/like")
+    public List<MemberProductResponseDto> getProductsByLike() {
+        return memberService.getProductsByLike();
+    }
+
+    @GetMapping("/{memberId}/products/lowPrice")
+    public List<MemberProductResponseDto> getProductsByLowPrice() {
+        return memberService.getProductsByLowPrice();
+    }
+
+    @GetMapping("/{memberId}/products/highPrice")
+    public List<MemberProductResponseDto> getProductsByHighPrice() {
+        return memberService.getProductsByHighPrice();
     }
 
     @GetMapping("{memberId}/likes")

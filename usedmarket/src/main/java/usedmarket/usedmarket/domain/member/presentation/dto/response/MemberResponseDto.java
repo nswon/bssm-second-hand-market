@@ -20,8 +20,6 @@ public class MemberResponseDto {
     private double mannerTemperature;
     private LocalDateTime createdDate;
     private int completeProductNumber;
-    private List<ProductAllResponseDto> products;
-    //거래 후기 댓글
 
     @Builder
     public MemberResponseDto(Member member) {
@@ -34,8 +32,5 @@ public class MemberResponseDto {
                 .member(member)
                 .build()
                 .getBoardCompleteResponseDtos().size();
-        this.products = member.getProductList().stream()
-                .map(ProductAllResponseDto::new)
-                .collect(Collectors.toList());
     }
 }
