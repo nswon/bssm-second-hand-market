@@ -35,4 +35,9 @@ public class NotificationApiController {
     public void deleteKeyword(@PathVariable("notificationId") Long notificationId) {
         notificationService.deleteKeyword(notificationId);
     }
+
+    @DeleteMapping("/deleteAll")
+    public void deleteKeywordAll() {
+        notificationService.deleteKeywordAll();
+    }
 }

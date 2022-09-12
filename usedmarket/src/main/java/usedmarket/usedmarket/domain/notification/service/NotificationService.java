@@ -57,6 +57,10 @@ public class NotificationService {
         Notification notification = notificationRepository.findById(notificationId)
                 .orElseThrow(() -> new IllegalArgumentException("키워드를 존재하지 않습니다."));
 
+        if(!notification.getMember().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
+            throw new IllegalArgumentException("다른 사용자의 키워드는 수정할 수 없습니다.");
+        }
+
         notification.updateKeyword(requestDto.getKeyword());
     }
 
@@ -65,6 +69,15 @@ public class NotificationService {
         Notification notification = notificationRepository.findById(notificationId)
                 .orElseThrow(() -> new IllegalArgumentException("키워드를 존재하지 않습니다."));
 
+        if(!notification.getMember().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
+            throw new IllegalArgumentException("다른 사용자의 키워드는 삭제할 수 없습니다.");
+        }
+
         notificationRepository.delete(notification);
+    }
+
+    @Transactional
+    public void deleteKeywordAll() {
+        notificationRepository.deleteAllInBatch();
     }
 }
