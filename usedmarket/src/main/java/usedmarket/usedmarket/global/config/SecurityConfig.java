@@ -40,7 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/member/join", "/member/login").permitAll()
                 .antMatchers("/board/**").hasRole("USER")
                 .antMatchers("/like/**").hasRole("USER")
-                .antMatchers("/api/**").permitAll() /*테스트용*/
+                .antMatchers("/notification/**").hasRole("USER")
+                .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, customUserDetailsService),

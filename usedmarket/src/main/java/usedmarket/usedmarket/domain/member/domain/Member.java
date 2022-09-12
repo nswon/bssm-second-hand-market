@@ -2,6 +2,7 @@ package usedmarket.usedmarket.domain.member.domain;
 
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import usedmarket.usedmarket.domain.notification.domain.Notification;
 import usedmarket.usedmarket.domain.productLike.domain.ProductLike;
 import usedmarket.usedmarket.domain.products.domain.Product;
 import usedmarket.usedmarket.domain.comment.domain.Comment;
@@ -49,6 +50,9 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member")
     private final List<ProductLike> productLikeList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private final List<Notification> notificationList = new ArrayList<>();
+
     @Builder
     public Member(String email, String imgPath, String nickname, String password) {
         this.email = email;
@@ -75,6 +79,10 @@ public class Member extends BaseTimeEntity {
 
     public void addProductLike(ProductLike productLike) {
         productLikeList.add(productLike);
+    }
+
+    public void addNotification(Notification notification) {
+        notificationList.add(notification);
     }
 
     public void updateMember(String nickname) {
