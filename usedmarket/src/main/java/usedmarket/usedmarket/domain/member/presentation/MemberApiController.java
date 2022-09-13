@@ -32,29 +32,9 @@ public class MemberApiController {
         return memberService.findMemberById(memberId);
     }
 
-    @GetMapping("/{memberId}/products/date")
-    public List<MemberProductResponseDto> getProductsByDate() {
-        return memberService.getProductsByDate();
-    }
-
-    @GetMapping("/{memberId}/products/like")
-    public List<MemberProductResponseDto> getProductsByLike() {
-        return memberService.getProductsByLike();
-    }
-
-    @GetMapping("/{memberId}/products/lowPrice")
-    public List<MemberProductResponseDto> getProductsByLowPrice() {
-        return memberService.getProductsByLowPrice();
-    }
-
-    @GetMapping("/{memberId}/products/highPrice")
-    public List<MemberProductResponseDto> getProductsByHighPrice() {
-        return memberService.getProductsByHighPrice();
-    }
-
-    @GetMapping("{memberId}/likes")
-    public MemberLikeProductResponseDto getLikeProductsById(@PathVariable("memberId") Long memberId) {
-        return memberService.getLikeProductsById(memberId);
+    @PostMapping("/{memberId}/products")
+    public List<MemberProductResponseDto> getProductsByKeyword(@RequestBody MemberProductRequestDto requestDto) {
+        return memberService.getProductsBySort(requestDto);
     }
 
     @GetMapping("/{memberId}/complete")

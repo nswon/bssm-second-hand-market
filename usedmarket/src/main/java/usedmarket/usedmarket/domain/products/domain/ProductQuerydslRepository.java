@@ -1,11 +1,15 @@
 package usedmarket.usedmarket.domain.products.domain;
 
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberProductRequestDto;
 import usedmarket.usedmarket.domain.notification.presentation.response.NotificationResponseDto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import static usedmarket.usedmarket.domain.products.domain.QProduct.product;
 import static usedmarket.usedmarket.domain.notification.domain.QNotification.notification;
@@ -29,31 +33,26 @@ public class ProductQuerydslRepository {
                 .fetch();
     }
 
-    public List<Product> getProductsByDate() {
+    public List<Product> getProductsBySort(MemberProductRequestDto requestDto) {
         return queryFactory
                 .selectFrom(product)
-                .orderBy(product.createdDate.desc())
+                .orderBy(sortProduct(requestDto.getKeyword()))
                 .fetch();
     }
 
-    public List<Product> getProductsByLike() {
-        return queryFactory
-                .selectFrom(product)
-                .orderBy(product.productLikeList.size().desc())
-                .fetch();
-    }
-
-    public List<Product> getProductsByLowPrice() {
-        return queryFactory
-                .selectFrom(product)
-                .orderBy(product.price.asc())
-                .fetch();
-    }
-
-    public List<Product> getProductsByHighPrice() {
-        return queryFactory
-                .selectFrom(product)
-                .orderBy(product.price.desc())
-                .fetch();
+    private OrderSpecifier<?> sortProduct(String keyword) {
+        if(!keyword.isEmpty()) {
+            switch (keyword) {
+                case "최신순" :
+                    return product.createdDate.desc();
+                case "좋아요순" :
+                    return product.productLikeList.size().desc();
+                case "저가순" :
+                    return product.price.asc();
+                case "고가순" :
+                    return product.price.desc();
+            }
+        }
+        return product.createdDate.desc(); //default 응답
     }
 }

@@ -146,26 +146,8 @@ public class MemberService {
                 .build();
     }
 
-    public List<MemberProductResponseDto> getProductsByDate() {
-        return productQuerydslRepository.getProductsByDate().stream()
-                .map(MemberProductResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    public List<MemberProductResponseDto> getProductsByLike() {
-        return productQuerydslRepository.getProductsByLike().stream()
-                .map(MemberProductResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    public List<MemberProductResponseDto> getProductsByLowPrice() {
-        return productQuerydslRepository.getProductsByLowPrice().stream()
-                .map(MemberProductResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    public List<MemberProductResponseDto> getProductsByHighPrice() {
-        return productQuerydslRepository.getProductsByHighPrice().stream()
+    public List<MemberProductResponseDto> getProductsBySort(MemberProductRequestDto requestDto) {
+        return productQuerydslRepository.getProductsBySort(requestDto).stream()
                 .map(MemberProductResponseDto::new)
                 .collect(Collectors.toList());
     }

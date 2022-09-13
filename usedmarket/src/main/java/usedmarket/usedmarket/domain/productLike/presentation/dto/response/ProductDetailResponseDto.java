@@ -1,4 +1,4 @@
-package usedmarket.usedmarket.domain.products.presentation.dto.response;
+package usedmarket.usedmarket.domain.productLike.presentation.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

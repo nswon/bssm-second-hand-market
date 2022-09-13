@@ -55,7 +55,7 @@ public class NotificationService {
     @Transactional
     public void updateKeyword(Long notificationId, NotificationRequestDto requestDto) {
         Notification notification = notificationRepository.findById(notificationId)
-                .orElseThrow(() -> new IllegalArgumentException("키워드를 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("키워드가 존재하지 않습니다."));
 
         if(!notification.getMember().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
             throw new IllegalArgumentException("다른 사용자의 키워드는 수정할 수 없습니다.");
@@ -67,7 +67,7 @@ public class NotificationService {
     @Transactional
     public void deleteKeyword(Long notificationId) {
         Notification notification = notificationRepository.findById(notificationId)
-                .orElseThrow(() -> new IllegalArgumentException("키워드를 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("키워드가 존재하지 않습니다."));
 
         if(!notification.getMember().getEmail().equals(SecurityUtil.getLoginUserEmail())) {
             throw new IllegalArgumentException("다른 사용자의 키워드는 삭제할 수 없습니다.");
