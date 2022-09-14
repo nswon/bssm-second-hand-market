@@ -61,4 +61,9 @@ public class MemberApiController {
     public Long surveyMember(@PathVariable("memberId") Long memberId, @RequestBody MemberSurveyRequestDto requestDto) {
         return memberService.surveyMember(memberId, requestDto);
     }
+
+    @PostMapping("/reissue")
+    public TokenResponseDto reissueAccessToken(@RequestBody TokenReIssueRequestDto requestDto) {
+        return memberService.reissueAccessToken(requestDto);
+    }
 }

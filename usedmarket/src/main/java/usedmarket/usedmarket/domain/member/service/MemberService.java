@@ -14,6 +14,7 @@ import usedmarket.usedmarket.domain.products.domain.ProductQuerydslRepository;
 import usedmarket.usedmarket.global.file.FileService;
 import usedmarket.usedmarket.global.jwt.JwtTokenProvider;
 import usedmarket.usedmarket.global.jwt.SecurityUtil;
+import usedmarket.usedmarket.global.redis.RedisService;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,6 +35,7 @@ public class MemberService {
     private final JwtTokenProvider jwtTokenProvider;
     private final FileService fileService;
     private final ProductQuerydslRepository productQuerydslRepository;
+    private final RedisService redisService;
 
     @Transactional
     public boolean join(MemberJoinRequestDto requestDto) {
@@ -61,8 +63,12 @@ public class MemberService {
         }
 
         String accessToken = jwtTokenProvider.createAccessToken(member.getEmail(), member.getRole().name());
+        String refreshToken = jwtTokenProvider.createRefreshToken();
+        redisService.setValues(requestDto.getEmail(), refreshToken);
+
         return TokenResponseDto.builder()
                 .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 
@@ -152,4 +158,17 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public TokenResponseDto reissueAccessToken(TokenReIssueRequestDto requestDto) {
+        Member member = memberRepository.findByEmail(requestDto.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
+
+        jwtTokenProvider.checkRefreshToken(member.getEmail(), requestDto.getRefreshToken());
+
+        String accessToken = jwtTokenProvider.createAccessToken(member.getEmail(), member.getRole().name());
+        return TokenResponseDto.builder()
+                .accessToken(accessToken)
+                .refreshToken(requestDto.getRefreshToken())
+                .build();
+    }
 }
