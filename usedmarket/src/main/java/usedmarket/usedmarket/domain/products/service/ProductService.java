@@ -7,9 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import usedmarket.usedmarket.domain.category.domain.Category;
-import usedmarket.usedmarket.domain.category.domain.CategoryRepository;
 import usedmarket.usedmarket.domain.category.service.CategoryService;
-import usedmarket.usedmarket.domain.member.domain.Member;
 import usedmarket.usedmarket.domain.products.domain.ProductStatus;
 import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductStatusRequestDto;
 import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductAllResponseDto;
@@ -45,12 +43,11 @@ public class ProductService {
 
         product.updateImgPath(fileService.saveFile(requestDto.getFile()));
 
-        Category category = Category.builder()
-                .name(requestDto.getCategory())
-                .build();
-
-        categoryService.saveCategory(category);
-        product.confirmCategory(category);
+        product.confirmCategory(
+                categoryService.saveCategory(Category.builder()
+                        .name(requestDto.getCategory())
+                        .build()
+                ));
 
         productsRepository.save(product);
         product.addSaleStatus();

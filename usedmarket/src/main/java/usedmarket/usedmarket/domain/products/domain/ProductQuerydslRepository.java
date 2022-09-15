@@ -55,4 +55,5 @@ public class ProductQuerydslRepository {
         }
         return product.createdDate.desc(); //default 응답
     }
+
 }
