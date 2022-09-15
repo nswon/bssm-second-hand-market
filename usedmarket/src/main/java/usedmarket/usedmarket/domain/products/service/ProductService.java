@@ -43,11 +43,8 @@ public class ProductService {
 
         product.updateImgPath(fileService.saveFile(requestDto.getFile()));
 
-        product.confirmCategory(
-                categoryService.saveCategory(Category.builder()
-                        .name(requestDto.getCategory())
-                        .build()
-                ));
+        Category category = categoryService.getCategoryByName(requestDto.getCategory());
+        product.confirmCategory(category);
 
         productsRepository.save(product);
         product.addSaleStatus();
@@ -57,7 +54,15 @@ public class ProductService {
     public List<ProductAllResponseDto> findProductAll(int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber, 10);
         return productsRepository.findAll(pageable).stream()
-                .filter(board -> !board.getProductStatus().equals(ProductStatus.COMPLETE))
+                .filter(product -> !product.getProductStatus().equals(ProductStatus.COMPLETE))
+                .map(ProductAllResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<ProductAllResponseDto> findProductByCategory(String name, int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber, 10);
+        return productsRepository.findByCategory(categoryService.getCategoryByName(name), pageable).stream()
+                .filter(product -> !product.getProductStatus().equals(ProductStatus.COMPLETE))
                 .map(ProductAllResponseDto::new)
                 .collect(Collectors.toList());
     }
