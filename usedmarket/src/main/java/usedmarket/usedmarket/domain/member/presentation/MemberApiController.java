@@ -35,7 +35,7 @@ public class MemberApiController {
         return memberService.findMemberById(memberId);
     }
 
-    @GetMapping("/{memberId}/products")
+    @GetMapping("/{memberId}/products/order")
     public List<MemberProductResponseDto> getProductsByOrder(@RequestParam(value = "order") String order) {
         return memberService.getProductsByOrder(order);
     }

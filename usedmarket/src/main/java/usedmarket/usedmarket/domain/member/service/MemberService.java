@@ -151,7 +151,7 @@ public class MemberService {
     }
 
     public List<MemberProductResponseDto> getProductsByOrder(String order) {
-        return productQuerydslRepository.getProductsByKeywordSort(order).stream()
+        return productQuerydslRepository.getProductsByOrder(order).stream()
                 .map(MemberProductResponseDto::new)
                 .collect(Collectors.toList());
     }

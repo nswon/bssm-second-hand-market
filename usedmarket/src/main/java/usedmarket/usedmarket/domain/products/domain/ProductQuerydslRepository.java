@@ -4,7 +4,9 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import usedmarket.usedmarket.domain.category.domain.Category;
 import usedmarket.usedmarket.domain.notification.presentation.response.NotificationResponseDto;
 
 import java.util.List;
@@ -30,9 +32,19 @@ public class ProductQuerydslRepository {
                 .fetch();
     }
 
-    public List<Product> getProductsByKeywordSort(String order) {
+    public List<Product> getProductsByOrder(String order) {
         return queryFactory
                 .selectFrom(product)
+                .orderBy(sortProduct(order))
+                .fetch();
+    }
+
+    public List<Product> getProductByCategoryAndOrder(Category category, String order, Pageable pageable) {
+        return queryFactory
+                .selectFrom(product)
+                .where(product.category.eq(category).and(product.productStatus.eq(ProductStatus.COMPLETE).not()))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .orderBy(sortProduct(order))
                 .fetch();
     }

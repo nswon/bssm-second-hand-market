@@ -36,8 +36,9 @@ public class ProductApiController {
 
     @GetMapping("/categories")
     public List<ProductAllResponseDto> findProductByCategory(@RequestParam String name,
-                                                             @RequestParam(value = "page", defaultValue = "0") int pageNumber) {
-        return productService.findProductByCategory(name, pageNumber);
+                                                             @RequestParam(value = "page", defaultValue = "0") int pageNumber,
+                                                             @RequestParam(value = "order") String order) {
+        return productService.findProductByCategory(name, pageNumber, order);
     }
 
     @PutMapping("/{productId}")

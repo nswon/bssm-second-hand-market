@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import usedmarket.usedmarket.domain.category.domain.Category;
 import usedmarket.usedmarket.domain.category.service.CategoryService;
+import usedmarket.usedmarket.domain.products.domain.ProductQuerydslRepository;
 import usedmarket.usedmarket.domain.products.domain.ProductStatus;
 import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductStatusRequestDto;
 import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductAllResponseDto;
@@ -33,6 +34,7 @@ public class ProductService {
     private final MemberRepository memberRepository;
     private final FileService fileService;
     private final CategoryService categoryService;
+    private final ProductQuerydslRepository productQuerydslRepository;
 
     @Transactional
     public boolean createProduct(ProductRequestDto requestDto) throws IOException {
@@ -59,12 +61,13 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public List<ProductAllResponseDto> findProductByCategory(String name, int pageNumber) {
+    public List<ProductAllResponseDto> findProductByCategory(String name, int pageNumber, String order) {
         Pageable pageable = PageRequest.of(pageNumber, 10);
-        return productsRepository.findByCategory(categoryService.getCategoryByName(name), pageable).stream()
-                .filter(product -> !product.getProductStatus().equals(ProductStatus.COMPLETE))
+        return productQuerydslRepository.getProductByCategoryAndOrder(
+                categoryService.getCategoryByName(name), order, pageable).stream()
                 .map(ProductAllResponseDto::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()
+                );
     }
 
     public ProductDetailResponseDto findProductById(Long productId) {
