@@ -18,6 +18,7 @@ public class ProductDetailResponseDto {
     private String title;
     private int price;
     private int likeNumber;
+    private String categoryName;
     private int view;
     private String status;
     private LocalDateTime createdDate;
@@ -31,6 +32,7 @@ public class ProductDetailResponseDto {
         this.title = product.getTitle();
         this.price = product.getPrice();
         this.likeNumber = product.getProductLikeList().size();
+        this.categoryName = product.getCategory().getName();
         this.view = product.getView();
         this.status = product.getProductStatus().name();
         this.createdDate = product.getCreatedDate();

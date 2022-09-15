@@ -106,8 +106,10 @@ public class ProductService {
             fileService.deleteFile(product.getImgPath());
         }
 
+        Category category = categoryService.getCategoryByName(requestDto.getCategory());
+
         product.updateImgPath(fileService.saveFile(requestDto.getFile()));
-        product.updateProduct(requestDto.getTitle(), requestDto.getPrice(), requestDto.getContent());
+        product.updateProduct(requestDto.getTitle(), requestDto.getPrice(), category, requestDto.getContent());
 
         return product.getId();
     }

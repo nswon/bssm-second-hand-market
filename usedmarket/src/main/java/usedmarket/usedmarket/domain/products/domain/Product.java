@@ -61,9 +61,10 @@ public class Product extends BaseTimeEntity {
         this.content = content;
     }
 
-    public void updateProduct(String title, int price, String content) {
+    public void updateProduct(String title, int price, Category category, String content) {
         this.title = title;
         this.price = price;
+        this.category = category;
         this.content = content;
     }
 
