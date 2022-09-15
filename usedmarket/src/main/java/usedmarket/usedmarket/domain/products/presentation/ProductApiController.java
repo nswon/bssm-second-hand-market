@@ -1,11 +1,11 @@
-package usedmarket.usedmarket.domain.productLike.presentation;
+package usedmarket.usedmarket.domain.products.presentation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import usedmarket.usedmarket.domain.productLike.presentation.dto.request.ProductStatusRequestDto;
-import usedmarket.usedmarket.domain.productLike.presentation.dto.response.ProductDetailResponseDto;
-import usedmarket.usedmarket.domain.productLike.presentation.dto.request.ProductRequestDto;
-import usedmarket.usedmarket.domain.productLike.presentation.dto.response.ProductAllResponseDto;
+import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductStatusRequestDto;
+import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductDetailResponseDto;
+import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductRequestDto;
+import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductAllResponseDto;
 import usedmarket.usedmarket.domain.products.service.ProductService;
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class ProductApiController {
     private final ProductService productService;
 
     @PostMapping("/new")
-    public Long createProduct(ProductRequestDto requestDto) throws IOException {
+    public boolean createProduct(ProductRequestDto requestDto) throws IOException {
         return productService.createProduct(requestDto);
     }
 

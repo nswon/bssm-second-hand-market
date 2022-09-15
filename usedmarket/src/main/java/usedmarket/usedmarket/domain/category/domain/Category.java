@@ -1,6 +1,7 @@
 package usedmarket.usedmarket.domain.category.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import usedmarket.usedmarket.domain.products.domain.Product;
@@ -24,4 +25,12 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     private final List<Product> productList = new ArrayList<>();
+
+    @Builder
+    public Category(String name) {
+        this.name = name;
+    }
+    public void addProduct(Product product) {
+        productList.add(product);
+    }
 }

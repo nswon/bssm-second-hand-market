@@ -1,4 +1,4 @@
-package usedmarket.usedmarket.domain.productLike.presentation.dto.response;
+package usedmarket.usedmarket.domain.products.presentation.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -18,22 +18,20 @@ public class ProductDetailResponseDto {
     private String title;
     private int price;
     private int likeNumber;
-
-    //조회수
-
+    private int view;
     private String status;
     private LocalDateTime createdDate;
     private String nickname;
     private String content;
     private List<ProductMemberResponseDto> relateProduct;
 
-    //조회수 추가
     @Builder
     public ProductDetailResponseDto(Product product) {
         this.imgPath = product.getImgPath();
         this.title = product.getTitle();
         this.price = product.getPrice();
         this.likeNumber = product.getProductLikeList().size();
+        this.view = product.getView();
         this.status = product.getProductStatus().name();
         this.createdDate = product.getCreatedDate();
         this.nickname = product.getWriter().getNickname();

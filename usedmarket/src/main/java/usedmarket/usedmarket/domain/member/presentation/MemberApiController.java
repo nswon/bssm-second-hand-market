@@ -6,6 +6,9 @@ import usedmarket.usedmarket.domain.member.presentation.dto.request.*;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.*;
 import usedmarket.usedmarket.domain.member.service.MemberService;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -42,6 +45,11 @@ public class MemberApiController {
         return memberService.getCompleteProductsById(memberId);
     }
 
+    @GetMapping("/{memberId}/likes")
+    public MemberLikeProductResponseDto getLikeProductsById(@PathVariable("memberId") Long memberId) {
+        return memberService.getLikeProductsById(memberId);
+    }
+
     @GetMapping("/{memberId}/comments")
     public ProductCommentsResponseDto getCommentsById(@PathVariable("memberId") Long memberId) {
         return memberService.getCommentsById(memberId);
@@ -62,8 +70,4 @@ public class MemberApiController {
         return memberService.surveyMember(memberId, requestDto);
     }
 
-    @PostMapping("/reissue")
-    public TokenResponseDto reissueAccessToken(@RequestBody TokenReIssueRequestDto requestDto) {
-        return memberService.reissueAccessToken(requestDto);
-    }
 }

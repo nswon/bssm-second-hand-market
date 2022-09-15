@@ -19,7 +19,7 @@ public class TestController {
 
     @GetMapping("/test")
     public String test() {
-        return "Access Connection";
+        return "Success Connection";
     }
 
     @PostMapping("/upload")

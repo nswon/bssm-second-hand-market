@@ -6,14 +6,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import usedmarket.usedmarket.domain.category.domain.Category;
+import usedmarket.usedmarket.domain.category.domain.CategoryRepository;
+import usedmarket.usedmarket.domain.category.service.CategoryService;
+import usedmarket.usedmarket.domain.member.domain.Member;
 import usedmarket.usedmarket.domain.products.domain.ProductStatus;
-import usedmarket.usedmarket.domain.productLike.presentation.dto.request.ProductStatusRequestDto;
-import usedmarket.usedmarket.domain.productLike.presentation.dto.response.ProductAllResponseDto;
+import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductStatusRequestDto;
+import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductAllResponseDto;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
 import usedmarket.usedmarket.domain.products.domain.Product;
 import usedmarket.usedmarket.domain.products.domain.ProductsRepository;
-import usedmarket.usedmarket.domain.productLike.presentation.dto.request.ProductRequestDto;
-import usedmarket.usedmarket.domain.productLike.presentation.dto.response.ProductDetailResponseDto;
+import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductRequestDto;
+import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductDetailResponseDto;
 import usedmarket.usedmarket.global.file.FileService;
 import usedmarket.usedmarket.global.jwt.SecurityUtil;
 
@@ -30,9 +34,10 @@ public class ProductService {
     private final ProductsRepository productsRepository;
     private final MemberRepository memberRepository;
     private final FileService fileService;
+    private final CategoryService categoryService;
 
     @Transactional
-    public Long createProduct(ProductRequestDto requestDto) throws IOException {
+    public boolean createProduct(ProductRequestDto requestDto) throws IOException {
         Product product = requestDto.toEntity();
 
         product.confirmWriter(memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
@@ -40,9 +45,16 @@ public class ProductService {
 
         product.updateImgPath(fileService.saveFile(requestDto.getFile()));
 
+        Category category = Category.builder()
+                .name(requestDto.getCategory())
+                .build();
+
+        categoryService.saveCategory(category);
+        product.confirmCategory(category);
+
         productsRepository.save(product);
         product.addSaleStatus();
-        return product.getId();
+        return true;
     }
 
     public List<ProductAllResponseDto> findProductAll(int pageNumber) {
@@ -56,7 +68,10 @@ public class ProductService {
     public ProductDetailResponseDto findProductById(Long productId) {
         return productsRepository.findById(productId)
                 .filter(board -> !board.getProductStatus().equals(ProductStatus.COMPLETE))
-                .map(ProductDetailResponseDto::new)
+                .map((product) -> {
+                    product.updateView();
+                    return ProductDetailResponseDto.builder().product(product).build();
+                })
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
     }
 

@@ -1,7 +1,8 @@
-package usedmarket.usedmarket.domain.productLike.presentation.dto.request;
+package usedmarket.usedmarket.domain.products.presentation.dto.request;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
+import usedmarket.usedmarket.domain.category.domain.Category;
 import usedmarket.usedmarket.domain.products.domain.Product;
 
 @Data
@@ -14,6 +15,8 @@ public class ProductRequestDto {
     private int price;
 
     private String content;
+
+    private String category;
 
     public Product toEntity() {
         return Product.builder()

@@ -46,6 +46,8 @@ public class Product extends BaseTimeEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    private int view;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Comment> commentList = new ArrayList<>();
 
@@ -74,6 +76,11 @@ public class Product extends BaseTimeEntity {
         writer.addProduct(this);
     }
 
+    public void confirmCategory(Category category) {
+        this.category = category;
+        category.addProduct(this);
+    }
+
     public void addComment(Comment comment) {
         commentList.add(comment);
     }
@@ -90,4 +97,7 @@ public class Product extends BaseTimeEntity {
         this.productStatus = productStatus;
     }
 
+    public void updateView() {
+        this.view++;
+    }
 }

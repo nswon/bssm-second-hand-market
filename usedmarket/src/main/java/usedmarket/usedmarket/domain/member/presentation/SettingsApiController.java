@@ -1,12 +1,11 @@
 package usedmarket.usedmarket.domain.member.presentation;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberWithdrawalRequestDto;
 import usedmarket.usedmarket.domain.member.service.MemberService;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
