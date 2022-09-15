@@ -2,14 +2,11 @@ package usedmarket.usedmarket.domain.products.domain;
 
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import usedmarket.usedmarket.domain.member.presentation.dto.request.MemberProductRequestDto;
 import usedmarket.usedmarket.domain.notification.presentation.response.NotificationResponseDto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import static usedmarket.usedmarket.domain.products.domain.QProduct.product;
 import static usedmarket.usedmarket.domain.notification.domain.QNotification.notification;
@@ -33,23 +30,23 @@ public class ProductQuerydslRepository {
                 .fetch();
     }
 
-    public List<Product> getProductsBySort(MemberProductRequestDto requestDto) {
+    public List<Product> getProductsByKeywordSort(String order) {
         return queryFactory
                 .selectFrom(product)
-                .orderBy(sortProduct(requestDto.getKeyword()))
+                .orderBy(sortProduct(order))
                 .fetch();
     }
 
     private OrderSpecifier<?> sortProduct(String keyword) {
         if(!keyword.isEmpty()) {
             switch (keyword) {
-                case "최신순" :
+                case "date" :
                     return product.createdDate.desc();
-                case "좋아요순" :
+                case "popular" :
                     return product.productLikeList.size().desc();
-                case "저가순" :
+                case "price_asc" :
                     return product.price.asc();
-                case "고가순" :
+                case "price_desc" :
                     return product.price.desc();
             }
         }
