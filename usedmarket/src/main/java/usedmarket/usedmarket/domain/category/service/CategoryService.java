@@ -16,11 +16,12 @@ public class CategoryService {
 
     @Transactional
     public void createCategory(CategoryRequestDto requestDto) {
+        //이 메서드는 나중에 삭제해야합니다.
         categoryRepository.save(requestDto.toEntity());
     }
 
-    public Category getCategoryByName(String name) {
-        return categoryRepository.findByName(name)
+    public Category getCategoryByName(String categoryName) {
+        return categoryRepository.findByName(categoryName)
                 .orElseThrow(() -> new IllegalArgumentException("카테고리가 존재하지 않습니다."));
     }
 }

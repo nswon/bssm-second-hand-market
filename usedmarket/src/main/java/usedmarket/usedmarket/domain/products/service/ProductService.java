@@ -61,10 +61,10 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public List<ProductAllResponseDto> findProductByCategory(String name, int pageNumber, String order) {
+    public List<ProductAllResponseDto> findProductByCategory(String categoryName, int pageNumber, String order) {
         Pageable pageable = PageRequest.of(pageNumber, 10);
         return productQuerydslRepository.getProductByCategoryAndOrder(
-                categoryService.getCategoryByName(name), order, pageable).stream()
+                categoryService.getCategoryByName(categoryName), order, pageable).stream()
                 .map(ProductAllResponseDto::new)
                 .collect(Collectors.toList()
                 );

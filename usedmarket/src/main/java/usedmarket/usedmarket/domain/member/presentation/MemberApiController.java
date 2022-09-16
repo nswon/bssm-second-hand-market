@@ -46,8 +46,9 @@ public class MemberApiController {
     }
 
     @GetMapping("/{memberId}/likes")
-    public MemberLikeProductResponseDto getLikeProductsById(@PathVariable("memberId") Long memberId) {
-        return memberService.getLikeProductsById(memberId);
+    public List<LikeProductResponseDto> getLikeProductsById(@PathVariable("memberId") Long memberId,
+                                                            @RequestParam(value = "order")String order) {
+        return memberService.getLikeProductsById(memberId, order);
     }
 
     @GetMapping("/{memberId}/comments")

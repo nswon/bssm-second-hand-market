@@ -10,6 +10,7 @@ import usedmarket.usedmarket.domain.member.domain.Member;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
 import usedmarket.usedmarket.domain.member.presentation.dto.request.*;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.*;
+import usedmarket.usedmarket.domain.productLike.domain.ProductLikeQuerydslRepository;
 import usedmarket.usedmarket.domain.products.domain.ProductQuerydslRepository;
 import usedmarket.usedmarket.global.file.FileService;
 import usedmarket.usedmarket.global.jwt.JwtTokenProvider;
@@ -35,6 +36,7 @@ public class MemberService {
     private final JwtTokenProvider jwtTokenProvider;
     private final FileService fileService;
     private final ProductQuerydslRepository productQuerydslRepository;
+    private final ProductLikeQuerydslRepository productLikeQuerydslRepository;
 
     @Transactional
     public boolean join(MemberJoinRequestDto requestDto) {
@@ -141,13 +143,13 @@ public class MemberService {
         return member.getId();
     }
 
-    public MemberLikeProductResponseDto getLikeProductsById(Long memberId) {
+    public List<LikeProductResponseDto> getLikeProductsById(Long memberId, String order) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
 
-        return MemberLikeProductResponseDto.builder()
-                .member(member)
-                .build();
+        return productLikeQuerydslRepository.getProductLikeByMember(member, order).stream()
+                .map(LikeProductResponseDto::new)
+                .collect(Collectors.toList());
     }
 
     public List<MemberProductResponseDto> getProductsByOrder(String order) {

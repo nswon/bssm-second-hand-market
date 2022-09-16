@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import usedmarket.usedmarket.domain.productLike.domain.ProductLike;
-import usedmarket.usedmarket.domain.productLike.domain.BoardLikeRepository;
+import usedmarket.usedmarket.domain.productLike.domain.ProductLikeRepository;
 import usedmarket.usedmarket.domain.products.domain.Product;
 import usedmarket.usedmarket.domain.products.domain.ProductsRepository;
 import usedmarket.usedmarket.domain.member.domain.Member;
@@ -16,7 +16,7 @@ import usedmarket.usedmarket.global.jwt.SecurityUtil;
 @Transactional
 public class ProductLikeService {
 
-    private final BoardLikeRepository boardLikeRepository;
+    private final ProductLikeRepository productLikeRepository;
     private final ProductsRepository productsRepository;
     private final MemberRepository memberRepository;
 
@@ -27,8 +27,8 @@ public class ProductLikeService {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
-        if(boardLikeRepository.existsByProductAndMember(product, member)) {
-            boardLikeRepository.deleteByProductAndMember(product, member);
+        if(productLikeRepository.existsByProductAndMember(product, member)) {
+            productLikeRepository.deleteByProductAndMember(product, member);
         }
         else {
             ProductLike productLike = ProductLike.builder()
@@ -39,7 +39,7 @@ public class ProductLikeService {
             productLike.confirmProduct(product);
             productLike.confirmMember(member);
 
-            boardLikeRepository.save(productLike);
+            productLikeRepository.save(productLike);
         }
     }
 }
