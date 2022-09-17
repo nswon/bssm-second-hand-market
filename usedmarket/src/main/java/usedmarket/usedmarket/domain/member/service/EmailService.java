@@ -17,13 +17,25 @@ import java.util.Random;
 public class EmailService {
 
     private final JavaMailSender javaMailSender;
+    private static String ePw;
 
-    public static final String ePw = createKey();
+    public static void createKey() {
+        StringBuffer key = new StringBuffer();
+        Random rnd = new Random();
+
+        for (int i = 0; i < 8; i++) {
+            key.append((rnd.nextInt(10)));
+        }
+
+        ePw = String.valueOf(key);
+    }
 
     private MimeMessage createMessage(String email) throws Exception {
 
-        System.out.println("보내는 대상 : " + email);
-        System.out.println("인증 번호 : " + ePw);
+        createKey();
+        log.info("보내는 대상 : " + email);
+        log.info("인증 번호 : " + ePw);
+
         MimeMessage message = javaMailSender.createMimeMessage();
 
         message.addRecipients(Message.RecipientType.TO, email);
@@ -50,27 +62,14 @@ public class EmailService {
         return message;
     }
 
-    public static String createKey() {
-        StringBuffer key = new StringBuffer();
-        Random rnd = new Random();
-
-        for (int i = 0; i < 8; i++) {
-            key.append((rnd.nextInt(10)));
-        }
-
-        return key.toString();
-    }
-
-    public String sendSimpleMessage(String email) throws Exception {
+    public void sendSimpleMessage(String email) throws Exception {
         MimeMessage message = createMessage(email);
         try{//예외처리
             javaMailSender.send(message);
         }catch(MailException es){
-            log.info("획인 : " +es.getMessage());
             es.printStackTrace();
             throw new IllegalArgumentException();
         }
-        return ePw;
     }
 
     public boolean verityCode(String code) {
