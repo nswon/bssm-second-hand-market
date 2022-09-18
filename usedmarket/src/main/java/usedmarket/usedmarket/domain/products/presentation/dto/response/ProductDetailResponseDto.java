@@ -28,7 +28,7 @@ public class ProductDetailResponseDto {
 
     @Builder
     public ProductDetailResponseDto(Product product) {
-        this.imgPath = product.getImgPath();
+        this.imgPath = product.getGetImgUrl();
         this.title = product.getTitle();
         this.price = product.getPrice();
         this.likeNumber = product.getProductLikeList().size();

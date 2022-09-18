@@ -43,7 +43,8 @@ public class ProductService {
         product.confirmWriter(memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요.")));
 
-        product.updateImgPath(fileService.saveFile(requestDto.getFile()));
+        product.updateImgPath(fileService.saveFile(requestDto.getFile()).getImgPath());
+        product.updateGetImgUrl(fileService.saveFile(requestDto.getFile()).getGetImgUrl());
 
         Category category = categoryService.getCategoryByName(requestDto.getCategory());
         product.confirmCategory(category);
@@ -111,7 +112,8 @@ public class ProductService {
 
         Category category = categoryService.getCategoryByName(requestDto.getCategory());
 
-        product.updateImgPath(fileService.saveFile(requestDto.getFile()));
+        product.updateImgPath(fileService.saveFile(requestDto.getFile()).getImgPath());
+        product.updateGetImgUrl(fileService.saveFile(requestDto.getFile()).getGetImgUrl());
         product.updateProduct(requestDto.getTitle(), requestDto.getPrice(), category, requestDto.getContent());
 
         return product.getId();

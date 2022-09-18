@@ -30,6 +30,8 @@ public class Product extends BaseTimeEntity {
 
     private String imgPath;
 
+    private String getImgUrl;
+
     private int price;
 
     @Column(columnDefinition = "TEXT")
@@ -70,6 +72,10 @@ public class Product extends BaseTimeEntity {
 
     public void updateImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    public void updateGetImgUrl(String getImgUrl) {
+        this.getImgUrl = getImgUrl;
     }
 
     public void confirmWriter(Member writer) {

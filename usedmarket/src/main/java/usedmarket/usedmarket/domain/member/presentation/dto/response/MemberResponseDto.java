@@ -20,7 +20,7 @@ public class MemberResponseDto {
 
     @Builder
     public MemberResponseDto(Member member) {
-        this.imgPath = member.getImgPath();
+        this.imgPath = member.getGetImgUrl();
         this.nickname = member.getNickname();
         this.countProducts = member.getProductList().size();
         this.mannerTemperature = member.getMannerTemperature();

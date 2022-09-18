@@ -2,6 +2,7 @@ package usedmarket.usedmarket.global.file;
 
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -21,10 +22,10 @@ public class FileService {
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
-
     private final AmazonS3 amazonS3;
+    private final AmazonS3Client amazonS3Client;
 
-    public String saveFile(MultipartFile multipartFile) throws IOException {
+    public FileResponseDto saveFile(MultipartFile multipartFile) throws IOException {
         String imgPath = UUID.randomUUID() + "_" + multipartFile.getOriginalFilename();
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getSize());
@@ -32,10 +33,13 @@ public class FileService {
         amazonS3.putObject(new PutObjectRequest(bucket, imgPath, multipartFile.getInputStream(), objectMetadata)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
 
-        return imgPath;
+        return FileResponseDto.builder()
+                .imgPath(imgPath)
+                .getImgUrl(String.valueOf(amazonS3Client.getUrl(bucket, imgPath)))
+                .build();
     }
 
     public void deleteFile(String imgPath) {
-        amazonS3.deleteObject(bucket, imgPath);
+        amazonS3.deleteObject(new DeleteObjectRequest(bucket, imgPath));
     }
 }
