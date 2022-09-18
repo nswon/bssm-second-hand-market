@@ -70,5 +70,4 @@ public class MemberApiController {
     public Long surveyMember(@PathVariable("memberId") Long memberId, @RequestBody MemberSurveyRequestDto requestDto) {
         return memberService.surveyMember(memberId, requestDto);
     }
-
 }
