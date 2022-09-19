@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class ProductDetailResponseDto {
 
+    private Long id;
     private String imgUrl;
     private String title;
     private int price;
@@ -28,6 +29,7 @@ public class ProductDetailResponseDto {
 
     @Builder
     public ProductDetailResponseDto(Product product) {
+        this.id = product.getId();
         this.imgUrl = product.getImgUrl();
         this.title = product.getTitle();
         this.price = product.getPrice();

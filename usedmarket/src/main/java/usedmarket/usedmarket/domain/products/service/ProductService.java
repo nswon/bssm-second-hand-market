@@ -56,14 +56,14 @@ public class ProductService {
     }
 
     public List<ProductAllResponseDto> findProductAll(int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber, 8);
+        Pageable pageable = PageRequest.of(pageNumber, 20);
         return productQuerydslRepository.findAllByCreatedDate(pageable).stream()
                 .map(ProductAllResponseDto::new)
                 .collect(Collectors.toList());
     }
 
     public List<ProductAllResponseDto> findProductByCategory(String categoryName, int pageNumber, String order) {
-        Pageable pageable = PageRequest.of(pageNumber, 8);
+        Pageable pageable = PageRequest.of(pageNumber, 20);
         return productQuerydslRepository.getProductByCategoryAndOrder(
                 categoryService.getCategoryByName(categoryName), order, pageable).stream()
                 .map(ProductAllResponseDto::new)
@@ -90,7 +90,7 @@ public class ProductService {
     }
 
     public List<ProductAllResponseDto> searchProducts(String keyword, int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber, 8);
+        Pageable pageable = PageRequest.of(pageNumber, 20);
         return productsRepository.findByTitleContaining(keyword, pageable).stream()
                 .filter(board -> !board.getProductStatus().equals(ProductStatus.COMPLETE))
                 .map(ProductAllResponseDto::new)

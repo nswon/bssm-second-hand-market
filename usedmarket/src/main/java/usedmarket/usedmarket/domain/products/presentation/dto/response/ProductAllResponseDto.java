@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 public class ProductAllResponseDto {
 
+    private Long id;
     private String imgUrl;
     private String status;
     private String title;
@@ -21,6 +22,7 @@ public class ProductAllResponseDto {
 
     @Builder
     public ProductAllResponseDto(Product product) {
+        this.id = product.getId();
         this.imgUrl = product.getImgUrl();
         this.status = product.getProductStatus().name();
         this.title = product.getTitle();
