@@ -6,9 +6,6 @@ import usedmarket.usedmarket.domain.member.presentation.dto.request.*;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.*;
 import usedmarket.usedmarket.domain.member.service.MemberService;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;

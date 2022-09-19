@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class MemberResponseDto {
 
-    private String imgPath;
+    private String imgUrl;
     private String nickname;
     private int countProducts;
     private double mannerTemperature;
@@ -20,7 +20,7 @@ public class MemberResponseDto {
 
     @Builder
     public MemberResponseDto(Member member) {
-        this.imgPath = member.getGetImgUrl();
+        this.imgUrl = member.getImgUrl();
         this.nickname = member.getNickname();
         this.countProducts = member.getProductList().size();
         this.mannerTemperature = member.getMannerTemperature();

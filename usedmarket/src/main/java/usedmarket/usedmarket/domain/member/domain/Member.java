@@ -26,7 +26,7 @@ public class Member extends BaseTimeEntity {
 
     private String imgPath;
 
-    private String getImgUrl;
+    private String imgUrl;
 
     @Column(nullable = false)
     private String email;
@@ -95,12 +95,9 @@ public class Member extends BaseTimeEntity {
         this.password = passwordEncoder.encode(password);
     }
 
-    public void updateImgPath(String imgPath) {
+    public void updateFile(String imgPath, String imgUrl) {
         this.imgPath = imgPath;
-    }
-
-    public void updateGetImgUrl(String getImgUrl) {
-        this.getImgUrl = getImgUrl;
+        this.imgUrl = imgUrl;
     }
 
     public void updateMannerTemperature(MemberSurveyRequestDto requestDto) {

@@ -19,6 +19,16 @@ public class ProductQuerydslRepository {
 
     private final JPAQueryFactory queryFactory;
 
+    public List<Product> findAllByCreatedDate(Pageable pageable) {
+        return queryFactory
+                .selectFrom(product)
+                .where(product.productStatus.eq(ProductStatus.COMPLETE).not())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(product.createdDate.desc())
+                .fetch();
+    }
+
     public List<NotificationResponseDto> getProductsByKeywordAndCreatedDate(String keyword) {
         return queryFactory
                 .select(Projections.constructor(NotificationResponseDto.class,

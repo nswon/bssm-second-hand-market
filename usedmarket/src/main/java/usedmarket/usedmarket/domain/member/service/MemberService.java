@@ -12,6 +12,7 @@ import usedmarket.usedmarket.domain.member.presentation.dto.request.*;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.*;
 import usedmarket.usedmarket.domain.productLike.domain.ProductLikeQuerydslRepository;
 import usedmarket.usedmarket.domain.products.domain.ProductQuerydslRepository;
+import usedmarket.usedmarket.global.file.FileResponseDto;
 import usedmarket.usedmarket.global.file.FileService;
 import usedmarket.usedmarket.global.jwt.JwtTokenProvider;
 import usedmarket.usedmarket.global.jwt.SecurityUtil;
@@ -26,9 +27,6 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @Slf4j
 public class MemberService {
-
-    @Value("${file.dir}")
-    private String fileDir;
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
@@ -104,8 +102,9 @@ public class MemberService {
         if(!member.getImgPath().isEmpty()) {
             fileService.deleteFile(member.getImgPath());
         }
-        member.updateImgPath(fileService.saveFile(requestDto.getFile()).getImgPath());
-        member.updateGetImgUrl(fileService.saveFile(requestDto.getFile()).getImgUrl());
+
+        FileResponseDto fileResponseDto = fileService.saveFile(requestDto.getFile());
+        member.updateFile(fileResponseDto.getImgPath(), fileResponseDto.getImgUrl());
 
         member.updateMember(requestDto.getNickname());
     }

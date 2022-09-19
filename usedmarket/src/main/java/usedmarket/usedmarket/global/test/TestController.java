@@ -14,24 +14,8 @@ import java.util.UUID;
 @Slf4j
 public class TestController {
 
-    @Value("${file.dir}")
-    private String fileDir;
-
     @GetMapping("/test")
     public String test() {
         return "Success Connection";
-    }
-
-    @PostMapping("/upload")
-    public void upload(TestDto dto) throws IOException {
-
-        for(MultipartFile file : dto.getFile()) {
-            String originFilename = file.getOriginalFilename();
-            String saveFilename = UUID.randomUUID() + "_" + originFilename;
-            File save = new File(fileDir + saveFilename);
-            file.transferTo(save);
-        }
-
-        log.info("테스트 가격입니다." + dto.getPrice());
     }
 }
