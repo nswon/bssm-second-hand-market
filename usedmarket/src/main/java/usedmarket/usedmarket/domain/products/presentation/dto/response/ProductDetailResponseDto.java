@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class ProductDetailResponseDto {
 
-    private String imgPath;
+    private String imgUrl;
     private String title;
     private int price;
     private int likeNumber;
@@ -28,7 +28,7 @@ public class ProductDetailResponseDto {
 
     @Builder
     public ProductDetailResponseDto(Product product) {
-        this.imgPath = product.getGetImgUrl();
+        this.imgUrl = product.getImgUrl();
         this.title = product.getTitle();
         this.price = product.getPrice();
         this.likeNumber = product.getProductLikeList().size();

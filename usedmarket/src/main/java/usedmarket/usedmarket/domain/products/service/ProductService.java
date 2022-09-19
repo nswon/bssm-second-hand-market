@@ -17,6 +17,7 @@ import usedmarket.usedmarket.domain.products.domain.Product;
 import usedmarket.usedmarket.domain.products.domain.ProductsRepository;
 import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductRequestDto;
 import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductDetailResponseDto;
+import usedmarket.usedmarket.global.file.FileResponseDto;
 import usedmarket.usedmarket.global.file.FileService;
 import usedmarket.usedmarket.global.jwt.SecurityUtil;
 
@@ -43,8 +44,8 @@ public class ProductService {
         product.confirmWriter(memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요.")));
 
-        product.updateImgPath(fileService.saveFile(requestDto.getFile()).getImgPath());
-        product.updateGetImgUrl(fileService.saveFile(requestDto.getFile()).getGetImgUrl());
+        FileResponseDto fileResponseDto = fileService.saveFile(requestDto.getFile());
+        product.updateFile(fileResponseDto.getImgPath(), fileResponseDto.getImgUrl());
 
         Category category = categoryService.getCategoryByName(requestDto.getCategory());
         product.confirmCategory(category);
@@ -112,8 +113,8 @@ public class ProductService {
 
         Category category = categoryService.getCategoryByName(requestDto.getCategory());
 
-        product.updateImgPath(fileService.saveFile(requestDto.getFile()).getImgPath());
-        product.updateGetImgUrl(fileService.saveFile(requestDto.getFile()).getGetImgUrl());
+        FileResponseDto fileResponseDto = fileService.saveFile(requestDto.getFile());
+        product.updateFile(fileResponseDto.getImgPath(), fileResponseDto.getImgUrl());
         product.updateProduct(requestDto.getTitle(), requestDto.getPrice(), category, requestDto.getContent());
 
         return product.getId();

@@ -105,7 +105,7 @@ public class MemberService {
             fileService.deleteFile(member.getImgPath());
         }
         member.updateImgPath(fileService.saveFile(requestDto.getFile()).getImgPath());
-        member.updateGetImgUrl(fileService.saveFile(requestDto.getFile()).getGetImgUrl());
+        member.updateGetImgUrl(fileService.saveFile(requestDto.getFile()).getImgUrl());
 
         member.updateMember(requestDto.getNickname());
     }

@@ -35,7 +35,7 @@ public class FileService {
 
         return FileResponseDto.builder()
                 .imgPath(imgPath)
-                .getImgUrl(String.valueOf(amazonS3Client.getUrl(bucket, imgPath)))
+                .imgUrl(String.valueOf(amazonS3Client.getUrl(bucket, imgPath)))
                 .build();
     }
 

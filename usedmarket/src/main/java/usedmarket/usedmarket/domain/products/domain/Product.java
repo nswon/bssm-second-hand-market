@@ -30,7 +30,7 @@ public class Product extends BaseTimeEntity {
 
     private String imgPath;
 
-    private String getImgUrl;
+    private String imgUrl;
 
     private int price;
 
@@ -70,12 +70,9 @@ public class Product extends BaseTimeEntity {
         this.content = content;
     }
 
-    public void updateImgPath(String imgPath) {
+    public void updateFile(String imgPath, String imgUrl) {
         this.imgPath = imgPath;
-    }
-
-    public void updateGetImgUrl(String getImgUrl) {
-        this.getImgUrl = getImgUrl;
+        this.imgUrl = imgUrl;
     }
 
     public void confirmWriter(Member writer) {
