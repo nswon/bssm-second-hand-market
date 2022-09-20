@@ -7,12 +7,8 @@ import usedmarket.usedmarket.domain.products.domain.ProductsRepository;
 import usedmarket.usedmarket.domain.comment.domain.Comment;
 import usedmarket.usedmarket.domain.comment.domain.CommentRepository;
 import usedmarket.usedmarket.domain.comment.presentation.dto.request.CommentRequestDto;
-import usedmarket.usedmarket.domain.comment.presentation.dto.response.CommentResponseDto;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
-import usedmarket.usedmarket.global.jwt.SecurityUtil;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import usedmarket.usedmarket.global.security.jwt.SecurityUtil;
 
 @Service
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package usedmarket.usedmarket.global.jwt;
+package usedmarket.usedmarket.global.security.auth;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

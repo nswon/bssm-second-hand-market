@@ -1,4 +1,4 @@
-package usedmarket.usedmarket.global.config;
+package usedmarket.usedmarket.global.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,9 +13,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import usedmarket.usedmarket.global.jwt.CustomUserDetailsService;
-import usedmarket.usedmarket.global.jwt.JwtAuthenticationFilter;
-import usedmarket.usedmarket.global.jwt.JwtTokenProvider;
+import usedmarket.usedmarket.global.security.auth.CustomUserDetailsService;
+import usedmarket.usedmarket.global.security.jwt.JwtAuthenticationFilter;
+import usedmarket.usedmarket.global.security.jwt.JwtTokenProvider;
 
 import java.util.Arrays;
 

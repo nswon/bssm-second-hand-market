@@ -19,7 +19,7 @@ import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductReq
 import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductDetailResponseDto;
 import usedmarket.usedmarket.global.file.FileResponseDto;
 import usedmarket.usedmarket.global.file.FileService;
-import usedmarket.usedmarket.global.jwt.SecurityUtil;
+import usedmarket.usedmarket.global.security.jwt.SecurityUtil;
 
 import java.io.IOException;
 import java.util.List;

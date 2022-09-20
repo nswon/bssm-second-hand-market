@@ -11,7 +11,7 @@ import usedmarket.usedmarket.domain.notification.domain.NotificationRepository;
 import usedmarket.usedmarket.domain.notification.presentation.request.NotificationRequestDto;
 import usedmarket.usedmarket.domain.notification.presentation.response.NotificationResponseDto;
 import usedmarket.usedmarket.domain.products.domain.ProductQuerydslRepository;
-import usedmarket.usedmarket.global.jwt.SecurityUtil;
+import usedmarket.usedmarket.global.security.jwt.SecurityUtil;
 
 import java.util.ArrayList;
 import java.util.List;

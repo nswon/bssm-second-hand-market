@@ -9,7 +9,7 @@ import usedmarket.usedmarket.domain.products.domain.Product;
 import usedmarket.usedmarket.domain.products.domain.ProductsRepository;
 import usedmarket.usedmarket.domain.member.domain.Member;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
-import usedmarket.usedmarket.global.jwt.SecurityUtil;
+import usedmarket.usedmarket.global.security.jwt.SecurityUtil;
 
 @Service
 @RequiredArgsConstructor

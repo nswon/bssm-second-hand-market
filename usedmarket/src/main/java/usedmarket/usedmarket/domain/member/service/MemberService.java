@@ -2,7 +2,6 @@ package usedmarket.usedmarket.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +13,8 @@ import usedmarket.usedmarket.domain.productLike.domain.ProductLikeQuerydslReposi
 import usedmarket.usedmarket.domain.products.domain.ProductQuerydslRepository;
 import usedmarket.usedmarket.global.file.FileResponseDto;
 import usedmarket.usedmarket.global.file.FileService;
-import usedmarket.usedmarket.global.jwt.JwtTokenProvider;
-import usedmarket.usedmarket.global.jwt.SecurityUtil;
+import usedmarket.usedmarket.global.security.jwt.JwtTokenProvider;
+import usedmarket.usedmarket.global.security.jwt.SecurityUtil;
 
 import javax.servlet.http.Cookie;
 import java.io.IOException;
