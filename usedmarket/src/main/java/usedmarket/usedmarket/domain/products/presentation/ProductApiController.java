@@ -24,8 +24,8 @@ public class ProductApiController {
     }
 
     @GetMapping("")
-    public List<ProductAllResponseDto> findProductAll(@RequestParam(value = "page", defaultValue= "0") int pageNumber) {
-        return productService.findProductAll(pageNumber);
+    public List<ProductAllResponseDto> findProductAll(@RequestParam(value = "productId", defaultValue = "-1") Long productId) {
+        return productService.findProductAll(productId);
     }
 
     @GetMapping("/{productId}")

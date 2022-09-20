@@ -55,11 +55,19 @@ public class ProductService {
         return true;
     }
 
-    public List<ProductAllResponseDto> findProductAll(int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber, 20);
-        return productQuerydslRepository.findAllByCreatedDate(pageable).stream()
-                .map(ProductAllResponseDto::new)
-                .collect(Collectors.toList());
+    public List<ProductAllResponseDto> findProductAll(Long productId) {
+        Pageable pageable = PageRequest.of(0, 20);
+
+        if(productId == -1) {
+            return productQuerydslRepository.getProductByCreatedDate().stream()
+                    .map(ProductAllResponseDto::new)
+                    .collect(Collectors.toList());
+        }
+        else {
+            return productQuerydslRepository.getProductAllByCreatedDate(productId, pageable).stream()
+                    .map(ProductAllResponseDto::new)
+                    .collect(Collectors.toList());
+        }
     }
 
     public List<ProductAllResponseDto> findProductByCategory(String categoryName, int pageNumber, String order) {

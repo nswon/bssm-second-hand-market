@@ -19,13 +19,23 @@ public class ProductQuerydslRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public List<Product> findAllByCreatedDate(Pageable pageable) {
+    public List<Product> getProductByCreatedDate() {
+        return queryFactory
+                .selectFrom(product)
+                .where(product.productStatus.eq(ProductStatus.COMPLETE).not())
+                .limit(20)
+                .orderBy(product.createdDate.desc())
+                .fetch();
+    }
+
+    public List<Product> getProductAllByCreatedDate(Long productId, Pageable pageable) {
         return queryFactory
                 .selectFrom(product)
                 .where(product.productStatus.eq(ProductStatus.COMPLETE).not())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(product.createdDate.desc())
+                .where(product.id.lt(productId))
                 .fetch();
     }
 
