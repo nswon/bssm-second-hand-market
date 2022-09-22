@@ -1,4 +1,4 @@
-package usedmarket.usedmarket.domain.chat.presentation.dto.request;
+package usedmarket.usedmarket.domain.chat.presentation;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ public class ChatMessage {
     }
 
     private MessageType type;
-    private Long roomId;
+    private String roomId;
     private String sender;
     private String message;
 }

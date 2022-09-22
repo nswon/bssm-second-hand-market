@@ -48,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/like/**").hasRole("USER")
                 .antMatchers("/notification/**").hasRole("USER")
                 .antMatchers("/api/**").permitAll()
+                .antMatchers("/ws/chat/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, customUserDetailsService),

@@ -26,8 +26,8 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.webjars:sockjs-client:1.5.1'
-	implementation 'org.webjars:stomp-websocket:2.3.4'
+//	implementation 'org.webjars:sockjs-client:1.5.1'
+//	implementation 'org.webjars:stomp-websocket:2.3.4'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"

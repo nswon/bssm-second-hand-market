@@ -6,11 +6,13 @@ import usedmarket.usedmarket.domain.products.domain.Product;
 @Getter
 public class ProductMemberResponseDto {
 
-    private String imgPath;
+    private Long id;
+    private String imgUrl;
     private String title;
 
     public ProductMemberResponseDto(Product product) {
-        this.imgPath = product.getImgPath();
+        this.id = product.getId();
+        this.imgUrl = product.getImgUrl();
         this.title = product.getTitle();
     }
 }
