@@ -3,6 +3,9 @@ package usedmarket.usedmarket.domain.chat.presentation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import usedmarket.usedmarket.domain.chat.domain.ChatRoom;
+import usedmarket.usedmarket.domain.chat.presentation.dto.response.ChatAllResponseDto;
+import usedmarket.usedmarket.domain.chat.presentation.dto.response.ChatDetailResponseDto;
+import usedmarket.usedmarket.domain.chat.presentation.dto.response.ChatResponseDto;
 import usedmarket.usedmarket.domain.chat.service.ChatService;
 
 import java.util.List;
@@ -14,16 +17,18 @@ public class ChatRoomApiController {
 
     private final ChatService chatService;
 
-    @PostMapping
-    public ChatRoom createRoom(@RequestBody String name) {
-        return chatService.createRoom(name);
+    @GetMapping("/room")
+    public ChatResponseDto createChatRoom(@RequestParam("productId") Long productId) {
+        return chatService.createRoom(productId);
     }
 
-    @GetMapping("findAll")
-    public List<ChatRoom> findAllRoom() {
-        return chatService.findAllRoom();
+    @GetMapping("")
+    public List<ChatAllResponseDto> findAllRoom() {
+        return chatService.findChatRoomAll();
     }
 
-    @GetMapping("/content")
-    public List<String> findContent() { return chatService.findContent(); }
+    @GetMapping("/room/{roomId}")
+    public ChatDetailResponseDto findChatByRoomId(@PathVariable("roomId") Long roomId) {
+        return chatService.findChatByRoomId(roomId);
+    }
 }
