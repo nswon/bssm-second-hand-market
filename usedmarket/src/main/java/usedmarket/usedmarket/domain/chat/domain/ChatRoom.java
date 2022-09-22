@@ -27,8 +27,8 @@ public class ChatRoom {
             sessions.add(session);
             chatMessage.setMessage(chatMessage.getSender() + "님이 입장했습니다.");
         }
+        chatService.saveMessage(chatMessage.getMessage());
         sendMessage(chatMessage, chatService);
-
     }
 
     private <T> void sendMessage(T message, ChatService chatService) {

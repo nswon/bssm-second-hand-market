@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import usedmarket.usedmarket.domain.chat.domain.ChatRoom;
@@ -18,10 +17,12 @@ import java.util.*;
 public class ChatService {
     private final ObjectMapper objectMapper;
     private Map<String, ChatRoom> chatRooms;
+    private List<String> content;
 
     @PostConstruct
     private void init() {
         chatRooms = new LinkedHashMap<>();
+        content = new ArrayList<>();
     }
 
     public List<ChatRoom> findAllRoom() {
@@ -29,7 +30,6 @@ public class ChatService {
     }
 
     public ChatRoom findRoomById(String roomId) {
-        log.info("찾아온 채팅방 = " + chatRooms.get(roomId));
         return chatRooms.get(roomId);
     }
 
@@ -41,6 +41,14 @@ public class ChatService {
                 .build();
         chatRooms.put(randomId, chatRoom);
         return chatRoom;
+    }
+
+    public List<String> findContent() {
+        return content;
+    }
+
+    public void saveMessage(String message) {
+        content.add(message);
     }
 
     public <T> void sendMessage(WebSocketSession session, T message) {

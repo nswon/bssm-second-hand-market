@@ -19,8 +19,11 @@ public class ChatRoomApiController {
         return chatService.createRoom(name);
     }
 
-    @GetMapping
+    @GetMapping("findAll")
     public List<ChatRoom> findAllRoom() {
         return chatService.findAllRoom();
     }
+
+    @GetMapping("/content")
+    public List<String> findContent() { return chatService.findContent(); }
 }

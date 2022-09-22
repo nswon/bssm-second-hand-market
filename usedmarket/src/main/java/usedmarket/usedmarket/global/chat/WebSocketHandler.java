@@ -23,6 +23,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
         log.info("{}", payload);
+        log.info("session = " + session);
         ChatMessage chatMessage = objectMapper.readValue(payload, ChatMessage.class);
 
         ChatRoom chatRoom = chatService.findRoomById(chatMessage.getRoomId());
