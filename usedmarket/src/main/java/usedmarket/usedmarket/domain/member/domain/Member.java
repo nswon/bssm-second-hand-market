@@ -49,10 +49,10 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Comment> commentList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<ProductLike> productLikeList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Notification> notificationList = new ArrayList<>();
 
     @Builder
@@ -101,23 +101,24 @@ public class Member extends BaseTimeEntity {
     }
 
     public void updateMannerTemperature(MemberSurveyRequestDto requestDto) {
-        if(requestDto.getSurveyNumber() == 5) {
-            this.mannerTemperature += requestDto.getSurveyNumber();
-        }
-        else if(requestDto.getSurveyNumber() == 4) {
-            this.mannerTemperature += requestDto.getSurveyNumber();
-        }
-        else if(requestDto.getSurveyNumber() == 3) {
-            this.mannerTemperature += requestDto.getSurveyNumber();
-        }
-        else if(requestDto.getSurveyNumber() == 2) {
-            this.mannerTemperature += requestDto.getSurveyNumber();
-        }
-        else if(requestDto.getSurveyNumber() == 1) {
-            this.mannerTemperature += requestDto.getSurveyNumber();
-        }
-        else {
-            throw new IllegalArgumentException("양식에 맞지 않습니다.");
+        switch (requestDto.getSurveyNumber()) {
+            case 5 :
+                this.mannerTemperature += 5;
+                break;
+            case 4 :
+                this.mannerTemperature += 3;
+                break;
+            case 3 :
+                this.mannerTemperature += 0;
+                break;
+            case 2 :
+                this.mannerTemperature -= 3;
+                break;
+            case 1 :
+                this.mannerTemperature -= 5;
+                break;
+            default:
+                throw new IllegalArgumentException("설문 양식에 맞지 않습니다.");
         }
     }
 

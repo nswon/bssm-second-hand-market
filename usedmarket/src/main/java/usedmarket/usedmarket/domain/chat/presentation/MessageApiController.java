@@ -2,7 +2,6 @@ package usedmarket.usedmarket.domain.chat.presentation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.RestController;
 import usedmarket.usedmarket.domain.chat.presentation.dto.request.ChatMessage;
 import usedmarket.usedmarket.domain.chat.service.ChatService;
