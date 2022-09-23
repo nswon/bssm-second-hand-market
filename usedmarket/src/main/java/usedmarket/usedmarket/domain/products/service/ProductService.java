@@ -90,11 +90,12 @@ public class ProductService {
     }
 
     @Transactional
-    public void updateProductStatus(Long productId, ProductStatusRequestDto requestDto) {
+    public boolean updateProductStatus(Long productId, ProductStatusRequestDto requestDto) {
         Product product = productsRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
 
         product.updateStatus(requestDto.getStatus());
+        return true;
     }
 
     public List<ProductAllResponseDto> searchProducts(String keyword, int pageNumber) {
@@ -106,7 +107,7 @@ public class ProductService {
     }
 
     @Transactional
-    public Long updateProduct(Long productId, ProductRequestDto requestDto) throws IOException {
+    public boolean updateProduct(Long productId, ProductRequestDto requestDto) throws IOException {
         Product product = productsRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
 
@@ -123,12 +124,11 @@ public class ProductService {
         FileResponseDto fileResponseDto = fileService.saveFile(requestDto.getFile());
         product.updateFile(fileResponseDto.getImgPath(), fileResponseDto.getImgUrl());
         product.updateProduct(requestDto.getTitle(), requestDto.getPrice(), category, requestDto.getContent());
-
-        return product.getId();
+        return true;
     }
 
     @Transactional
-    public Long deleteProduct(Long productId) {
+    public boolean deleteProduct(Long productId) {
         Product product = productsRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
 
@@ -141,6 +141,6 @@ public class ProductService {
         }
         productsRepository.delete(product);
 
-        return product.getId();
+        return true;
     }
 }

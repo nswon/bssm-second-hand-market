@@ -42,6 +42,7 @@ public class ProductDetailResponseDto {
         this.content = product.getContent();
         this.relateProduct = product.getWriter().getProductList().stream()
                 .takeWhile(Objects::nonNull)
+                .filter(p -> !p.getId().equals(product.getId()))
                 .limit(6)
                 .map(ProductMemberResponseDto::new)
                 .collect(Collectors.toList());

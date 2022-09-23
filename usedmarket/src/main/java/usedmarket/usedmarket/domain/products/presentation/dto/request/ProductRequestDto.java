@@ -13,8 +13,6 @@ public class ProductRequestDto {
 
     private int price;
 
-    private String categoryName;
-
     private String content;
 
     private String category;

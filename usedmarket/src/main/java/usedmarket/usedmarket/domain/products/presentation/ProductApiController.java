@@ -41,9 +41,9 @@ public class ProductApiController {
     }
 
     @PutMapping("/{productId}")
-    public void updateProductStatus(@PathVariable("productId") Long productId,
+    public boolean updateProductStatus(@PathVariable("productId") Long productId,
                                     @RequestBody ProductStatusRequestDto requestDto) {
-        productService.updateProductStatus(productId, requestDto);
+        return productService.updateProductStatus(productId, requestDto);
     }
 
     @GetMapping("/search/products")
@@ -53,13 +53,13 @@ public class ProductApiController {
     }
 
     @PutMapping("/{productId}/edit")
-    public Long updateProduct(@PathVariable("productId") Long productId,
+    public boolean updateProduct(@PathVariable("productId") Long productId,
                        ProductRequestDto requestDto) throws IOException {
         return productService.updateProduct(productId, requestDto);
     }
 
     @DeleteMapping("/{productId}")
-    public Long deleteProduct(@PathVariable("productId") Long productId) {
+    public boolean deleteProduct(@PathVariable("productId") Long productId) {
         return productService.deleteProduct(productId);
     }
 }
