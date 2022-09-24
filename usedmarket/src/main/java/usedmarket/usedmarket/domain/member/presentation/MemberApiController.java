@@ -32,11 +32,6 @@ public class MemberApiController {
         return memberService.findMemberById(memberId);
     }
 
-    @GetMapping("/{memberId}/products/order")
-    public List<MemberProductResponseDto> getProductsByOrder(@RequestParam(value = "order") String order) {
-        return memberService.getProductsByOrder(order);
-    }
-
     @GetMapping("/{memberId}/complete")
     public CompleteProductsResponseDto getCompleteProductsById(@PathVariable("memberId") Long memberId) {
         return memberService.getCompleteProductsById(memberId);

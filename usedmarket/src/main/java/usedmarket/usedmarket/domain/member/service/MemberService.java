@@ -10,7 +10,6 @@ import usedmarket.usedmarket.domain.member.domain.MemberRepository;
 import usedmarket.usedmarket.domain.member.presentation.dto.request.*;
 import usedmarket.usedmarket.domain.member.presentation.dto.response.*;
 import usedmarket.usedmarket.domain.productLike.domain.ProductLikeQuerydslRepository;
-import usedmarket.usedmarket.domain.products.domain.ProductQuerydslRepository;
 import usedmarket.usedmarket.global.file.FileResponseDto;
 import usedmarket.usedmarket.global.file.FileService;
 import usedmarket.usedmarket.global.security.jwt.JwtTokenProvider;
@@ -32,7 +31,6 @@ public class MemberService {
     private final EmailService emailService;
     private final JwtTokenProvider jwtTokenProvider;
     private final FileService fileService;
-    private final ProductQuerydslRepository productQuerydslRepository;
     private final ProductLikeQuerydslRepository productLikeQuerydslRepository;
 
     @Transactional
@@ -149,12 +147,6 @@ public class MemberService {
 
         return productLikeQuerydslRepository.getProductLikeByMember(member, order).stream()
                 .map(LikeProductResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    public List<MemberProductResponseDto> getProductsByOrder(String order) {
-        return productQuerydslRepository.getProductsByOrder(order).stream()
-                .map(MemberProductResponseDto::new)
                 .collect(Collectors.toList());
     }
 }

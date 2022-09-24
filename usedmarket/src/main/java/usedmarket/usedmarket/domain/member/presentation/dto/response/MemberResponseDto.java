@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import usedmarket.usedmarket.domain.member.domain.Member;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -17,6 +19,7 @@ public class MemberResponseDto {
     private double mannerTemperature;
     private LocalDateTime createdDate;
     private int completeProductNumber;
+    private List<MemberProductResponseDto> products;
 
     @Builder
     public MemberResponseDto(Member member) {
@@ -29,5 +32,8 @@ public class MemberResponseDto {
                 .member(member)
                 .build()
                 .getBoardCompleteResponseDtos().size();
+        this.products = member.getProductList().stream()
+                .map(MemberProductResponseDto::new)
+                .collect(Collectors.toList());
     }
 }

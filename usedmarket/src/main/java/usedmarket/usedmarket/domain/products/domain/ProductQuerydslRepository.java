@@ -52,13 +52,6 @@ public class ProductQuerydslRepository {
                 .fetch();
     }
 
-    public List<Product> getProductsByOrder(String order) {
-        return queryFactory
-                .selectFrom(product)
-                .orderBy(sortProduct(order))
-                .fetch();
-    }
-
     public List<Product> getProductByCategoryAndOrder(Category category, String order, Pageable pageable) {
         return queryFactory
                 .selectFrom(product)

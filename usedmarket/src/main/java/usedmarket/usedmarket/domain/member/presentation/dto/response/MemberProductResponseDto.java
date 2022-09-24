@@ -9,14 +9,14 @@ import java.time.LocalDateTime;
 @Getter
 public class MemberProductResponseDto {
 
-    private String imgPath;
+    private String imgUrl;
     private String status;
     private String title;
     private int price;
     private LocalDateTime createdDate;
 
     public MemberProductResponseDto(Product product) {
-        this.imgPath = product.getImgPath();
+        this.imgUrl = product.getImgUrl();
         this.status = product.getProductStatus().name();
         this.title = product.getTitle();
         this.price = product.getPrice();
