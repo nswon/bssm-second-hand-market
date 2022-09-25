@@ -20,7 +20,7 @@ public class CommentService {
     private final ProductsRepository productsRepository;
 
     @Transactional
-    public Long createComment(Long productId, CommentRequestDto requestDto) {
+    public boolean createComment(Long productId, CommentRequestDto requestDto) {
         Comment comment = requestDto.toEntity();
 
         comment.confirmWriter(memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
@@ -30,6 +30,6 @@ public class CommentService {
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다.")));
 
         commentRepository.save(comment);
-        return comment.getId();
+        return true;
     }
 }

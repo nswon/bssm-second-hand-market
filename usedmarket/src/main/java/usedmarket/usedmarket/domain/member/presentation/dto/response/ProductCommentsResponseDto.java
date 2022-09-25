@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 @Getter
 public class ProductCommentsResponseDto {
 
-    private final List<CommentResponseDto> commentResponseDtos;
+    private final List<CommentResponseDto> memberComments;
 
     @Builder
     public ProductCommentsResponseDto(Member member) {
-        this.commentResponseDtos = member.getCommentList(member.getProductList()).stream()
+        this.memberComments = member.getCommentList(member.getProductList()).stream()
                 .map(CommentResponseDto::new)
                 .collect(Collectors.toList());
     }

@@ -20,7 +20,7 @@ public class ProductLikeService {
     private final ProductsRepository productsRepository;
     private final MemberRepository memberRepository;
 
-    public void like(Long productId) {
+    public boolean like(Long productId) {
         Product product = productsRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("판매글이 존재하지 않습니다."));
 
@@ -41,5 +41,6 @@ public class ProductLikeService {
 
             productLikeRepository.save(productLike);
         }
+        return true;
     }
 }

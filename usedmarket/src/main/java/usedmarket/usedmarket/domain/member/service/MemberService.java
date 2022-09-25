@@ -92,7 +92,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMember(MemberUpdateRequestDto requestDto) throws IOException {
+    public boolean updateMember(MemberUpdateRequestDto requestDto) throws IOException {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
@@ -104,10 +104,11 @@ public class MemberService {
         member.updateFile(fileResponseDto.getImgPath(), fileResponseDto.getImgUrl());
 
         member.updateMember(requestDto.getNickname());
+        return true;
     }
 
     @Transactional
-    public void updatePassword(MemberPasswordUpdateRequestDto requestDto) {
+    public boolean updatePassword(MemberPasswordUpdateRequestDto requestDto) {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
@@ -116,6 +117,7 @@ public class MemberService {
         }
 
         member.updatePassword(passwordEncoder, requestDto.getNewPassword());
+        return true;
     }
 
     @Transactional
@@ -133,12 +135,12 @@ public class MemberService {
     }
 
     @Transactional
-    public Long surveyMember(Long memberId, MemberSurveyRequestDto requestDto) {
+    public boolean surveyMember(Long memberId, MemberSurveyRequestDto requestDto) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
 
         member.updateMannerTemperature(requestDto);
-        return member.getId();
+        return true;
     }
 
     public List<LikeProductResponseDto> getLikeProductsById(Long memberId, String order) {

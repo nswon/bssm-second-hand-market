@@ -8,14 +8,14 @@ import java.time.LocalDateTime;
 @Getter
 public class LikeProductResponseDto {
 
-    private String imgPath;
+    private String imgUrl;
     private String status;
     private String title;
     private int price;
     private LocalDateTime createdDate;
 
     public LikeProductResponseDto(ProductLike productLike) {
-        imgPath = productLike.getProduct().getImgPath();
+        imgUrl = productLike.getProduct().getImgUrl();
         status = productLike.getProduct().getProductStatus().name();
         title = productLike.getProduct().getTitle();
         price = productLike.getProduct().getPrice();

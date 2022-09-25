@@ -27,7 +27,7 @@ public class NotificationService {
     private final ProductQuerydslRepository productQuerydslRepository;
 
     @Transactional
-    public void createKeyword(NotificationRequestDto requestDto) {
+    public boolean createKeyword(NotificationRequestDto requestDto) {
         Notification notification = requestDto.toEntity();
 
         notification.confirmMember(memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
@@ -38,6 +38,7 @@ public class NotificationService {
         }
 
         notificationRepository.save(notification);
+        return true;
     }
 
     public List<NotificationResponseDto> getProductsByKeywordAndCreatedDate() {
@@ -53,7 +54,7 @@ public class NotificationService {
     }
 
     @Transactional
-    public void updateKeyword(Long notificationId, NotificationRequestDto requestDto) {
+    public boolean updateKeyword(Long notificationId, NotificationRequestDto requestDto) {
         Notification notification = notificationRepository.findById(notificationId)
                 .orElseThrow(() -> new IllegalArgumentException("키워드가 존재하지 않습니다."));
 
@@ -62,10 +63,11 @@ public class NotificationService {
         }
 
         notification.updateKeyword(requestDto.getKeyword());
+        return true;
     }
 
     @Transactional
-    public void deleteKeyword(Long notificationId) {
+    public boolean deleteKeyword(Long notificationId) {
         Notification notification = notificationRepository.findById(notificationId)
                 .orElseThrow(() -> new IllegalArgumentException("키워드가 존재하지 않습니다."));
 
@@ -74,10 +76,12 @@ public class NotificationService {
         }
 
         notificationRepository.delete(notification);
+        return true;
     }
 
     @Transactional
-    public void deleteKeywordAll() {
+    public boolean deleteKeywordAll() {
         notificationRepository.deleteAllInBatch();
+        return true;
     }
 }

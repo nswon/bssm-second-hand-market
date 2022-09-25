@@ -49,17 +49,18 @@ public class MemberApiController {
     }
 
     @PutMapping("/edit")
-    public void updateMember(@RequestBody MemberUpdateRequestDto requestDto) throws IOException {
-        memberService.updateMember(requestDto);
+    public boolean updateMember(MemberUpdateRequestDto requestDto) throws IOException {
+        return memberService.updateMember(requestDto);
     }
 
     @PutMapping("/edit/password")
-    public void updatePassword(@RequestBody MemberPasswordUpdateRequestDto requestDto) {
-        memberService.updatePassword(requestDto);
+    public boolean updatePassword(@RequestBody MemberPasswordUpdateRequestDto requestDto) {
+        return memberService.updatePassword(requestDto);
     }
 
     @PostMapping("/{memberId}/confirm")
-    public Long surveyMember(@PathVariable("memberId") Long memberId, @RequestBody MemberSurveyRequestDto requestDto) {
+    public boolean surveyMember(@PathVariable("memberId") Long memberId,
+                             @RequestBody MemberSurveyRequestDto requestDto) {
         return memberService.surveyMember(memberId, requestDto);
     }
 }

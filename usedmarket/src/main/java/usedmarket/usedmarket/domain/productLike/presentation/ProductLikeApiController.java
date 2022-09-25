@@ -12,8 +12,8 @@ public class ProductLikeApiController {
     private final ProductLikeService productLikeService;
 
     @PutMapping("/{productId}")
-    public void like(@PathVariable("productId") Long productId) {
-        productLikeService.like(productId);
+    public boolean like(@PathVariable("productId") Long productId) {
+        return productLikeService.like(productId);
     }
 
 }

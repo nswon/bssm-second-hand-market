@@ -42,7 +42,7 @@ public class ProductQuerydslRepository {
     public List<NotificationResponseDto> getProductsByKeywordAndCreatedDate(String keyword) {
         return queryFactory
                 .select(Projections.constructor(NotificationResponseDto.class,
-                        product.imgPath,
+                        product.imgUrl,
                         notification.keyword,
                         product.title,
                         product.createdDate))

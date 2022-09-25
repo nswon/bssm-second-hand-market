@@ -10,14 +10,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class NotificationResponseDto {
 
-    private String imgPath;
+    private String imgUrl;
     private String keyword;
     private String title;
     private LocalDateTime createdDate;
 
     @Builder
-    public NotificationResponseDto(String imgPath, String keyword, String title, LocalDateTime createdDate) {
-        this.imgPath = imgPath;
+    public NotificationResponseDto(String imgUrl, String keyword, String title, LocalDateTime createdDate) {
+        this.imgUrl = imgUrl;
         this.keyword = keyword;
         this.title = title;
         this.createdDate = createdDate;

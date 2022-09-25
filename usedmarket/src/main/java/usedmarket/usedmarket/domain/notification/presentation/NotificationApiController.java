@@ -16,8 +16,8 @@ public class NotificationApiController {
     private final NotificationService notificationService;
 
     @PostMapping("/new")
-    public void createKeyword(@RequestBody NotificationRequestDto requestDto) {
-        notificationService.createKeyword(requestDto);
+    public boolean createKeyword(@RequestBody NotificationRequestDto requestDto) {
+        return notificationService.createKeyword(requestDto);
     }
 
     @GetMapping("")
@@ -26,18 +26,18 @@ public class NotificationApiController {
     }
 
     @PutMapping("/{notificationId}/edit")
-    public void updateKeyword(@PathVariable("notificationId") Long notificationId,
+    public boolean updateKeyword(@PathVariable("notificationId") Long notificationId,
                               @RequestBody NotificationRequestDto responseDto) {
-        notificationService.updateKeyword(notificationId, responseDto);
+        return notificationService.updateKeyword(notificationId, responseDto);
     }
 
     @DeleteMapping("/{notificationId}")
-    public void deleteKeyword(@PathVariable("notificationId") Long notificationId) {
-        notificationService.deleteKeyword(notificationId);
+    public boolean deleteKeyword(@PathVariable("notificationId") Long notificationId) {
+        return notificationService.deleteKeyword(notificationId);
     }
 
     @DeleteMapping("/deleteAll")
-    public void deleteKeywordAll() {
-        notificationService.deleteKeywordAll();
+    public boolean deleteKeywordAll() {
+        return notificationService.deleteKeywordAll();
     }
 }
