@@ -79,9 +79,11 @@ public class ChatService {
             ChatRoom chatRoom = chatRoomRepository.findById(message.getRoomId())
                     .orElseThrow(() -> new IllegalArgumentException("채팅방이 존재하지 않습니다."));
 
-            message.setMessage(chatRoom.getProduct().getImgUrl() + "\n" + chatRoom.getProduct().getPrice() + "\n" + chatRoom.getProduct().getTitle());
+            message.setMessage(chatRoom.getProduct().getImgUrl() + "\n" +
+                               chatRoom.getProduct().getPrice() + "\n" +
+                               chatRoom.getProduct().getTitle());
         }
         chatContentService.saveMessage(message);
-        sendingOperations.convertAndSend("/topic/chat/room" + message.getRoomId(), message);
+        sendingOperations.convertAndSend("/sub/chatting/room" + message.getRoomId(), message);
     }
 }

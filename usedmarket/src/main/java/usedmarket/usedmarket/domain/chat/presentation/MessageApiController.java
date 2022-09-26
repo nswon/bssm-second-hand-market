@@ -12,7 +12,7 @@ public class MessageApiController {
 
     private final ChatService chatService;
 
-    @MessageMapping("/chat/message")
+    @MessageMapping("/chat/chatting")
     public void enter(ChatMessage message) {
         chatService.sendMessage(message);
     }

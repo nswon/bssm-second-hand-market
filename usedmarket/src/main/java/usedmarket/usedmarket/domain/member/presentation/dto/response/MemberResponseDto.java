@@ -31,7 +31,7 @@ public class MemberResponseDto {
         this.completeProductNumber = CompleteProductsResponseDto.builder()
                 .member(member)
                 .build()
-                .getBoardCompleteResponseDtos().size();
+                .getCompleteProducts().size();
         this.products = member.getProductList().stream()
                 .map(MemberProductResponseDto::new)
                 .collect(Collectors.toList());
