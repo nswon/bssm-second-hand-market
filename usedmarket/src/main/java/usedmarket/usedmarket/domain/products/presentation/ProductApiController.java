@@ -1,6 +1,7 @@
 package usedmarket.usedmarket.domain.products.presentation;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductStatusRequestDto;
 import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductDetailResponseDto;
@@ -8,6 +9,7 @@ import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductReq
 import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductAllResponseDto;
 import usedmarket.usedmarket.domain.products.service.ProductService;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class ProductApiController {
     private final ProductService productService;
 
     @PostMapping("/new")
-    public boolean createProduct(ProductRequestDto requestDto) throws IOException {
+    public boolean createProduct(@Valid ProductRequestDto requestDto) throws IOException {
         return productService.createProduct(requestDto);
     }
 
@@ -42,7 +44,7 @@ public class ProductApiController {
 
     @PutMapping("/{productId}")
     public boolean updateProductStatus(@PathVariable("productId") Long productId,
-                                    @RequestBody ProductStatusRequestDto requestDto) {
+                                    @RequestBody @Valid ProductStatusRequestDto requestDto) {
         return productService.updateProductStatus(productId, requestDto);
     }
 
@@ -54,7 +56,7 @@ public class ProductApiController {
 
     @PutMapping("/{productId}/edit")
     public boolean updateProduct(@PathVariable("productId") Long productId,
-                       ProductRequestDto requestDto) throws IOException {
+                       @Valid ProductRequestDto requestDto) throws IOException {
         return productService.updateProduct(productId, requestDto);
     }
 

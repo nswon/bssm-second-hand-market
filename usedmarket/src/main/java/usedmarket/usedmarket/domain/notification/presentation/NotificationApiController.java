@@ -6,6 +6,7 @@ import usedmarket.usedmarket.domain.notification.presentation.request.Notificati
 import usedmarket.usedmarket.domain.notification.presentation.response.NotificationResponseDto;
 import usedmarket.usedmarket.domain.notification.service.NotificationService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,7 +17,7 @@ public class NotificationApiController {
     private final NotificationService notificationService;
 
     @PostMapping("/new")
-    public boolean createKeyword(@RequestBody NotificationRequestDto requestDto) {
+    public boolean createKeyword(@RequestBody @Valid NotificationRequestDto requestDto) {
         return notificationService.createKeyword(requestDto);
     }
 
@@ -27,7 +28,7 @@ public class NotificationApiController {
 
     @PutMapping("/{notificationId}/edit")
     public boolean updateKeyword(@PathVariable("notificationId") Long notificationId,
-                              @RequestBody NotificationRequestDto responseDto) {
+                              @RequestBody @Valid NotificationRequestDto responseDto) {
         return notificationService.updateKeyword(notificationId, responseDto);
     }
 

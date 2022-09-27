@@ -33,7 +33,7 @@ public class NotificationService {
         notification.confirmMember(memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요")));
 
-        if(notificationRepository.existsByKeyword(requestDto.getKeyword())) {
+        if(notificationRepository.existsByMemberAndKeyword(notification.getMember(), requestDto.getKeyword())) {
             throw new IllegalArgumentException("이미 등록된 키워드입니다.");
         }
 

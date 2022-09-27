@@ -20,6 +20,7 @@ public class Notification extends BaseTimeEntity {
     @Column(name = "notification_id")
     private Long id;
 
+    @Column(nullable = false)
     private String keyword;
 
     @ManyToOne(fetch = FetchType.LAZY)

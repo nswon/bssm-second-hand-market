@@ -28,10 +28,13 @@ public class Product extends BaseTimeEntity {
     @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String imgPath;
 
+    @Column(nullable = false)
     private String imgUrl;
 
+    @Column(nullable = false)
     private int price;
 
     @Column(columnDefinition = "TEXT")
