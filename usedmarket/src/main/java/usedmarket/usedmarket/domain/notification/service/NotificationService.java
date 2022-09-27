@@ -28,14 +28,15 @@ public class NotificationService {
 
     @Transactional
     public boolean createKeyword(NotificationRequestDto requestDto) {
-        Notification notification = requestDto.toEntity();
+        Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
+                .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요"));
 
-        notification.confirmMember(memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
-                .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요")));
-
-        if(notificationRepository.existsByMemberAndKeyword(notification.getMember(), requestDto.getKeyword())) {
+        if(notificationRepository.existsByKeywordAndMember(requestDto.getKeyword(), member)) {
             throw new IllegalArgumentException("이미 등록된 키워드입니다.");
         }
+
+        Notification notification = requestDto.toEntity();
+        notification.confirmMember(member);
 
         notificationRepository.save(notification);
         return true;
@@ -47,6 +48,7 @@ public class NotificationService {
 
         List<NotificationResponseDto> response = new ArrayList<>();
         for(int i=0; i<member.getNotificationList().size(); i++) {
+            log.info("등록한 키워드 = " + member.getNotificationList().get(i).getKeyword());
             response.addAll(productQuerydslRepository.getProductsByKeywordAndCreatedDate(member.getNotificationList().get(i).getKeyword()));
         }
 

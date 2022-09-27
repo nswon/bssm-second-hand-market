@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class NotificationRequestDto {
 
-    @NotNull(message = "키워드를 입력해주세요.")
+//    @NotNull(message = "키워드를 입력해주세요.")
     private String keyword;
 
     public Notification toEntity() {
