@@ -2,6 +2,7 @@ package usedmarket.usedmarket.domain.products.presentation.dto.request;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
+import usedmarket.usedmarket.domain.products.domain.Category;
 import usedmarket.usedmarket.domain.products.domain.Product;
 
 import javax.validation.constraints.NotNull;
@@ -23,13 +24,14 @@ public class ProductRequestDto {
     private String content;
 
     @NotNull(message = "카테고리를 선택해주세요.")
-    private String category;
+    private Category category;
 
     public Product toEntity() {
         return Product.builder()
                 .title(title)
                 .price(price)
                 .content(content)
+                .category(category)
                 .build();
     }
 

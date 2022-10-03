@@ -6,7 +6,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-import usedmarket.usedmarket.domain.category.domain.Category;
 import usedmarket.usedmarket.domain.notification.presentation.response.NotificationResponseDto;
 
 import java.util.List;

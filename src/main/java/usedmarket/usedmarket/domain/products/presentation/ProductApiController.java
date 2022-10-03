@@ -3,6 +3,7 @@ package usedmarket.usedmarket.domain.products.presentation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import usedmarket.usedmarket.domain.products.domain.Category;
 import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductStatusRequestDto;
 import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductDetailResponseDto;
 import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductRequestDto;
@@ -36,10 +37,10 @@ public class ProductApiController {
     }
 
     @GetMapping("/categories")
-    public List<ProductAllResponseDto> findProductByCategory(@RequestParam String categoryName,
+    public List<ProductAllResponseDto> findProductByCategory(@RequestParam Category category,
                                                              @RequestParam(value = "page", defaultValue = "0") int pageNumber,
                                                              @RequestParam(value = "order") String order) {
-        return productService.findProductByCategory(categoryName, pageNumber, order);
+        return productService.findProductByCategory(category, pageNumber, order);
     }
 
     @PutMapping("/{productId}")

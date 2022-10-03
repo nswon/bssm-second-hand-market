@@ -6,15 +6,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import usedmarket.usedmarket.domain.category.domain.Category;
-import usedmarket.usedmarket.domain.category.service.CategoryService;
-import usedmarket.usedmarket.domain.products.domain.ProductQuerydslRepository;
-import usedmarket.usedmarket.domain.products.domain.ProductStatus;
+import usedmarket.usedmarket.domain.products.domain.*;
 import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductStatusRequestDto;
 import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductAllResponseDto;
 import usedmarket.usedmarket.domain.member.domain.MemberRepository;
-import usedmarket.usedmarket.domain.products.domain.Product;
-import usedmarket.usedmarket.domain.products.domain.ProductsRepository;
 import usedmarket.usedmarket.domain.products.presentation.dto.request.ProductRequestDto;
 import usedmarket.usedmarket.domain.products.presentation.dto.response.ProductDetailResponseDto;
 import usedmarket.usedmarket.global.file.FileResponseDto;
@@ -34,7 +29,6 @@ public class ProductService {
     private final ProductsRepository productsRepository;
     private final MemberRepository memberRepository;
     private final FileService fileService;
-    private final CategoryService categoryService;
     private final ProductQuerydslRepository productQuerydslRepository;
 
     @Transactional
@@ -45,10 +39,8 @@ public class ProductService {
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요.")));
 
         FileResponseDto fileResponseDto = fileService.saveFile(requestDto.getFile());
+        log.info("이미지 url 길이 = " + fileResponseDto.getImgUrl().length());
         product.updateFile(fileResponseDto.getImgPath(), fileResponseDto.getImgUrl());
-
-        Category category = categoryService.getCategoryByName(requestDto.getCategory());
-        product.confirmCategory(category);
 
         productsRepository.save(product);
         product.addSaleStatus();
@@ -70,10 +62,10 @@ public class ProductService {
         }
     }
 
-    public List<ProductAllResponseDto> findProductByCategory(String categoryName, int pageNumber, String order) {
+    public List<ProductAllResponseDto> findProductByCategory(Category category, int pageNumber, String order) {
         Pageable pageable = PageRequest.of(pageNumber, 20);
         return productQuerydslRepository.getProductByCategoryAndOrder(
-                categoryService.getCategoryByName(categoryName), order, pageable).stream()
+                category, order, pageable).stream()
                 .map(ProductAllResponseDto::new)
                 .collect(Collectors.toList()
                 );
@@ -119,11 +111,9 @@ public class ProductService {
             fileService.deleteFile(product.getImgPath());
         }
 
-        Category category = categoryService.getCategoryByName(requestDto.getCategory());
-
         FileResponseDto fileResponseDto = fileService.saveFile(requestDto.getFile());
         product.updateFile(fileResponseDto.getImgPath(), fileResponseDto.getImgUrl());
-        product.updateProduct(requestDto.getTitle(), requestDto.getPrice(), category, requestDto.getContent());
+        product.updateProduct(requestDto.getTitle(), requestDto.getPrice(), requestDto.getCategory(), requestDto.getContent());
         return true;
     }
 

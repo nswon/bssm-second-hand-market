@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import usedmarket.usedmarket.domain.productLike.domain.ProductLike;
-import usedmarket.usedmarket.domain.category.domain.Category;
+//import usedmarket.usedmarket.domain.category.domain.Category;
 import usedmarket.usedmarket.domain.comment.domain.Comment;
 import usedmarket.usedmarket.domain.member.domain.Member;
 import usedmarket.usedmarket.global.entity.BaseTimeEntity;
@@ -31,7 +31,7 @@ public class Product extends BaseTimeEntity {
     @Column(nullable = false)
     private String imgPath;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String imgUrl;
 
     @Column(nullable = false)
@@ -47,10 +47,6 @@ public class Product extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private ProductStatus productStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
-
     private int view;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -59,11 +55,15 @@ public class Product extends BaseTimeEntity {
     @OneToMany(mappedBy = "product")
     private final List<ProductLike> productLikeList = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
     @Builder
-    public Product(String title, int price, String content) {
+    public Product(String title, int price, String content, Category category) {
         this.title = title;
         this.price = price;
         this.content = content;
+        this.category = category;
     }
 
     public void updateProduct(String title, int price, Category category, String content) {
@@ -81,11 +81,6 @@ public class Product extends BaseTimeEntity {
     public void confirmWriter(Member writer) {
         this.writer = writer;
         writer.addProduct(this);
-    }
-
-    public void confirmCategory(Category category) {
-        this.category = category;
-        category.addProduct(this);
     }
 
     public void addComment(Comment comment) {
