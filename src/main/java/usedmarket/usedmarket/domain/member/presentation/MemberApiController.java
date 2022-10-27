@@ -39,7 +39,7 @@ public class MemberApiController {
 
     @GetMapping("/{memberId}/likes")
     public List<LikeProductResponseDto> getLikeProductsById(@PathVariable("memberId") Long memberId,
-                                                            @RequestParam(value = "order")String order) {
+                                                            @RequestParam(value = "order", defaultValue = "date")String order) {
         return memberService.getLikeProductsById(memberId, order);
     }
 

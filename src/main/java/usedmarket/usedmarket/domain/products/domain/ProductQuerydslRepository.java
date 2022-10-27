@@ -4,16 +4,16 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-import usedmarket.usedmarket.domain.notification.presentation.response.NotificationResponseDto;
 
 import java.util.List;
 import static usedmarket.usedmarket.domain.products.domain.QProduct.product;
-import static usedmarket.usedmarket.domain.notification.domain.QNotification.notification;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class ProductQuerydslRepository {
 
     private final JPAQueryFactory queryFactory;
@@ -35,19 +35,6 @@ public class ProductQuerydslRepository {
                 .limit(pageable.getPageSize())
                 .orderBy(product.createdDate.desc())
                 .where(product.id.lt(productId))
-                .fetch();
-    }
-
-    public List<NotificationResponseDto> getProductsByKeywordAndCreatedDate(String keyword) {
-        return queryFactory
-                .select(Projections.constructor(NotificationResponseDto.class,
-                        product.imgUrl,
-                        notification.keyword,
-                        product.title,
-                        product.createdDate))
-                .from(product)
-                .join(notification).on(product.id.eq(notification.id))
-                .where(product.title.contains(keyword).and(product.createdDate.after(notification.createdDate)))
                 .fetch();
     }
 

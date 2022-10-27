@@ -96,7 +96,7 @@ public class MemberService {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요."));
 
-        if(!member.getImgPath().isEmpty()) {
+        if(member.getImgPath() != null) {
             fileService.deleteFile(member.getImgPath());
         }
 
