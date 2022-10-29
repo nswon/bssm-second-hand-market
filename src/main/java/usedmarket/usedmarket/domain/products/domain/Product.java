@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import usedmarket.usedmarket.domain.notification.domain.Notification;
 import usedmarket.usedmarket.domain.productLike.domain.ProductLike;
 //import usedmarket.usedmarket.domain.category.domain.Category;
 import usedmarket.usedmarket.domain.comment.domain.Comment;
@@ -54,6 +55,10 @@ public class Product extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "product")
     private final List<ProductLike> productLikeList = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "notification_id")
+    private Notification notification;
 
     @Enumerated(EnumType.STRING)
     private Category category;

@@ -6,6 +6,7 @@ import usedmarket.usedmarket.domain.notification.domain.Notification;
 @Getter
 public class NotificationCreateRequestDto {
 
+    private Long productId;
     private String token;
 
     public Notification toEntity() {

@@ -12,11 +12,7 @@ public class FcmService {
 
     private final NotificationService notificationService;
 
-    public void sendMessages(String nickname) throws ExecutionException, InterruptedException {
-        List<String> tokens = notificationService.getNotificationTokenAll();
+    public void sendMessages(String product) throws ExecutionException, InterruptedException {
 
-        for(String token : tokens) {
-            notificationService.sendNotification(token, nickname);
-        }
     }
 }

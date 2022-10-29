@@ -28,9 +28,6 @@ out/
 !**/src/main/resources/application.yml
 application.yml
 
-!**/src/main/resources/usedmarket-26f61-firebase-adminsdk-r2kr6-a813b09050.json
-usedmarket-26f61-firebase-adminsdk-r2kr6-a813b09050.json
-
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

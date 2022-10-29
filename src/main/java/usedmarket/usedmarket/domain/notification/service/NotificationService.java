@@ -14,9 +14,7 @@ import usedmarket.usedmarket.domain.notification.presentation.dto.req.Notificati
 import usedmarket.usedmarket.global.security.jwt.SecurityUtil;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,13 +48,13 @@ public class NotificationService {
         FirebaseMessaging.getInstance().sendAsync(message).get();
     }
 
-    public List<String> getNotificationTokenAll() {
+    public String getNotificationTokenByMember() {
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("로그인 후 이용해주세요"));
 
-        return notificationRepository.findAll().stream()
+        return notificationRepository.findByMember(member)
                 .map(Notification::getToken)
-                .collect(Collectors.toList());
+                .orElseThrow(() -> new IllegalArgumentException("알림을 허용해주세요."));
     }
 
     public void deleteNotification() {
